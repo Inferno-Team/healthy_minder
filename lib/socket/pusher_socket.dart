@@ -1,12 +1,12 @@
 import 'package:dart_pusher_channels/dart_pusher_channels.dart';
 
 class PusherSocket {
-  void init() async {
+  Future<void> init() async {
     const customOptions = PusherChannelsOptions.fromHost(
-      scheme: 'ws',
-      host: '192.168.251.160',
+      scheme: 'wss',
+      host: 'healthy.inferno-team.site',
       key: 'myKey',
-      port: 6001,
+      port: 6002,
     );
     final client = PusherChannelsClient.websocket(
       options: customOptions,
@@ -17,20 +17,20 @@ class PusherSocket {
     );
     await client.connect();
     print("Connected");
-    // final publicChannel = client.publicChannel('channelName').subscribe();
-    final myPrivateChannel = client.privateChannel(
-      'private-channel',
-      authorizationDelegate: _buildPrivate(),
-    );
-    myPrivateChannel.subscribe();
-    myPrivateChannel
-        .whenSubscriptionSucceeded()
-        .first
-        .then((value) => print(value.data));
-    myPrivateChannel
-        .onSubscriptionError()
-        .first
-        .then((value) => print(value.data));
+    final publicChannel = client.publicChannel('channelName').subscribe();
+    // final myPrivateChannel = client.privateChannel(
+    //   'private-channel',
+    //   authorizationDelegate: _buildPrivate(),
+    // );
+    // myPrivateChannel.subscribe();
+    // myPrivateChannel
+    //     .whenSubscriptionSucceeded()
+    //     .first
+    //     .then((value) => print(value.data));
+    // myPrivateChannel
+    //     .onSubscriptionError()
+    //     .first
+    //     .then((value) => print(value.data));
   }
 
   EndpointAuthorizableChannelAuthorizationDelegate<
