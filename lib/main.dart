@@ -4,6 +4,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:healthy_minder/socket/pusher_socket.dart';
 import 'package:healthy_minder/utils/constances.dart';
 import 'package:healthy_minder/utils/storage_helper.dart';
+import 'package:healthy_minder/utils/themes.dart';
 import 'package:healthy_minder/utils/translator.dart';
 
 void main() async {
@@ -32,6 +33,8 @@ class MyApp extends StatelessWidget {
       initialBinding: InitialGetBinding(),
       locale: StorageHelper.getLanguage(),
       fallbackLocale: const Locale('en', 'US'),
+      theme: lightTheme,
+      darkTheme: darkTheme,
     );
   }
 }

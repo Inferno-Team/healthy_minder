@@ -5,6 +5,7 @@ import 'package:healthy_minder/utils/storage_helper.dart';
 
 class Constance {
   static const String loginState = 'login_state';
+  static const String savedUser = 'saved_user';
   static const String themeState = 'light';
   static const String tokenValue = 'token_value';
   static const String languageValue = 'language';

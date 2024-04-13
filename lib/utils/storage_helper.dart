@@ -3,10 +3,11 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:healthy_minder/models/saved_user.dart';
 import 'package:healthy_minder/utils/constances.dart';
 
 class StorageHelper {
-  void login(String token) {
+  static void login(String token) {
     GetStorage storage = GetStorage();
     storage.write(Constance.loginState, true);
     storage.write(Constance.tokenValue, token);
@@ -17,9 +18,14 @@ class StorageHelper {
     return storage.read(Constance.loginState) ?? false;
   }
 
-  String getToken() {
+  static String getToken() {
     GetStorage storage = GetStorage();
     return storage.read(Constance.tokenValue) ?? "";
+  }
+
+  static SavedUser getUser() {
+    GetStorage storage = GetStorage();
+    return storage.read(Constance.savedUser) ?? SavedUser.empty();
   }
 
   static String? getSavedLanguage() {
@@ -66,7 +72,7 @@ class StorageHelper {
     return const Locale('ar', 'SY');
   }
 
-  void logout() {
+  static void logout() {
     GetStorage storage = GetStorage();
     storage.remove(Constance.loginState);
     storage.remove(Constance.tokenValue);
