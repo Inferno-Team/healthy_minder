@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:healthy_minder/ui/custom/drawer_item.dart';
 import 'package:healthy_minder/ui/custom/drawer_top_nav.dart';
 import 'package:healthy_minder/ui/welcome/welcome_viewmodel.dart';
+import 'package:healthy_minder/utils/constances.dart';
 import 'package:healthy_minder/utils/storage_helper.dart';
 
 class WelcomePage extends GetView<WelcomeViewModel> {
@@ -89,7 +90,7 @@ class WelcomePage extends GetView<WelcomeViewModel> {
                           background: Colors.white,
                           text: "Notification",
                           iconBackground: const Color.fromRGBO(125, 22, 142, 1),
-                          iconColor: const Color.fromRGBO(255, 111, 119, 1),
+                          iconColor: const Color.fromRGBO(255, 255, 255, 1),
                           isActive:
                               controller.current == DrawerItem.notification,
                           onTap: () =>
@@ -98,14 +99,17 @@ class WelcomePage extends GetView<WelcomeViewModel> {
                       ),
                     ],
                   ),
-                  const CustomDrawerItem(
+                  CustomDrawerItem(
                     icon: FontAwesomeIcons.arrowRightFromBracket,
                     background: Colors.white,
                     text: "LogOut",
-                    iconBackground: Color.fromRGBO(202, 36, 86, 1),
-                    iconColor: Color.fromRGBO(255, 255, 255, 1),
+                    iconBackground: const Color.fromRGBO(202, 36, 86, 1),
+                    iconColor: const Color.fromRGBO(255, 255, 255, 1),
                     isActive: false,
                     isBottom: true,
+                    onTap: () {
+                      Get.toNamed(HealthyRoutes.oldUserPasswordRoute);
+                    },
                   ),
                 ],
               ),

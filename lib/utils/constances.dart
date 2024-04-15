@@ -1,4 +1,10 @@
 import 'package:get/get.dart';
+import 'package:healthy_minder/ui/auth/login/login_binding.dart';
+import 'package:healthy_minder/ui/auth/login/login_page.dart';
+import 'package:healthy_minder/ui/auth/signup/signup_binding.dart';
+import 'package:healthy_minder/ui/auth/signup/signup_page.dart';
+import 'package:healthy_minder/ui/home/home_biding.dart';
+import 'package:healthy_minder/ui/home/home_page.dart';
 import 'package:healthy_minder/ui/welcome/welcome_binding.dart';
 import 'package:healthy_minder/ui/welcome/welcome_page.dart';
 import 'package:healthy_minder/utils/storage_helper.dart';
@@ -32,6 +38,24 @@ class HealthyRoutes {
         name: HealthyRoutes.welcomeRoute,
         page: () => const WelcomePage(),
         binding: WelcomeBinding(),
+        transition: Transition.zoom,
+      ),
+      GetPage(
+        name: HealthyRoutes.oldUserPasswordRoute,
+        page: () => const loginPage(),
+        binding: LoginBinding(),
+        transition: Transition.zoom,
+      ),
+      GetPage(
+        name: HealthyRoutes.newUserPageRoute,
+        page: () => const signUpPage(),
+        binding: SignUpBinding(),
+        transition: Transition.zoom,
+      ),
+      GetPage(
+        name: HealthyRoutes.homePageRoute,
+        page: () => const homepage(),
+        binding: HomeBinding(),
         transition: Transition.zoom,
       ),
     ];
