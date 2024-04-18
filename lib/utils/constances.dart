@@ -1,8 +1,10 @@
 import 'package:get/get.dart';
 import 'package:healthy_minder/ui/auth/login/login_binding.dart';
 import 'package:healthy_minder/ui/auth/login/login_page.dart';
-import 'package:healthy_minder/ui/auth/signup/signup_binding.dart';
-import 'package:healthy_minder/ui/auth/signup/signup_page.dart';
+import 'package:healthy_minder/ui/auth/signup/first_signup/signup_binding.dart';
+import 'package:healthy_minder/ui/auth/signup/first_signup/signup_page.dart';
+import 'package:healthy_minder/ui/auth/signup/second_signup/personal_info.dart';
+import 'package:healthy_minder/ui/auth/signup/thirt_signup/final_signup_page.dart';
 import 'package:healthy_minder/ui/home/home_biding.dart';
 import 'package:healthy_minder/ui/home/home_page.dart';
 import 'package:healthy_minder/ui/welcome/welcome_binding.dart';
@@ -21,8 +23,10 @@ class Constance {
 
 class HealthyRoutes {
   static const String welcomeRoute = '/welcome';
-  static const String oldUserPasswordRoute = '/old-user-password-page';
-  static const String newUserPageRoute = '/new-user-page';
+  static const String loginRoute = '/login-oage';
+  static const String firstSignupRoute = '/first-signup-page';
+  static const String secondSignupRoute = '/second-signup-page';
+  static const String thirtSignupRoute = '/thirt-signup-page';
   static const String homePageRoute = '/home';
   static const String mapPageRoute = '/map';
   static const String setNamePageRoute = '/set-name';
@@ -41,13 +45,13 @@ class HealthyRoutes {
         transition: Transition.zoom,
       ),
       GetPage(
-        name: HealthyRoutes.oldUserPasswordRoute,
+        name: HealthyRoutes.loginRoute,
         page: () => const loginPage(),
         binding: LoginBinding(),
         transition: Transition.zoom,
       ),
       GetPage(
-        name: HealthyRoutes.newUserPageRoute,
+        name: HealthyRoutes.firstSignupRoute,
         page: () => const signUpPage(),
         binding: SignUpBinding(),
         transition: Transition.zoom,
@@ -55,6 +59,18 @@ class HealthyRoutes {
       GetPage(
         name: HealthyRoutes.homePageRoute,
         page: () => const homepage(),
+        binding: HomeBinding(),
+        transition: Transition.zoom,
+      ),
+      GetPage(
+        name: HealthyRoutes.secondSignupRoute,
+        page: () => const SecondSignupPage(),
+        binding: HomeBinding(),
+        transition: Transition.zoom,
+      ),
+      GetPage(
+        name: HealthyRoutes.thirtSignupRoute,
+        page: () => const ThirtSignupPage(),
         binding: HomeBinding(),
         transition: Transition.zoom,
       ),

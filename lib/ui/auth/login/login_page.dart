@@ -51,6 +51,7 @@ class loginPage extends GetView<loginViewmodel> {
                   custencontroller: UserNameEmail,
                   label: 'UserName or Email',
                   obScureText: false,
+                  TextInputType: TextInputType.emailAddress,
                 ),
               ),
               Padding(
@@ -69,6 +70,7 @@ class loginPage extends GetView<loginViewmodel> {
                       color: Color.fromRGBO(251, 99, 64, 1),
                     ),
                   ),
+                  TextInputType: TextInputType.emailAddress,
                 ),
               ),
               Container(
@@ -85,7 +87,7 @@ class loginPage extends GetView<loginViewmodel> {
                         ),
                         InkWell(
                           onTap: () {
-                            Get.toNamed(HealthyRoutes.newUserPageRoute);
+                            Get.toNamed(HealthyRoutes.firstSignupRoute);
                           },
                           child: const Text(
                             "Register now",

@@ -16,7 +16,7 @@ class custemBtn extends StatelessWidget {
       onPressed: onPressed,
       child: Text(
         ("$textbtn"),
-        style: TextStyle(color: Color.fromRGBO(52, 71, 103, 1), fontSize: 20),
+        style: TextStyle(color: Color.fromRGBO(255, 255, 255, 1), fontSize: 20),
       ),
     );
   }

@@ -108,7 +108,7 @@ class WelcomePage extends GetView<WelcomeViewModel> {
                     isActive: false,
                     isBottom: true,
                     onTap: () {
-                      Get.toNamed(HealthyRoutes.oldUserPasswordRoute);
+                      Get.toNamed(HealthyRoutes.loginRoute);
                     },
                   ),
                 ],

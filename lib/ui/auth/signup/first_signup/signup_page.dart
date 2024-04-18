@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:healthy_minder/ui/auth/signup/signup_viewmodel.dart';
+import 'package:healthy_minder/ui/auth/signup/first_signup/signup_viewmodel.dart';
 import 'package:healthy_minder/ui/custom/custem_button.dart';
 import 'package:healthy_minder/ui/custom/custem_text_field.dart';
 import 'package:healthy_minder/utils/constances.dart';
@@ -14,10 +14,10 @@ class signUpPage extends GetView<signupViewModel> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    TextEditingController BirthDate = TextEditingController();
+    TextEditingController Email = TextEditingController();
     TextEditingController fullName = TextEditingController();
-    TextEditingController Weight = TextEditingController();
-    TextEditingController Height = TextEditingController();
+    TextEditingController password = TextEditingController();
+    TextEditingController confirmPassWord = TextEditingController();
 
     return Scaffold(
         backgroundColor: const Color.fromRGBO(248, 249, 250, 1),
@@ -48,20 +48,24 @@ class signUpPage extends GetView<signupViewModel> {
                 Padding(
                     padding: const EdgeInsets.only(top: 20),
                     child: custemtextfield(
-                        custencontroller: fullName,
-                        label: "Full Name",
-                        obScureText: false)),
+                      custencontroller: Email,
+                      label: "Email",
+                      obScureText: false,
+                      TextInputType: TextInputType.emailAddress,
+                    )),
                 Padding(
                     padding: const EdgeInsets.only(top: 30),
                     child: custemtextfield(
-                        custencontroller: BirthDate,
-                        label: "Birth Date",
-                        obScureText: false)),
+                      custencontroller: fullName,
+                      label: "Full Name",
+                      obScureText: false,
+                      TextInputType: TextInputType.name,
+                    )),
                 Padding(
                     padding: const EdgeInsets.only(top: 30),
                     child: custemtextfield(
-                      custencontroller: Weight,
-                      label: "Weight",
+                      custencontroller: password,
+                      label: "PassWord",
                       obScureText: true,
                       Suffix: IconButton(
                           onPressed: () {
@@ -72,23 +76,8 @@ class signUpPage extends GetView<signupViewModel> {
                             Icons.remove_red_eye,
                             color: Color.fromRGBO(251, 99, 64, 1),
                           )),
+                      TextInputType: TextInputType.emailAddress,
                     )),
-                Padding(
-                    padding: const EdgeInsets.only(top: 30),
-                    child: custemtextfield(
-                        Suffix: IconButton(
-                          onPressed: () {
-                            obScureText:
-                            false;
-                          },
-                          icon: const Icon(
-                            Icons.remove_red_eye,
-                            color: Color.fromRGBO(251, 99, 64, 1),
-                          ),
-                        ),
-                        custencontroller: Height,
-                        label: "Height",
-                        obScureText: false)),
                 Container(
                   alignment: Alignment.center,
                   child: Padding(
@@ -103,7 +92,7 @@ class signUpPage extends GetView<signupViewModel> {
                           ),
                           InkWell(
                             onTap: () {
-                              Get.toNamed(HealthyRoutes.oldUserPasswordRoute);
+                              Get.toNamed(HealthyRoutes.loginRoute);
                             },
                             child: const Text(
                               "Login",
@@ -117,7 +106,7 @@ class signUpPage extends GetView<signupViewModel> {
                       )),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 80, left: 80),
+                  padding: const EdgeInsets.only(top: 180, left: 80),
                   child: Row(
                     children: [
                       Container(
@@ -126,26 +115,27 @@ class signUpPage extends GetView<signupViewModel> {
                         decoration: BoxDecoration(
                             border: Border.all(
                                 color: const Color.fromRGBO(251, 99, 64, 1)),
-                            color: const Color.fromRGBO(217, 217, 217, 1),
+                            color: const Color.fromRGBO(255, 255, 255, 1),
                             borderRadius: BorderRadius.circular(25)),
                         child: const Center(
                             child: Text(
                           "1",
                           style: TextStyle(
                               fontSize: 12,
-                              color: Color.fromRGBO(52, 71, 103, 1)),
+                              color: Color.fromRGBO(251, 99, 64, 1)),
                         )),
                       ),
                       const Text(
                         "-------",
-                        style: TextStyle(color: Color.fromRGBO(251, 99, 64, 1)),
+                        style:
+                            TextStyle(color: Color.fromRGBO(217, 217, 217, 1)),
                       ),
                       Container(
                         height: 25,
                         width: 25,
                         decoration: BoxDecoration(
                             border: Border.all(
-                                color: const Color.fromRGBO(251, 99, 64, 0.4)),
+                                color: const Color.fromRGBO(217, 217, 217, 1)),
                             color: const Color.fromRGBO(217, 217, 217, 0.4),
                             borderRadius: BorderRadius.circular(25)),
                         child: const Center(
@@ -153,19 +143,20 @@ class signUpPage extends GetView<signupViewModel> {
                           "2",
                           style: TextStyle(
                               fontSize: 12,
-                              color: Color.fromRGBO(52, 71, 103, 0.4)),
+                              color: Color.fromRGBO(52, 71, 103, 0.5)),
                         )),
                       ),
                       const Text(
                         "-------",
-                        style: TextStyle(color: Color.fromRGBO(251, 99, 64, 1)),
+                        style:
+                            TextStyle(color: Color.fromRGBO(217, 217, 217, 1)),
                       ),
                       Container(
                         height: 25,
                         width: 25,
                         decoration: BoxDecoration(
                             border: Border.all(
-                                color: const Color.fromRGBO(251, 99, 64, 0.4)),
+                                color: const Color.fromRGBO(217, 217, 217, 1)),
                             color: const Color.fromRGBO(217, 217, 217, 0.4),
                             borderRadius: BorderRadius.circular(25)),
                         child: const Center(
@@ -173,7 +164,7 @@ class signUpPage extends GetView<signupViewModel> {
                           "3",
                           style: TextStyle(
                               fontSize: 12,
-                              color: Color.fromRGBO(52, 71, 103, 0.4)),
+                              color: Color.fromRGBO(52, 71, 103, 0.5)),
                         )),
                       )
                     ],
@@ -182,9 +173,9 @@ class signUpPage extends GetView<signupViewModel> {
                 Padding(
                   padding: const EdgeInsets.only(top: 20),
                   child: custemBtn(
-                    textbtn: "Log In",
+                    textbtn: "Next",
                     onPressed: () {
-                      Get.toNamed(HealthyRoutes.homePageRoute);
+                      Get.toNamed(HealthyRoutes.secondSignupRoute);
                     },
                   ),
                 )

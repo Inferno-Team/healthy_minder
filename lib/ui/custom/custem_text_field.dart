@@ -9,6 +9,7 @@ class custemtextfield extends StatelessWidget {
   //متغير من اجل التاكد من عملية تعبئة الحقل النصي حيث لكل تكست فورم عملنا باني له بارمتر نعطيه قيمة من اجل التاكد واسندنا خاصية validator go
   final String? Function(String?)? validator;
   final String label;
+  final dynamic TextInputType;
   // ignore: non_constant_identifier_names
   final Widget? Suffix;
   final bool obScureText;
@@ -19,7 +20,8 @@ class custemtextfield extends StatelessWidget {
       this.validator,
       required this.label,
       this.Suffix,
-      required this.obScureText});
+      required this.obScureText,
+      required this.TextInputType});
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +29,7 @@ class custemtextfield extends StatelessWidget {
     return Container(
       height: 60,
       child: TextFormField(
+        keyboardType: TextInputType,
         obscureText: obScureText,
         style: TextStyle(fontSize: 15),
         validator: validator,

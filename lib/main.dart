@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:healthy_minder/socket/pusher_socket.dart';
 import 'package:healthy_minder/ui/auth/login/login_page.dart';
-import 'package:healthy_minder/ui/auth/signup/signup_page.dart';
+import 'package:healthy_minder/ui/auth/signup/first_signup/signup_page.dart';
 import 'package:healthy_minder/ui/welcome/welcome_page.dart';
 import 'package:healthy_minder/utils/constances.dart';
 import 'package:healthy_minder/utils/storage_helper.dart';
