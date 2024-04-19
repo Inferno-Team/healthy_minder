@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:healthy_minder/socket/pusher_socket.dart';
-import 'package:healthy_minder/ui/auth/login/login_page.dart';
-import 'package:healthy_minder/ui/auth/signup/first_signup/signup_page.dart';
-import 'package:healthy_minder/ui/welcome/welcome_page.dart';
 import 'package:healthy_minder/utils/constances.dart';
 import 'package:healthy_minder/utils/storage_helper.dart';
 import 'package:healthy_minder/utils/themes.dart';
@@ -26,11 +23,12 @@ class MyApp extends StatelessWidget {
       getPages: HealthyRoutes.getPages(),
       debugShowCheckedModeBanner: false,
       initialRoute:
-          isLoggedIn ? HealthyRoutes.homePageRoute : HealthyRoutes.welcomeRoute,
-      builder: (context, child) => Directionality(
-        textDirection: TextDirection.ltr,
+          isLoggedIn ? HealthyRoutes.homePageRoute : HealthyRoutes.loginRoute,
+      builder: (context, child) => Container(
+        // textDirection: TextDirection.ltr,
         child: child ?? Container(),
       ),
+      // themeMode: ThemeMode.light,
       themeMode: StorageHelper.currentTheme(),
       translations: Translator(),
       initialBinding: InitialGetBinding(),

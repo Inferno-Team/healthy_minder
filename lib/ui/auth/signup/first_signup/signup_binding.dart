@@ -4,6 +4,6 @@ import 'package:healthy_minder/ui/auth/signup/first_signup/signup_viewmodel.dart
 class SignUpBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut(() => signupViewModel());
+    Get.lazyPut(() => SignupViewModel());
   }
 }

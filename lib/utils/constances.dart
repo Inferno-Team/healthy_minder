@@ -4,6 +4,8 @@ import 'package:healthy_minder/ui/auth/login/login_page.dart';
 import 'package:healthy_minder/ui/auth/signup/first_signup/signup_binding.dart';
 import 'package:healthy_minder/ui/auth/signup/first_signup/signup_page.dart';
 import 'package:healthy_minder/ui/auth/signup/second_signup/personal_info.dart';
+import 'package:healthy_minder/ui/auth/signup/second_signup/personal_info_binding.dart';
+import 'package:healthy_minder/ui/auth/signup/thirt_signup/final_signup_binding.dart';
 import 'package:healthy_minder/ui/auth/signup/thirt_signup/final_signup_page.dart';
 import 'package:healthy_minder/ui/home/home_biding.dart';
 import 'package:healthy_minder/ui/home/home_page.dart';
@@ -46,13 +48,13 @@ class HealthyRoutes {
       ),
       GetPage(
         name: HealthyRoutes.loginRoute,
-        page: () => const loginPage(),
+        page: () => const LoginPage(),
         binding: LoginBinding(),
         transition: Transition.zoom,
       ),
       GetPage(
         name: HealthyRoutes.firstSignupRoute,
-        page: () => const signUpPage(),
+        page: () => const SignUpPage(),
         binding: SignUpBinding(),
         transition: Transition.zoom,
       ),
@@ -65,13 +67,13 @@ class HealthyRoutes {
       GetPage(
         name: HealthyRoutes.secondSignupRoute,
         page: () => const SecondSignupPage(),
-        binding: HomeBinding(),
+        binding: PersonalInfoBinding(),
         transition: Transition.zoom,
       ),
       GetPage(
         name: HealthyRoutes.thirtSignupRoute,
         page: () => const ThirtSignupPage(),
-        binding: HomeBinding(),
+        binding: ThirdSignupBinding(),
         transition: Transition.zoom,
       ),
     ];
