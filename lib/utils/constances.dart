@@ -60,7 +60,7 @@ class HealthyRoutes {
       ),
       GetPage(
         name: HealthyRoutes.homePageRoute,
-        page: () => const homepage(),
+        page: () => const HomePAge(),
         binding: HomeBinding(),
         transition: Transition.zoom,
       ),

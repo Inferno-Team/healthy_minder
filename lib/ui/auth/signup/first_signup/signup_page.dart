@@ -6,6 +6,7 @@ import 'package:healthy_minder/ui/custom/custem_button.dart';
 import 'package:healthy_minder/ui/custom/custem_text_field.dart';
 import 'package:healthy_minder/ui/custom/next_page_indicator.dart';
 import 'package:healthy_minder/utils/constances.dart';
+import 'package:healthy_minder/utils/translator.dart';
 
 class SignUpPage extends GetView<SignupViewModel> {
   const SignUpPage({super.key});
@@ -26,20 +27,20 @@ class SignUpPage extends GetView<SignupViewModel> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Center(
+                Center(
                   child: Text(
-                    "Sign Up",
-                    style: TextStyle(
+                    Keys.signup.name.tr,
+                    style: const TextStyle(
                         fontSize: 48,
                         color: Color.fromRGBO(52, 71, 103, 1),
                         fontWeight: FontWeight.bold),
                   ),
                 ),
-                const Padding(
+                Padding(
                   padding: EdgeInsets.only(top: 20),
                   child: Text(
-                    "Sign up to start ",
-                    style: TextStyle(
+                    Keys.signupTitle.name.tr,
+                    style: const TextStyle(
                       fontSize: 20,
                       color: Color.fromRGBO(103, 116, 142, 1),
                     ),
@@ -48,7 +49,7 @@ class SignUpPage extends GetView<SignupViewModel> {
                 Padding(
                   padding: const EdgeInsets.only(top: 32),
                   child: CustomTextField(
-                    label: "Surname",
+                    label: Keys.firstName.name.tr,
                     textInputType: TextInputType.name,
                     onChange: (String? value) {},
                   ),
@@ -56,7 +57,7 @@ class SignUpPage extends GetView<SignupViewModel> {
                 Padding(
                   padding: const EdgeInsets.only(top: 32),
                   child: CustomTextField(
-                    label: "Lastname",
+                    label: Keys.lastName.name.tr,
                     textInputType: TextInputType.name,
                     onChange: (String? value) {},
                   ),
@@ -64,7 +65,7 @@ class SignUpPage extends GetView<SignupViewModel> {
                 Padding(
                   padding: const EdgeInsets.only(top: 20),
                   child: CustomTextField(
-                    label: "email",
+                    label: Keys.email.name.tr,
                     textInputType: TextInputType.emailAddress,
                     onChange: (String? value) {},
                   ),
@@ -73,7 +74,7 @@ class SignUpPage extends GetView<SignupViewModel> {
                   () => Padding(
                     padding: const EdgeInsets.only(top: 30),
                     child: CustomTextField(
-                      label: "Password",
+                      label: Keys.password.name.tr,
                       obscureText: true,
                       suffix: IconButton(
                         onPressed: controller.changePasswordState,
@@ -96,9 +97,9 @@ class SignUpPage extends GetView<SignupViewModel> {
                     padding: const EdgeInsets.only(top: 20, left: 75),
                     child: Row(
                       children: [
-                        const Text(
-                          "Already have account? ",
-                          style: TextStyle(
+                        Text(
+                          Keys.alreadyHaveAccount.name.tr,
+                          style: const TextStyle(
                             fontSize: 13,
                             color: Color.fromRGBO(103, 116, 142, 1),
                           ),
@@ -107,9 +108,9 @@ class SignUpPage extends GetView<SignupViewModel> {
                           onTap: () {
                             Get.toNamed(HealthyRoutes.loginRoute);
                           },
-                          child: const Text(
-                            "Login",
-                            style: TextStyle(
+                          child: Text(
+                            Keys.login.name.tr,
+                            style: const TextStyle(
                                 fontSize: 13,
                                 color: Color.fromRGBO(52, 71, 103, 1),
                                 fontWeight: FontWeight.bold),
@@ -127,7 +128,7 @@ class SignUpPage extends GetView<SignupViewModel> {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 20),
                   child: custemBtn(
-                    textbtn: "Next",
+                    textbtn: Keys.next.name.tr,
                     onPressed: () {
                       Get.toNamed(HealthyRoutes.secondSignupRoute);
                     },

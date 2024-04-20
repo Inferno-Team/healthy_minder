@@ -5,13 +5,14 @@ import 'package:healthy_minder/ui/custom/custem_button.dart';
 import 'package:healthy_minder/ui/custom/custem_text_field.dart';
 import 'package:healthy_minder/ui/custom/next_page_indicator.dart';
 import 'package:healthy_minder/utils/constances.dart';
+import 'package:healthy_minder/utils/translator.dart';
 
 class SecondSignupPage extends GetView<PersonalInfoViewModel> {
   const SecondSignupPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    var groupValue = "Meal";
+    var groupValue = "Male";
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -25,11 +26,21 @@ class SecondSignupPage extends GetView<PersonalInfoViewModel> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Center(
+                Center(
                   child: Text(
-                    "Personal Info",
-                    style: TextStyle(
+                    Keys.personalInfo.name.tr,
+                    style: const TextStyle(
                         fontSize: 48,
+                        color: Color.fromRGBO(52, 71, 103, 1),
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: Text(
+                    Keys.personalInfoTitle.name.tr,
+                    style: const TextStyle(
+                        fontSize: 20,
                         color: Color.fromRGBO(52, 71, 103, 1),
                         fontWeight: FontWeight.bold),
                   ),
@@ -42,7 +53,7 @@ class SecondSignupPage extends GetView<PersonalInfoViewModel> {
                     id: "dob-widget",
                     builder: (PersonalInfoViewModel controller) {
                       return CustomTextField(
-                        label: "Birth Date",
+                        label: Keys.birthDate.name.tr,
                         textInputType: TextInputType.none,
                         onTap: () => controller.showDatePickerWidget(context),
                         textController: controller.dobTextController,
@@ -53,7 +64,7 @@ class SecondSignupPage extends GetView<PersonalInfoViewModel> {
                 Padding(
                   padding: const EdgeInsets.only(top: 32),
                   child: CustomTextField(
-                    label: "Weight",
+                    label: Keys.weight.name.tr,
                     obscureText: false,
                     textInputType:
                         const TextInputType.numberWithOptions(decimal: true),
@@ -63,7 +74,7 @@ class SecondSignupPage extends GetView<PersonalInfoViewModel> {
                 Padding(
                   padding: const EdgeInsets.only(top: 32),
                   child: CustomTextField(
-                    label: "Height",
+                    label: Keys.height.name.tr,
                     obscureText: false,
                     textInputType: const TextInputType.numberWithOptions(
                       decimal: true,
@@ -77,9 +88,9 @@ class SecondSignupPage extends GetView<PersonalInfoViewModel> {
                     padding: const EdgeInsets.only(top: 32, left: 20),
                     child: Row(
                       children: [
-                        const Text(
-                          "Gender:",
-                          style: TextStyle(
+                        Text(
+                          Keys.gender.name.tr,
+                          style: const TextStyle(
                             fontSize: 20,
                             color: Color(0xff344767),
                           ),
@@ -99,11 +110,11 @@ class SecondSignupPage extends GetView<PersonalInfoViewModel> {
                             ),
                           ),
                         ),
-                        const Padding(
-                          padding: EdgeInsets.only(left: 8),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8),
                           child: Text(
-                            "Male",
-                            style: TextStyle(
+                            Keys.male.name.tr,
+                            style: const TextStyle(
                               fontSize: 15,
                               color: Color.fromRGBO(251, 99, 64, 1),
                             ),
@@ -124,11 +135,11 @@ class SecondSignupPage extends GetView<PersonalInfoViewModel> {
                             ),
                           ),
                         ),
-                        const Padding(
-                          padding: EdgeInsets.only(left: 8),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8),
                           child: Text(
-                            "Female",
-                            style: TextStyle(
+                            Keys.female.name.tr,
+                            style: const TextStyle(
                               fontSize: 15,
                               color: Color.fromRGBO(251, 99, 64, 1),
                             ),
@@ -146,7 +157,7 @@ class SecondSignupPage extends GetView<PersonalInfoViewModel> {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 20),
                   child: custemBtn(
-                    textbtn: "Next",
+                    textbtn: Keys.next.name.tr,
                     onPressed: () {
                       Get.toNamed(HealthyRoutes.thirtSignupRoute);
                     },

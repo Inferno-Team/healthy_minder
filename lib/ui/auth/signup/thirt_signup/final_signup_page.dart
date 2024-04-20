@@ -7,6 +7,7 @@ import 'package:healthy_minder/ui/auth/signup/thirt_signup/final_signup_viewmode
 import 'package:healthy_minder/ui/custom/custem_button.dart';
 import 'package:healthy_minder/ui/custom/next_page_indicator.dart';
 import 'package:healthy_minder/utils/constances.dart';
+import 'package:healthy_minder/utils/translator.dart';
 import 'package:multi_dropdown/multiselect_dropdown.dart';
 
 class ThirtSignupPage extends GetView<ThirtSignupViewModel> {
@@ -28,30 +29,30 @@ class ThirtSignupPage extends GetView<ThirtSignupViewModel> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Center(
+                  Center(
                     child: Text(
-                      "Personal Info",
-                      style: TextStyle(
+                      Keys.personalInfo.name.tr,
+                      style: const TextStyle(
                           fontSize: 48,
                           color: Color.fromRGBO(52, 71, 103, 1),
                           fontWeight: FontWeight.bold),
                     ),
                   ),
-                  const Padding(
-                    padding: EdgeInsets.only(top: 20),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 20),
                     child: Text(
-                      "Before start We would love to have your help ",
-                      style: TextStyle(
+                      Keys.personalInfoTitle.name.tr,
+                      style: const TextStyle(
                         fontSize: 20,
                         color: Color.fromRGBO(103, 116, 142, 1),
                       ),
                     ),
                   ),
-                  const Padding(
-                    padding: EdgeInsets.only(top: 20),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 20),
                     child: Text(
-                      "Do you suffer from any diseases?",
-                      style: TextStyle(
+                      Keys.diseaseQuestion.name.tr,
+                      style: const TextStyle(
                         fontSize: 15,
                         color: Color.fromRGBO(52, 71, 103, 1),
                       ),
@@ -62,7 +63,7 @@ class ThirtSignupPage extends GetView<ThirtSignupViewModel> {
                     child: MultiSelectDropDown<Disease>(
                       onOptionSelected: controller.onDiseaseSelect,
                       onOptionRemoved: controller.onDiseaseRemove,
-                      hint: 'select your diseases',
+                      hint: Keys.selectYourDiseases.name.tr,
                       options: controller.diseases,
                       selectionType: SelectionType.multi,
                       chipConfig: const ChipConfig(wrapType: WrapType.wrap),
@@ -73,11 +74,11 @@ class ThirtSignupPage extends GetView<ThirtSignupViewModel> {
                       selectedOptionIcon: const Icon(Icons.check_circle),
                     ),
                   ),
-                  const Padding(
-                    padding: EdgeInsets.only(top: 42),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 42),
                     child: Text(
-                      "Choose your goal",
-                      style: TextStyle(
+                      Keys.goalsQuestion.name.tr,
+                      style: const TextStyle(
                           fontSize: 15, color: Color.fromRGBO(52, 71, 103, 1)),
                     ),
                   ),
@@ -86,7 +87,7 @@ class ThirtSignupPage extends GetView<ThirtSignupViewModel> {
                     child: MultiSelectDropDown<Goal>(
                       onOptionSelected: controller.onGoalSelect,
                       onOptionRemoved: controller.onGoalRemove,
-                      hint: 'select your goals',
+                      hint: Keys.goalsQuestion.name.tr,
                       options: controller.goals,
                       selectionType: SelectionType.multi,
                       chipConfig: const ChipConfig(wrapType: WrapType.wrap),
@@ -104,7 +105,7 @@ class ThirtSignupPage extends GetView<ThirtSignupViewModel> {
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 20),
                     child: custemBtn(
-                      textbtn: "Sign Up",
+                      textbtn: Keys.signup.name.tr,
                       onPressed: () {
                         Get.toNamed(HealthyRoutes.homePageRoute);
                       },

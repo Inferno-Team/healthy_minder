@@ -4,6 +4,6 @@ import 'package:healthy_minder/ui/home/home_viewmodel.dart';
 class HomeBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut(() => homeViewModel());
+    Get.lazyPut(() => HomeViewModel());
   }
 }
