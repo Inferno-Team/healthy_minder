@@ -107,7 +107,7 @@ class ThirtSignupPage extends GetView<ThirtSignupViewModel> {
                     child: custemBtn(
                       textbtn: Keys.signup.name.tr,
                       onPressed: () {
-                        Get.toNamed(HealthyRoutes.homePageRoute);
+                        Get.toNamed(HealthyRoutes.HomePageRoute);
                       },
                     ),
                   )

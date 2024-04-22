@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
       getPages: HealthyRoutes.getPages(),
       debugShowCheckedModeBanner: false,
       initialRoute:
-          isLoggedIn ? HealthyRoutes.homePageRoute : HealthyRoutes.loginRoute,
+          isLoggedIn ? HealthyRoutes.HomePageRoute : HealthyRoutes.loginRoute,
       builder: (context, child) => Container(
         // textDirection: TextDirection.ltr,
         child: child ?? Container(),

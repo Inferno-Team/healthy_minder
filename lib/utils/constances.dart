@@ -29,7 +29,7 @@ class HealthyRoutes {
   static const String firstSignupRoute = '/first-signup-page';
   static const String secondSignupRoute = '/second-signup-page';
   static const String thirtSignupRoute = '/thirt-signup-page';
-  static const String homePageRoute = '/home';
+  static const String HomePageRoute = '/home';
   static const String mapPageRoute = '/map';
   static const String setNamePageRoute = '/set-name';
 
@@ -59,8 +59,8 @@ class HealthyRoutes {
         transition: Transition.zoom,
       ),
       GetPage(
-        name: HealthyRoutes.homePageRoute,
-        page: () => const HomePAge(),
+        name: HealthyRoutes.HomePageRoute,
+        page: () => const HomePage(),
         binding: HomeBinding(),
         transition: Transition.zoom,
       ),

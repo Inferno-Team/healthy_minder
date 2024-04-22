@@ -40,9 +40,7 @@ class SecondSignupPage extends GetView<PersonalInfoViewModel> {
                   child: Text(
                     Keys.personalInfoTitle.name.tr,
                     style: const TextStyle(
-                        fontSize: 20,
-                        color: Color.fromRGBO(52, 71, 103, 1),
-                        fontWeight: FontWeight.bold),
+                        fontSize: 20, color: Color.fromRGBO(52, 71, 103, 1)),
                   ),
                 ),
                 Padding(

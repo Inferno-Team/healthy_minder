@@ -111,7 +111,7 @@ class LoginPage extends GetView<LoginViewmodel> {
                   child: custemBtn(
                     textbtn: Keys.login.name.tr,
                     onPressed: () {
-                      Get.toNamed(HealthyRoutes.homePageRoute);
+                      Get.toNamed(HealthyRoutes.HomePageRoute);
                     },
                   ),
                 )
