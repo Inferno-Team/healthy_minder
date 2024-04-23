@@ -7,6 +7,7 @@ class CustemNotificationCard extends StatelessWidget {
   final String coachname;
   final Function()? onTap;
   final String notificationdetail;
+
   const CustemNotificationCard(
       {super.key,
       required this.coachname,
@@ -60,7 +61,8 @@ class CustemNotificationCard extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.only(top: 12),
                             child: Text(
-                              Keys.send.name.tr,
+                              "NO TEXT",
+                              // Keys.send.name.tr, // /*NOTE*/ send not found in Keys
                               style: Get.theme.textTheme.displaySmall,
                             ),
                           )
@@ -71,7 +73,8 @@ class CustemNotificationCard extends StatelessWidget {
                         child: Container(
                       alignment: Alignment.center,
                       child: Text(
-                        "3${Keys.min.name.tr}${Keys.ago.name.tr}",
+                        "No TEXT",
+                        // "3${Keys.min.name.tr}${Keys.ago.name.tr}", /*NOTE*/ min and age not found in key
                         style: Get.theme.textTheme.displaySmall,
                       ),
                     ))

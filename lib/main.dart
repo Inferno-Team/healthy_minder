@@ -9,7 +9,7 @@ import 'package:healthy_minder/utils/translator.dart';
 
 void main() async {
   await GetStorage.init();
-  await PusherSocket().init();
+  // await PusherSocket().init();
   runApp(const MyApp());
 }
 
@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
       getPages: HealthyRoutes.getPages(),
       debugShowCheckedModeBanner: false,
       initialRoute:
-          isLoggedIn ? HealthyRoutes.HomePageRoute : HealthyRoutes.loginRoute,
+          isLoggedIn ? HealthyRoutes.homePageRoute : HealthyRoutes.loginRoute,
       builder: (context, child) => Container(
         // textDirection: TextDirection.ltr,
         child: child ?? Container(),

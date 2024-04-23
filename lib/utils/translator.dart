@@ -38,7 +38,7 @@ class Translator extends Translations {
           Keys.notification.name: 'الاشعارات',
           Keys.logOut.name: 'تسجيل خروج',
           Keys.coach.name: 'المدرب',
-          Keys.exercies.name: ' تمارين',
+          Keys.exercise.name: ' تمارين',
           Keys.thisWeek.name: 'هذا الاسبوع ',
         },
         'en_US': {
@@ -77,7 +77,7 @@ class Translator extends Translations {
           Keys.notification.name: 'Notification',
           Keys.logOut.name: 'LogOut',
           Keys.coach.name: 'Coach',
-          Keys.exercies.name: 'Exercies ',
+          Keys.exercise.name: 'Exercise ',
           Keys.thisWeek.name: 'This Week ',
         },
       };
@@ -119,6 +119,6 @@ enum Keys {
   notification,
   logOut,
   coach,
-  exercies,
+  exercise,
   thisWeek
 }

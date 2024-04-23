@@ -157,7 +157,7 @@ class SecondSignupPage extends GetView<PersonalInfoViewModel> {
                   child: custemBtn(
                     textbtn: Keys.next.name.tr,
                     onPressed: () {
-                      Get.toNamed(HealthyRoutes.thirtSignupRoute);
+                      Get.toNamed(HealthyRoutes.finalSignupRoute);
                     },
                   ),
                 )

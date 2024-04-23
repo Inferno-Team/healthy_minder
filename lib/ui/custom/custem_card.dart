@@ -47,7 +47,7 @@ class CustemTrainingCard extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(top: 10),
                         child: Text(
-                          Keys.exercies.name.tr + Keys.thisWeek.name.tr,
+                          Keys.exercise.name.tr + Keys.thisWeek.name.tr,
                           style: const TextStyle(
                               color: Color.fromRGBO(103, 116, 142, 1)),
                         ),

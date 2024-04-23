@@ -4,7 +4,7 @@ import 'package:healthy_minder/models/goal.dart';
 import 'package:healthy_minder/utils/storage_helper.dart';
 import 'package:multi_dropdown/models/value_item.dart';
 
-class ThirtSignupViewModel extends GetxController {
+class ThirdSignupViewModel extends GetxController {
   final _diseases = RxList<ValueItem<Disease>>.empty();
   final _goals = RxList<ValueItem<Goal>>.empty();
   final _selectedDiseases = [].obs;
