@@ -4,8 +4,8 @@ import 'package:get/get.dart';
 import 'package:healthy_minder/gen/assets.gen.dart';
 import 'package:healthy_minder/ui/custom/custem_circular_btn.dart';
 import 'package:healthy_minder/ui/custom/custem_containerborder.dart';
+import 'package:healthy_minder/ui/drawer/custom_drawer.dart';
 import 'package:healthy_minder/ui/home/home_viewmodel.dart';
-import 'package:healthy_minder/ui/welcome/welcome_page.dart';
 import 'package:healthy_minder/utils/storage_helper.dart';
 import 'package:healthy_minder/utils/translator.dart';
 import 'package:healthy_minder/utils/constances.dart';
@@ -18,13 +18,14 @@ class HomePage extends GetView<HomeViewModel> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    return WillPopScope(
-      onWillPop: null,
+    return PopScope(
+      canPop: false,
+      onPopInvoked: controller.onBackPressed,
       child: Scaffold(
         backgroundColor: const Color.fromRGBO(251, 99, 64, 1),
         body: Stack(
           children: [
-            const WelcomePage(),
+            CustomDrawer(),
             Obx(
               () => AnimatedContainer(
                 transform: Matrix4.translationValues(
@@ -68,7 +69,14 @@ class HomePage extends GetView<HomeViewModel> {
                               isDrawerOpen: controller.isDrawerOpen,
                               toggleMenu: controller.toggleMenu,
                             ),
-                            HomeScreen()
+                            SizedBox(
+                              height: size.height - 150,
+                              child: Navigator(
+                                key: Get.nestedKey(1),
+                                initialRoute: HealthyRoutes.homeScreenRoute,
+                                onGenerateRoute: controller.onGenerateRoute,
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -144,7 +152,7 @@ class CustomHomeTopBar extends StatelessWidget {
                       padding: const EdgeInsets.only(left: 16),
                       child: CustemCircularBtn(
                         onTap: () {
-                          Get.toNamed(HealthyRoutes.welcomeRoute);
+                          // Get.toNamed();
                         },
                         containerchild: const Icon(
                           FontAwesomeIcons.bell,
@@ -169,65 +177,6 @@ class CustomHomeTopBar extends StatelessWidget {
                   ),
                 ),
               )
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class HomeScreen extends StatelessWidget {
-  final List imgList = [
-    Assets.images.img01.path,
-    Assets.images.img02.path,
-    Assets.images.img03.path,
-  ];
-
-  HomeScreen({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return CustemContainer(
-      child: Center(
-        child: Padding(
-          padding: const EdgeInsets.only(top: 24, left: 20, right: 20),
-          child: Column(
-            children: [
-              CarouselSlider(
-                  options: CarouselOptions(
-                    height: 140.0,
-                    aspectRatio: 16 / 9,
-                    autoPlay: true,
-                    autoPlayInterval: const Duration(seconds: 5),
-                    autoPlayAnimationDuration:
-                        const Duration(milliseconds: 800),
-                    pauseAutoPlayOnTouch: true,
-                    enlargeCenterPage: true,
-                  ),
-                  items: imgList.map((i) {
-                    return Builder(
-                      builder: (BuildContext context) {
-                        return Container(
-                          width: MediaQuery.of(context).size.width,
-                          margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(24.0),
-                            color: Colors.grey, // Set border color
-                          ),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(24.0),
-                            child: Image.asset(
-                              i,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        );
-                      },
-                    );
-                  }).toList())
             ],
           ),
         ),

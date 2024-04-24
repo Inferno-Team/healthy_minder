@@ -9,8 +9,6 @@ import 'package:healthy_minder/ui/auth/signup/final_signup/final_signup_binding.
 import 'package:healthy_minder/ui/auth/signup/final_signup/final_signup_page.dart';
 import 'package:healthy_minder/ui/home/home_biding.dart';
 import 'package:healthy_minder/ui/home/home_page.dart';
-import 'package:healthy_minder/ui/welcome/welcome_binding.dart';
-import 'package:healthy_minder/ui/welcome/welcome_page.dart';
 import 'package:healthy_minder/utils/storage_helper.dart';
 
 class Constance {
@@ -24,7 +22,7 @@ class Constance {
 }
 
 class HealthyRoutes {
-  static const String welcomeRoute = '/welcome';
+  static const String welcomeRoute = '/drawer';
   static const String loginRoute = '/login-page';
   static const String firstSignupRoute = '/first-signup-page';
   static const String secondSignupRoute = '/second-signup-page';
@@ -32,6 +30,8 @@ class HealthyRoutes {
   static const String homePageRoute = '/home';
   static const String mapPageRoute = '/map';
   static const String setNamePageRoute = '/set-name';
+  static const String homeScreenRoute = '/home/home-screen';
+  static const String notificationScreenRoute = '/home/notification-screen';
 
   static const String allClientScreenRoute = '/home-inner-screen';
   static const String readyScreenRoute = '/ready-screen';
@@ -40,12 +40,6 @@ class HealthyRoutes {
 
   static List<GetPage> getPages() {
     return [
-      GetPage(
-        name: HealthyRoutes.welcomeRoute,
-        page: () => const WelcomePage(),
-        binding: WelcomeBinding(),
-        transition: Transition.zoom,
-      ),
       GetPage(
         name: HealthyRoutes.loginRoute,
         page: () => const LoginPage(),

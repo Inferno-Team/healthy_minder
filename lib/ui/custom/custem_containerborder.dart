@@ -3,8 +3,13 @@ import 'package:healthy_minder/utils/themes.dart';
 
 class CustemContainer extends StatelessWidget {
   final Widget child;
+  final bool isDrawerOpen;
 
-  const CustemContainer({super.key, required this.child});
+  const CustemContainer({
+    super.key,
+    required this.child,
+    required this.isDrawerOpen,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -14,12 +19,12 @@ class CustemContainer extends StatelessWidget {
       scrollDirection: Axis.vertical,
       child: Container(
         height: size.height - 150,
-        decoration: const BoxDecoration(
-          color: Color.fromRGBO(248, 249, 250, 1),
+        decoration: BoxDecoration(
+          color: const Color.fromRGBO(248, 249, 250, 1),
           borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(24),
-            topRight: Radius.circular(24),
-            bottomLeft: Radius.circular(40),
+            topLeft: const Radius.circular(24),
+            topRight: const Radius.circular(24),
+            bottomLeft: Radius.circular(isDrawerOpen ? 40 : 0),
           ),
         ),
         child: child,

@@ -1,7 +1,9 @@
-import 'dart:ui';
-
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:healthy_minder/ui/welcome/welcome_viewmodel.dart';
+import 'package:healthy_minder/ui/home/home_screen.dart';
+import 'package:healthy_minder/ui/notifications/notification_screen.dart';
+import 'package:healthy_minder/utils/constances.dart';
 import 'package:healthy_minder/utils/storage_helper.dart';
 
 class HomeViewModel extends GetxController {
@@ -14,10 +16,25 @@ class HomeViewModel extends GetxController {
   final _currentRoute = ''.obs;
   final _currentPath = ''.obs;
 
+  final _currentActive = DrawerItem.home.obs;
+
+  DrawerItem get current => _currentActive.value;
+
+  changeCurrent(DrawerItem value) {
+    toggleMenu();
+    print(value.name);
+    print(value.toString());
+    changeCurrentRoute(value.name);
+    Get.toNamed(value.toString(), id: 1);
+    _currentActive.value = value;
+  }
+
   bool get isDrawerOpen => _isDrawerOpen.value;
+
   double get xOffset => _xOffset.value;
 
   double get yOffset => _yOffset.value;
+
   double get xShadowOffset => _xShadowOffset.value;
 
   @override
@@ -50,6 +67,7 @@ class HomeViewModel extends GetxController {
     }
 
     _isDrawerOpen.value = !_isDrawerOpen.value;
+    update();
   }
 
   void toggleLanguage() {
@@ -57,5 +75,107 @@ class HomeViewModel extends GetxController {
     Get.locale = StorageHelper.swipeLanguage();
     // _toggleDirection();
     _calcShadowOffset();
+  }
+
+  Future<bool> onBackPressed(bool? value) async {
+    final routes =
+        _currentPath.split('/'); // /home/gyms/gym => ['',home,gyms,gym]
+    // print(routes);
+    // print(routes.length);
+    if (routes.length > 2) {
+      _currentPath.value = '';
+      // state: nesting
+      // remove last route name.
+      routes.removeAt(0);
+      routes.removeLast();
+
+      // rebuild the route
+      for (var element in routes) {
+        _currentPath.value += '/$element'; // /home , /home/gyms
+      }
+      var lastRoute = routes.last;
+      _currentActive.value = DrawerItem.fromRoute(lastRoute);
+      // print(_currentRoute.value);
+    } else {
+      // need to close the app
+      SystemNavigator.pop();
+      return true;
+    }
+
+    Get.back(id: 1);
+    toggleMenu();
+    return false;
+  }
+
+  void changeCurrentRoute(String value) {
+    _currentPath.value += "/$value";
+    _currentRoute.value = value;
+  }
+
+  Route? onGenerateRoute(RouteSettings settings) {
+    switch (settings.name) {
+      case HealthyRoutes.homeScreenRoute:
+        return GetPageRoute(
+          settings: settings,
+          page: () => HomeScreen(),
+          transition: Transition.zoom,
+        );
+      case HealthyRoutes.notificationScreenRoute:
+        return GetPageRoute(
+          settings: settings,
+          page: () => NotificationScreen(),
+          transition: Transition.zoom,
+        );
+      default:
+        return GetPageRoute(
+          settings: settings,
+          page: () => HomeScreen(),
+          transition: Transition.zoom,
+        );
+    }
+  }
+}
+
+enum DrawerItem {
+  home('home'),
+  message('message'),
+  premium('premium'),
+  notification('notification');
+
+  final String _text;
+
+  const DrawerItem(this._text);
+
+  @override
+  String toString() {
+    switch (_text) {
+      case "home":
+        return HealthyRoutes.homeScreenRoute;
+      case "message":
+        return HealthyRoutes.homeScreenRoute;
+      case "premium":
+        return HealthyRoutes.homeScreenRoute;
+      case "notification":
+        return HealthyRoutes.notificationScreenRoute;
+
+      default:
+        return HealthyRoutes.homeScreenRoute;
+    }
+  }
+
+  static DrawerItem fromRoute(String route) {
+    switch (route) {
+      case HealthyRoutes.homeScreenRoute:
+        return DrawerItem.home;
+      // case HealthyRoutes.homeScreenRoute:
+      //   return DrawerItem.message;
+      // case HealthyRoutes.homeScreenRoute:
+      //   return DrawerItem.premium;
+      case HealthyRoutes.notificationScreenRoute:
+        return DrawerItem.notification;
+
+      default:
+        return DrawerItem.home;
+    }
   }
 }
