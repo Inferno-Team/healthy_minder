@@ -11,11 +11,11 @@ class CustemCircularBtn extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Container(
-        height: 32,
-        width: 32,
+        height: 40,
+        width: 40,
         decoration: BoxDecoration(
             color: Color.fromRGBO(217, 217, 217, 0.25),
-            borderRadius: BorderRadius.circular(32)),
+            borderRadius: BorderRadius.circular(40)),
         child: Center(child: containerchild),
       ),
     );

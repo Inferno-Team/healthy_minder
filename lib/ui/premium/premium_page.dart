@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:healthy_minder/gen/assets.gen.dart';
 import 'package:healthy_minder/ui/custom/custem_circular_btn.dart';
 import 'package:healthy_minder/ui/custom/custem_containerborder.dart';
 import 'package:healthy_minder/ui/drawer/custom_drawer.dart';
-import 'package:healthy_minder/ui/home/home_viewmodel.dart';
+import 'package:healthy_minder/ui/premium/premium_viewmodel.dart';
 import 'package:healthy_minder/utils/storage_helper.dart';
 import 'package:healthy_minder/utils/translator.dart';
 import 'package:healthy_minder/utils/constances.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 
-class HomePage extends GetView<HomeViewModel> {
-  const HomePage({super.key});
+class PremiumPage extends GetView<PremiumViewModel> {
+  const PremiumPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +71,7 @@ class HomePage extends GetView<HomeViewModel> {
                               height: size.height - 150,
                               child: Navigator(
                                 key: Get.nestedKey(1),
-                                initialRoute: HealthyRoutes.homeScreenRoute,
+                                initialRoute: HealthyRoutes.premiumScreenRoute,
                                 onGenerateRoute: controller.onGenerateRoute,
                               ),
                             ),
@@ -133,47 +131,34 @@ class CustomHomeTopBar extends StatelessWidget {
                       onTap: toggleMenu,
                       containerchild: Icon(
                         isDrawerOpen ? Icons.arrow_forward_ios : Icons.menu,
-                        size: 28,
+                        size: 20,
                         color: const Color.fromRGBO(255, 255, 255, 1),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 16),
-                      child: Text(
-                        Keys.goodMorning.name.tr +
-                            StorageHelper.getUser().username,
-                        style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                            color: Color.fromRGBO(255, 255, 255, 1)),
+                    Text(
+                      Keys.premium.name.tr,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                        color: Color.fromRGBO(255, 255, 255, 1),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 16),
-                      child: CustemCircularBtn(
-                        onTap: () {
-                          // Get.toNamed();
-                        },
-                        containerchild: const Icon(
-                          FontAwesomeIcons.bell,
-                          size: 20,
-                          color: Color.fromRGBO(255, 255, 255, 1),
-                        ),
-                      ),
-                    )
                   ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 12),
-                child: Text(
-                  Keys.strength.name.tr +
-                      Keys.health.name.tr +
-                      Keys.andFitness.name.tr,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                    color: Color.fromRGBO(255, 255, 255, 1),
+              Container(
+                height: 60,
+                width: 95,
+                decoration: const BoxDecoration(
+                    color: Color.fromRGBO(17, 28, 68, 1),
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(24),
+                        topRight: Radius.circular(24))),
+                child: Center(
+                  child: Text(
+                    Keys.ksp.name.tr,
+                    style: const TextStyle(
+                        fontSize: 32, color: Color.fromRGBO(251, 99, 64, 1)),
                   ),
                 ),
               )

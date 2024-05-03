@@ -132,6 +132,7 @@ class SignUpPage extends GetView<SignupViewModel> {
                     onPressed: () {
                       Get.toNamed(HealthyRoutes.secondSignupRoute);
                     },
+                    withIcon: false,
                   ),
                 ),
               ],

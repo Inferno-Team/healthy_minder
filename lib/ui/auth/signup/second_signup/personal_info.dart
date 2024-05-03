@@ -159,6 +159,7 @@ class SecondSignupPage extends GetView<PersonalInfoViewModel> {
                     onPressed: () {
                       Get.toNamed(HealthyRoutes.finalSignupRoute);
                     },
+                    withIcon: false,
                   ),
                 )
               ],

@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:healthy_minder/gen/assets.gen.dart';
 import 'package:healthy_minder/ui/custom/custem_containerborder.dart';
 import 'package:healthy_minder/ui/home/home_viewmodel.dart';
+import 'package:healthy_minder/utils/constances.dart';
+import 'package:healthy_minder/utils/translator.dart';
 
 class HomeScreen extends StatelessWidget {
   final List imgList = [
@@ -61,6 +63,13 @@ class HomeScreen extends StatelessWidget {
                       );
                     }).toList(),
                   ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 20),
+                    child: Text(
+                      Keys.yourGoals.name.tr,
+                      style: Get.textTheme.bodyMedium,
+                    ),
+                  )
                 ],
               ),
             ),

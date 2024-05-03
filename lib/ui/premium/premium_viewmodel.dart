@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:healthy_minder/ui/home/home_screen.dart';
-import 'package:healthy_minder/ui/notifications/notification_screen.dart';
 import 'package:healthy_minder/ui/premium/premium_screen.dart';
+import 'package:healthy_minder/ui/notifications/notification_screen.dart';
 import 'package:healthy_minder/utils/constances.dart';
 import 'package:healthy_minder/utils/storage_helper.dart';
 
-class HomeViewModel extends GetxController {
+class PremiumViewModel extends GetxController {
   final _xOffset = 0.0.obs;
   final _yOffset = 0.0.obs;
   final _xShadowOffset = 0.0.obs;
@@ -23,8 +22,8 @@ class HomeViewModel extends GetxController {
 
   changeCurrent(DrawerItem value) {
     toggleMenu();
-    print("1: " + value.name);
-    print("2: " + value.toString());
+    print(value.name);
+    print(value.toString());
     changeCurrentRoute(value.name);
     Get.toNamed(value.toString(), id: 1);
     _currentActive.value = value;
@@ -118,7 +117,7 @@ class HomeViewModel extends GetxController {
       case HealthyRoutes.homeScreenRoute:
         return GetPageRoute(
           settings: settings,
-          page: () => HomeScreen(),
+          page: () => PremiumScreen(),
           transition: Transition.zoom,
         );
       case HealthyRoutes.notificationScreenRoute:
@@ -127,16 +126,10 @@ class HomeViewModel extends GetxController {
           page: () => NotificationScreen(),
           transition: Transition.zoom,
         );
-      case HealthyRoutes.premiumScreenRoute:
-        return GetPageRoute(
-          settings: settings,
-          page: () => PremiumScreen(),
-          transition: Transition.zoom,
-        );
       default:
         return GetPageRoute(
           settings: settings,
-          page: () => HomeScreen(),
+          page: () => PremiumScreen(),
           transition: Transition.zoom,
         );
     }
@@ -146,7 +139,7 @@ class HomeViewModel extends GetxController {
 enum DrawerItem {
   home('home'),
   message('message'),
-  premium('preimum-screen'),
+  premium('premium'),
   notification('notification');
 
   final String _text;
@@ -155,14 +148,13 @@ enum DrawerItem {
 
   @override
   String toString() {
-    print('3. ' + _text);
     switch (_text) {
       case "home":
         return HealthyRoutes.homeScreenRoute;
       case "message":
-        return HealthyRoutes.premiumScreenRoute;
-      case "preimum-screen":
-        return HealthyRoutes.premiumScreenRoute;
+        return HealthyRoutes.homeScreenRoute;
+      case "premium":
+        return HealthyRoutes.homeScreenRoute;
       case "notification":
         return HealthyRoutes.notificationScreenRoute;
 
@@ -172,12 +164,11 @@ enum DrawerItem {
   }
 
   static DrawerItem fromRoute(String route) {
-    print(route);
     switch (route) {
       case HealthyRoutes.homeScreenRoute:
         return DrawerItem.home;
-      case HealthyRoutes.premiumScreenRoute:
-        return DrawerItem.premium;
+      // case HealthyRoutes.homeScreenRoute:
+      //   return DrawerItem.message;
       // case HealthyRoutes.homeScreenRoute:
       //   return DrawerItem.premium;
       case HealthyRoutes.notificationScreenRoute:
@@ -186,5 +177,6 @@ enum DrawerItem {
       default:
         return DrawerItem.home;
     }
+    ;
   }
 }

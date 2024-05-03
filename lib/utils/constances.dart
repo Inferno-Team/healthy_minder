@@ -9,6 +9,8 @@ import 'package:healthy_minder/ui/auth/signup/final_signup/final_signup_binding.
 import 'package:healthy_minder/ui/auth/signup/final_signup/final_signup_page.dart';
 import 'package:healthy_minder/ui/home/home_biding.dart';
 import 'package:healthy_minder/ui/home/home_page.dart';
+import 'package:healthy_minder/ui/premium/premium_binding.dart';
+import 'package:healthy_minder/ui/premium/premium_screen.dart';
 import 'package:healthy_minder/utils/storage_helper.dart';
 
 class Constance {
@@ -28,13 +30,13 @@ class HealthyRoutes {
   static const String secondSignupRoute = '/second-signup-page';
   static const String finalSignupRoute = '/third-signup-page';
   static const String homePageRoute = '/home';
-  static const String mapPageRoute = '/map';
-  static const String setNamePageRoute = '/set-name';
+  static const String chatsPageRoute = '/chats-page';
+  static const String sendMessageRoute = '/send-message-page';
+  static const String preimumPageRoute = '/preimum-page';
   static const String homeScreenRoute = '/home/home-screen';
-  static const String notificationScreenRoute = '/home/notification-screen';
+  static const String notificationScreenRoute = '/notification-screen';
 
-  static const String allClientScreenRoute = '/home-inner-screen';
-  static const String readyScreenRoute = '/ready-screen';
+  static const String premiumScreenRoute = '/preimum-screen';
   static const String lateScreenRoute = '/late-screen';
   static const String addPackageScreenRoute = '/add-package-screen';
 
@@ -68,6 +70,12 @@ class HealthyRoutes {
         name: HealthyRoutes.finalSignupRoute,
         page: () => const ThirdSignupPage(),
         binding: ThirdSignupBinding(),
+        transition: Transition.zoom,
+      ),
+      GetPage(
+        name: HealthyRoutes.preimumPageRoute,
+        page: () => const PremiumScreen(),
+        binding: PremiumBinding(),
         transition: Transition.zoom,
       ),
     ];

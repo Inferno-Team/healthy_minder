@@ -113,6 +113,7 @@ class LoginPage extends GetView<LoginViewmodel> {
                     onPressed: () {
                       Get.toNamed(HealthyRoutes.homePageRoute);
                     },
+                    withIcon: false,
                   ),
                 )
               ],

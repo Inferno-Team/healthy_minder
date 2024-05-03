@@ -104,6 +104,7 @@ class ThirdSignupPage extends GetView<ThirdSignupViewModel> {
                     onPressed: () {
                       Get.toNamed(HealthyRoutes.homePageRoute);
                     },
+                    withIcon: false,
                   ),
                 )
               ],
