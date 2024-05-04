@@ -114,7 +114,7 @@ class Translator extends Translations {
           Keys.yourDiet.name: 'your Diet ',
           Keys.newMeal.name: 'new meal ',
           Keys.alarm.name: 'Alarm ',
-          Keys.its.name: 'It\s ',
+          Keys.its.name: 'Its ',
           Keys.time.name: 'time ',
           Keys.to.name: 'to ',
           Keys.add.name: 'Add ',

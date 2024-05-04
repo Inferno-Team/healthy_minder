@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:healthy_minder/ui/home/home_screen.dart';
 import 'package:healthy_minder/ui/notifications/notification_screen.dart';
+import 'package:healthy_minder/ui/premium/premium_binding.dart';
 import 'package:healthy_minder/ui/premium/premium_screen.dart';
 import 'package:healthy_minder/utils/constances.dart';
 import 'package:healthy_minder/utils/storage_helper.dart';
@@ -23,8 +24,8 @@ class HomeViewModel extends GetxController {
 
   changeCurrent(DrawerItem value) {
     toggleMenu();
-    print("1: " + value.name);
-    print("2: " + value.toString());
+    print("1: ${value.name}");
+    print("2: $value");
     changeCurrentRoute(value.name);
     Get.toNamed(value.toString(), id: 1);
     _currentActive.value = value;
@@ -124,13 +125,14 @@ class HomeViewModel extends GetxController {
       case HealthyRoutes.notificationScreenRoute:
         return GetPageRoute(
           settings: settings,
-          page: () => NotificationScreen(),
+          page: () => const NotificationScreen(),
           transition: Transition.zoom,
         );
       case HealthyRoutes.premiumScreenRoute:
         return GetPageRoute(
           settings: settings,
-          page: () => PremiumScreen(),
+          page: () => const PremiumScreen(),
+          binding: PremiumBinding(),
           transition: Transition.zoom,
         );
       default:
@@ -155,7 +157,7 @@ enum DrawerItem {
 
   @override
   String toString() {
-    print('3. ' + _text);
+    print('3. $_text');
     switch (_text) {
       case "home":
         return HealthyRoutes.homeScreenRoute;

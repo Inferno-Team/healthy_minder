@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
 
 class CustomTextField extends StatelessWidget {
   //متغير من اجل الهينت تكست حيث لكل تكست فورم عملنا باني له بارمتر نعطيه قيمة من اجل الهينت

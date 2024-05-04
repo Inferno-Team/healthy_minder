@@ -14,7 +14,7 @@ class CustemCircularBtn extends StatelessWidget {
         height: 40,
         width: 40,
         decoration: BoxDecoration(
-            color: Color.fromRGBO(217, 217, 217, 0.25),
+            color: const Color.fromRGBO(217, 217, 217, 0.25),
             borderRadius: BorderRadius.circular(40)),
         child: Center(child: containerchild),
       ),

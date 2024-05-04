@@ -12,7 +12,7 @@ class CustomDrawerItem extends StatelessWidget {
   final bool isBottom;
   final Function()? onTap;
 
-  CustomDrawerItem({
+  const CustomDrawerItem({
     super.key,
     required this.background,
     required this.text,

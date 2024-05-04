@@ -29,7 +29,7 @@ class custemBtn extends StatelessWidget {
             style: const TextStyle(
                 color: Color.fromRGBO(255, 255, 255, 1), fontSize: 20),
           ),
-          withIcon ? Icon(Icons.qr_code_scanner_rounded) : Container()
+          withIcon ? const Icon(Icons.qr_code_scanner_rounded) : Container()
         ],
       ),
     );

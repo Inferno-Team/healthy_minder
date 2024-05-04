@@ -37,7 +37,7 @@ class SignUpPage extends GetView<SignupViewModel> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(top: 20),
+                  padding: const EdgeInsets.only(top: 20),
                   child: Text(
                     Keys.signupTitle.name.tr,
                     style: const TextStyle(

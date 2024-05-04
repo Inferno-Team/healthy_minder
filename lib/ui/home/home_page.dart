@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:healthy_minder/gen/assets.gen.dart';
 import 'package:healthy_minder/ui/custom/custem_circular_btn.dart';
 import 'package:healthy_minder/ui/custom/custem_containerborder.dart';
 import 'package:healthy_minder/ui/drawer/custom_drawer.dart';
@@ -9,7 +8,6 @@ import 'package:healthy_minder/ui/home/home_viewmodel.dart';
 import 'package:healthy_minder/utils/storage_helper.dart';
 import 'package:healthy_minder/utils/translator.dart';
 import 'package:healthy_minder/utils/constances.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 
 class HomePage extends GetView<HomeViewModel> {
   const HomePage({super.key});
@@ -25,7 +23,7 @@ class HomePage extends GetView<HomeViewModel> {
         backgroundColor: const Color.fromRGBO(251, 99, 64, 1),
         body: Stack(
           children: [
-            CustomDrawer(),
+            const CustomDrawer(),
             Obx(
               () => AnimatedContainer(
                 transform: Matrix4.translationValues(
@@ -69,8 +67,8 @@ class HomePage extends GetView<HomeViewModel> {
                               isDrawerOpen: controller.isDrawerOpen,
                               toggleMenu: controller.toggleMenu,
                             ),
-                            SizedBox(
-                              height: size.height - 150,
+                            CustemContainer(
+                              isDrawerOpen: controller.isDrawerOpen,
                               child: Navigator(
                                 key: Get.nestedKey(1),
                                 initialRoute: HealthyRoutes.homeScreenRoute,

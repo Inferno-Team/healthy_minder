@@ -1,7 +1,6 @@
 import 'package:get/get.dart';
 import 'package:healthy_minder/models/disease.dart';
 import 'package:healthy_minder/models/goal.dart';
-import 'package:healthy_minder/utils/storage_helper.dart';
 import 'package:multi_dropdown/models/value_item.dart';
 
 class ThirdSignupViewModel extends GetxController {

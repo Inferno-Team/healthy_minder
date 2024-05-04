@@ -6,9 +6,9 @@ class NotificationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustemContainer(
-      child: Placeholder(),
+    return const CustemContainer(
       isDrawerOpen: false,
+      child: Placeholder(),
     );
   }
 }

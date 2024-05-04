@@ -38,16 +38,16 @@ class DataService {
     headers,
     required Type Function(Map<String, dynamic> j) fromJson,
   }) async {
-    var _body = '';
+    var body0 = '';
     try {
       http.Response response =
           await http.post(uri, body: body, headers: headers);
-      _body = response.body;
+      body0 = response.body;
       Map<String, dynamic> jsonData =
           await json.decode(response.body); // Map<String,dynamic>
       return fromJson(jsonData);
     } catch (e) {
-      print('something wrong $uri :  $_body');
+      print('something wrong $uri :  $body0');
     }
     return null;
   }
