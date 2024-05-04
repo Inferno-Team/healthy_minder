@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:healthy_minder/ui/custom/custem_button.dart';
-import 'package:healthy_minder/ui/custom/custem_containerborder.dart';
-import 'package:healthy_minder/ui/home/home_viewmodel.dart';
 import 'package:healthy_minder/ui/premium/premium_viewmodel.dart';
 import 'package:healthy_minder/utils/translator.dart';
 
@@ -17,32 +15,7 @@ class PremiumScreen extends GetView<PremiumViewModel> {
         padding: const EdgeInsets.only(left: 20, right: 20),
         child: Column(
           children: [
-            Container(
-              height: 75,
-              width: 190,
-              decoration: const BoxDecoration(
-                  color: Color.fromRGBO(17, 28, 68, 1),
-                  borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(24),
-                      bottomRight: Radius.circular(24))),
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const Text(
-                      "25K SP",
-                      style: TextStyle(
-                          fontSize: 20, color: Color.fromRGBO(251, 99, 64, 1)),
-                    ),
-                    Text(
-                      Keys.onceAndForAll.name.tr,
-                      style: Get.textTheme.bodySmall,
-                    )
-                  ],
-                ),
-              ),
-            ),
+            PremiumTopWidget(size: size),
             Padding(
               padding: const EdgeInsets.only(top: 20),
               child: Column(
@@ -54,7 +27,9 @@ class PremiumScreen extends GetView<PremiumViewModel> {
                         Keys.toAll.name.tr +
                         Keys.features.name.tr,
                     style: const TextStyle(
-                        fontSize: 15, color: Color.fromRGBO(52, 71, 103, 1)),
+                      fontSize: 15,
+                      color: Color.fromRGBO(52, 71, 103, 1),
+                    ),
                   ),
                 ],
               ),
@@ -69,14 +44,16 @@ class PremiumScreen extends GetView<PremiumViewModel> {
                     height: 25,
                     width: 25,
                     decoration: BoxDecoration(
-                        color: const Color.fromRGBO(52, 71, 103, 1),
-                        borderRadius: BorderRadius.circular(25)),
+                      color: const Color.fromRGBO(52, 71, 103, 1),
+                      borderRadius: BorderRadius.circular(25),
+                    ),
                     child: const Center(
                       child: Text(
                         "1",
                         style: TextStyle(
-                            fontSize: 12,
-                            color: Color.fromRGBO(255, 255, 255, 1)),
+                          fontSize: 12,
+                          color: Color.fromRGBO(255, 255, 255, 1),
+                        ),
                       ),
                     ),
                   ),
@@ -84,8 +61,9 @@ class PremiumScreen extends GetView<PremiumViewModel> {
                     height: 28,
                     width: 28,
                     decoration: BoxDecoration(
-                        color: const Color.fromRGBO(67, 216, 147, 1),
-                        borderRadius: BorderRadius.circular(28)),
+                      color: const Color.fromRGBO(67, 216, 147, 1),
+                      borderRadius: BorderRadius.circular(28),
+                    ),
                     child: const Center(
                       child: Icon(
                         Icons.check_rounded,
@@ -98,13 +76,16 @@ class PremiumScreen extends GetView<PremiumViewModel> {
                         Keys.withAny.name.tr +
                         Keys.coach.name.tr,
                     style: Get.textTheme.bodyMedium,
-                  )
+                  ),
                 ],
               ),
             ),
-            const VerticalDivider(
-              thickness: 2,
-              color: Color.fromRGBO(160, 164, 180, 1),
+            Container(
+              height: 8,
+              child: const VerticalDivider(
+                thickness: 2,
+                color: Color.fromRGBO(160, 164, 180, 1),
+              ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -114,14 +95,16 @@ class PremiumScreen extends GetView<PremiumViewModel> {
                   height: 25,
                   width: 25,
                   decoration: BoxDecoration(
-                      color: const Color.fromRGBO(52, 71, 103, 1),
-                      borderRadius: BorderRadius.circular(25)),
+                    color: const Color.fromRGBO(52, 71, 103, 1),
+                    borderRadius: BorderRadius.circular(25),
+                  ),
                   child: const Center(
                     child: Text(
                       "2",
                       style: TextStyle(
-                          fontSize: 12,
-                          color: Color.fromRGBO(255, 255, 255, 1)),
+                        fontSize: 12,
+                        color: Color.fromRGBO(255, 255, 255, 1),
+                      ),
                     ),
                   ),
                 ),
@@ -144,7 +127,7 @@ class PremiumScreen extends GetView<PremiumViewModel> {
                       Keys.private.name.tr +
                       Keys.coach.name.tr,
                   style: Get.textTheme.bodyMedium,
-                )
+                ),
               ],
             ),
             const VerticalDivider(
@@ -159,14 +142,16 @@ class PremiumScreen extends GetView<PremiumViewModel> {
                   height: 25,
                   width: 25,
                   decoration: BoxDecoration(
-                      color: const Color.fromRGBO(52, 71, 103, 1),
-                      borderRadius: BorderRadius.circular(25)),
+                    color: const Color.fromRGBO(52, 71, 103, 1),
+                    borderRadius: BorderRadius.circular(25),
+                  ),
                   child: const Center(
                     child: Text(
                       "3",
                       style: TextStyle(
-                          fontSize: 12,
-                          color: Color.fromRGBO(255, 255, 255, 1)),
+                        fontSize: 12,
+                        color: Color.fromRGBO(255, 255, 255, 1),
+                      ),
                     ),
                   ),
                 ),
@@ -174,8 +159,9 @@ class PremiumScreen extends GetView<PremiumViewModel> {
                   height: 28,
                   width: 28,
                   decoration: BoxDecoration(
-                      color: const Color.fromRGBO(67, 216, 147, 1),
-                      borderRadius: BorderRadius.circular(28)),
+                    color: const Color.fromRGBO(67, 216, 147, 1),
+                    borderRadius: BorderRadius.circular(28),
+                  ),
                   child: const Center(
                     child: Icon(
                       Icons.check_rounded,
@@ -186,7 +172,7 @@ class PremiumScreen extends GetView<PremiumViewModel> {
                 Text(
                   Keys.change.name.tr + Keys.your.name.tr + Keys.coach.name.tr,
                   style: Get.textTheme.bodyMedium,
-                )
+                ),
               ],
             ),
             Padding(
@@ -194,7 +180,9 @@ class PremiumScreen extends GetView<PremiumViewModel> {
               child: Text(
                 Keys.content.name.tr,
                 style: const TextStyle(
-                    fontSize: 15, color: Color.fromRGBO(185, 180, 180, 1)),
+                  fontSize: 15,
+                  color: Color.fromRGBO(185, 180, 180, 1),
+                ),
               ),
             ),
             Padding(
@@ -204,7 +192,50 @@ class PremiumScreen extends GetView<PremiumViewModel> {
                 onPressed: controller.openCamera,
                 withIcon: true,
               ),
-            )
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class PremiumTopWidget extends StatelessWidget {
+  const PremiumTopWidget({
+    super.key,
+    required this.size,
+  });
+
+  final Size size;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: size.height * 0.092,
+      width: size.width*0.49,
+      decoration: const BoxDecoration(
+        color: Color.fromRGBO(17, 28, 68, 1),
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(24),
+          bottomRight: Radius.circular(24),
+        ),
+      ),
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const Text(
+              "25K SP",
+              style: TextStyle(
+                fontSize: 20,
+                color: Color.fromRGBO(251, 99, 64, 1),
+              ),
+            ),
+            Text(
+              Keys.onceAndForAll.name.tr,
+              style: Get.textTheme.bodySmall,
+            ),
           ],
         ),
       ),
