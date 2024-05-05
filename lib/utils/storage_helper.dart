@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -10,6 +9,13 @@ class StorageHelper {
     GetStorage storage = GetStorage();
     storage.write(Constance.loginState, true);
     storage.write(Constance.tokenValue, token);
+    storage.save();
+  }
+
+  static void saveUser(SavedUser user) {
+    GetStorage storage = GetStorage();
+    storage.write(Constance.savedUser, user);
+    storage.save();
   }
 
   static bool isLoggedIn() {
@@ -56,6 +62,7 @@ class StorageHelper {
   static void _changeLanguage(String code) {
     GetStorage storage = GetStorage();
     storage.write(Constance.languageValue, code);
+    storage.save();
   }
 
   static Locale swipeLanguage() {

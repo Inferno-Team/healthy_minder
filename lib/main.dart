@@ -8,6 +8,7 @@ import 'package:healthy_minder/utils/translator.dart';
 
 void main() async {
   await GetStorage.init();
+  print(GetStorage().getKeys());
   // await PusherSocket().init();
   runApp(const MyApp());
 }
@@ -18,6 +19,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool isLoggedIn = StorageHelper.isLoggedIn();
+    print(StorageHelper.getToken());
     return GetMaterialApp(
       getPages: HealthyRoutes.getPages(),
       debugShowCheckedModeBanner: false,

@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:healthy_minder/repositories/data_service.dart';
 import 'package:healthy_minder/ui/auth/login/login_binding.dart';
 import 'package:healthy_minder/ui/auth/login/login_page.dart';
 import 'package:healthy_minder/ui/auth/signup/first_signup/signup_binding.dart';
@@ -89,7 +90,7 @@ class InitialGetBinding extends Bindings {
   @override
   void dependencies() {
     Get.put(StorageHelper());
-    // Get.put(DataService());
+    Get.put(DataService());
     // Get.put(LocalDatabase());
   }
 }

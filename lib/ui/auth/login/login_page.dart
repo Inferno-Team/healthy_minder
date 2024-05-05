@@ -51,10 +51,11 @@ class LoginPage extends GetView<LoginViewmodel> {
                 Padding(
                   padding: const EdgeInsets.only(top: 20),
                   child: CustomTextField(
-                      label: Keys.email.name.tr,
-                      obscureText: false,
-                      textInputType: TextInputType.emailAddress,
-                      onChange: (String? value) {}),
+                    label: Keys.email.name.tr,
+                    obscureText: false,
+                    textInputType: TextInputType.emailAddress,
+                    onChange: controller.setEmail,
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 30),
@@ -62,7 +63,7 @@ class LoginPage extends GetView<LoginViewmodel> {
                     () => CustomTextField(
                       label: Keys.password.name.tr,
                       obscureText: controller.passwordState,
-                      onChange: (String? value) {},
+                      onChange: controller.setPassword,
                       suffix: IconButton(
                         onPressed: controller.changePasswordState,
                         icon: FaIcon(
@@ -110,9 +111,7 @@ class LoginPage extends GetView<LoginViewmodel> {
                   padding: const EdgeInsets.symmetric(vertical: 20),
                   child: custemBtn(
                     textbtn: Keys.login.name.tr,
-                    onPressed: () {
-                      Get.toNamed(HealthyRoutes.homePageRoute);
-                    },
+                    onPressed: controller.login,
                     withIcon: false,
                   ),
                 )

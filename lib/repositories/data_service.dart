@@ -1,8 +1,10 @@
+import 'package:healthy_minder/models/login_response_model.dart';
+import 'package:healthy_minder/models/return_types.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class DataService {
-  static final DataService _singleton = DataService._internal(debugMode: false);
+  static final DataService _singleton = DataService._internal(debugMode: true);
   late final String baseUrl;
 
   factory DataService() {
@@ -10,8 +12,24 @@ class DataService {
   }
 
   DataService._internal({debugMode = false}) {
-    baseUrl =
-        debugMode ? "http://192.168.1.8:8000" : "";
+    baseUrl = debugMode ? "http://192.168.1.8:8000" : "";
+  }
+
+  Future<ReturnType<LoginResponse?>?> login(
+      String email, String password) async {
+    String route = "/api/login";
+    Uri uri = Uri.parse("$baseUrl$route");
+    ReturnType<LoginResponse?>? response =
+        await _createPostRequest<LoginResponse>(
+      uri: uri,
+      body: {
+        "email": email,
+        "password": password,
+      },
+      fromJson: (json) => LoginResponse.fromJson(json),
+      key: "data",
+    );
+    return response;
   }
 
   Future<Type?> _createGetRequest<Type>({
@@ -32,24 +50,38 @@ class DataService {
     return null;
   }
 
-  Future<Type?> _createPostRequest<Type>({
+  Future<ReturnType<Type?>?> _createPostRequest<Type>({
     uri,
     body,
     headers,
     required Type Function(Map<String, dynamic> j) fromJson,
+    String? key,
   }) async {
     var body0 = '';
+    late http.Response response;
     try {
-      http.Response response =
-          await http.post(uri, body: body, headers: headers);
+      response = await http.post(uri, body: body, headers: headers);
       body0 = response.body;
       Map<String, dynamic> jsonData =
           await json.decode(response.body); // Map<String,dynamic>
-      return fromJson(jsonData);
+      return ReturnDataType(
+        msg: jsonData['msg'],
+        code: jsonData['code'],
+        data: key != null ? fromJson(jsonData[key]) : null,
+      );
     } catch (e) {
       print('something wrong $uri :  $body0');
+      try {
+        Map<String, dynamic> jsonData = await json.decode(response.body);
+        return ReturnError(
+          msg: jsonData['msg'],
+          code: jsonData['code'],
+          errors: Error.fromListJson(jsonData['errors']),
+        );
+      } catch (ee) {
+        return null;
+      }
     }
-    return null;
   }
 
   String _createUrl(url, Map? params) {
