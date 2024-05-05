@@ -81,7 +81,7 @@ class PremiumScreen extends GetView<PremiumViewModel> {
               ),
             ),
             Container(
-              height: 8,
+              height: 50,
               child: const VerticalDivider(
                 thickness: 2,
                 color: Color.fromRGBO(160, 164, 180, 1),
@@ -130,9 +130,12 @@ class PremiumScreen extends GetView<PremiumViewModel> {
                 ),
               ],
             ),
-            const VerticalDivider(
-              thickness: 2,
-              color: Color.fromRGBO(160, 164, 180, 1),
+            Container(
+              height: 50,
+              child: const VerticalDivider(
+                thickness: 2,
+                color: Color.fromRGBO(160, 164, 180, 1),
+              ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -212,7 +215,7 @@ class PremiumTopWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: size.height * 0.092,
-      width: size.width*0.49,
+      width: size.width * 0.49,
       decoration: const BoxDecoration(
         color: Color.fromRGBO(17, 28, 68, 1),
         borderRadius: BorderRadius.only(
