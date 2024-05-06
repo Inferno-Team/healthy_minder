@@ -23,14 +23,15 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       getPages: HealthyRoutes.getPages(),
       debugShowCheckedModeBanner: false,
-      initialRoute:
-          isLoggedIn ? HealthyRoutes.homePageRoute : HealthyRoutes.loginRoute,
+      // initialRoute:
+      //     isLoggedIn ? HealthyRoutes.homePageRoute : HealthyRoutes.loginRoute,
+      initialRoute: HealthyRoutes.homePageRoute,
       builder: (context, child) => Container(
         // textDirection: TextDirection.ltr,
         child: child ?? Container(),
       ),
-      // themeMode: ThemeMode.light,
-      themeMode: StorageHelper.currentTheme(),
+      themeMode: ThemeMode.light,
+      // themeMode: StorageHelper.currentTheme(),
       translations: Translator(),
       initialBinding: InitialGetBinding(),
       locale: StorageHelper.getLanguage(),

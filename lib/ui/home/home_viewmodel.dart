@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:healthy_minder/ui/chat_feature/chat/chat_binding.dart';
 import 'package:healthy_minder/ui/chat_feature/chat/chat_screen.dart';
 import 'package:healthy_minder/ui/home/home_screen.dart';
 import 'package:healthy_minder/ui/notifications/notification_screen.dart';
@@ -133,6 +134,7 @@ class HomeViewModel extends GetxController {
         return GetPageRoute(
           settings: settings,
           page: () => ChatScreen(),
+          binding: ChatBinding(),
           transition: Transition.zoom,
         );
       case HealthyRoutes.premiumScreenRoute:

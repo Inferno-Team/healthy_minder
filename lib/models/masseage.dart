@@ -1,9 +1,19 @@
 class Message {
   final String message;
   final String id;
-  Message(this.message, this.id);
+  final DateTime createdAt;
+
+  Message({
+    required this.message,
+    required this.id,
+    required this.createdAt,
+  });
 
   factory Message.fromJson(jsonData) {
-    return Message(jsonData[jsonData], jsonData['id']);
+    return Message(
+      message: jsonData['message'],
+      id: jsonData['id'],
+      createdAt: DateTime.now(),
+    );
   }
 }

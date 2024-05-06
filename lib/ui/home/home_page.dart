@@ -48,7 +48,7 @@ class HomePage extends GetView<HomeViewModel> {
                   ],
                 ),
                 child: SingleChildScrollView(
-                  physics: const NeverScrollableScrollPhysics(),
+                  // physics: const NeverScrollableScrollPhysics(),
                   child: Column(
                     children: [
                       Container(
