@@ -68,7 +68,11 @@ class Translator extends Translations {
           Keys.change.name: ' تغيير',
           Keys.your.name: ' الخاص  ',
           Keys.content.name:
-              'تتم عملية الدفع عند الضغط على الزر أدناه\n ويتم مسح رمز QR وبذلك تتم عملية الدفع \nمن خلال سيريتل'
+              'تتم عملية الدفع عند الضغط على الزر أدناه\n ويتم مسح رمز QR وبذلك تتم عملية الدفع \nمن خلال سيريتل',
+          Keys.enter.name: ' أدخل',
+          Keys.aText.name: ' نصاً  ',
+          Keys.general.name: 'عام ',
+          Keys.fullName.name: 'الاسم الكامل ',
         },
         'en_US': {
           Keys.password.name: 'Password ',
@@ -137,7 +141,11 @@ class Translator extends Translations {
           Keys.upgrade.name: 'Upgrade ',
           Keys.toPremium.name: 'to premium ',
           Keys.content.name:
-              'The payment process takes place when you click the button below and the QR code is scanned, thus the payment process is completed through Syriatel'
+              'The payment process takes place when you click the button below and the QR code is scanned, thus the payment process is completed through Syriatel',
+          Keys.enter.name: 'Enter ',
+          Keys.aText.name: 'a text ',
+          Keys.general.name: 'General ',
+          Keys.fullName.name: 'Full Name  ',
         },
       };
 }
@@ -210,5 +218,9 @@ enum Keys {
   your,
   content,
   upgrade,
-  toPremium
+  toPremium,
+  enter,
+  aText,
+  general,
+  fullName
 }

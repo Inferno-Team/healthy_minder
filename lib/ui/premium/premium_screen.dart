@@ -10,84 +10,88 @@ class PremiumScreen extends GetView<PremiumViewModel> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.only(left: 20, right: 20),
-        child: Column(
-          children: [
-            PremiumTopWidget(size: size),
-            Padding(
-              padding: const EdgeInsets.only(top: 20),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    Keys.access.name.tr +
-                        Keys.toAll.name.tr +
-                        Keys.features.name.tr,
-                    style: const TextStyle(
-                      fontSize: 15,
-                      color: Color.fromRGBO(52, 71, 103, 1),
-                    ),
+    return Padding(
+      padding: const EdgeInsets.only(left: 20, right: 20),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          PremiumTopWidget(size: size),
+          Padding(
+            padding: const EdgeInsets.only(top: 20),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  Keys.access.name.tr +
+                      Keys.toAll.name.tr +
+                      Keys.features.name.tr,
+                  style: const TextStyle(
+                    fontSize: 15,
+                    color: Color.fromRGBO(52, 71, 103, 1),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 46),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    height: 25,
-                    width: 25,
-                    decoration: BoxDecoration(
-                      color: const Color.fromRGBO(52, 71, 103, 1),
-                      borderRadius: BorderRadius.circular(25),
-                    ),
-                    child: const Center(
-                      child: Text(
-                        "1",
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Color.fromRGBO(255, 255, 255, 1),
-                        ),
-                      ),
-                    ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 46),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  height: 25,
+                  width: 25,
+                  decoration: BoxDecoration(
+                    color: const Color.fromRGBO(52, 71, 103, 1),
+                    borderRadius: BorderRadius.circular(25),
                   ),
-                  Container(
-                    height: 28,
-                    width: 28,
-                    decoration: BoxDecoration(
-                      color: const Color.fromRGBO(67, 216, 147, 1),
-                      borderRadius: BorderRadius.circular(28),
-                    ),
-                    child: const Center(
-                      child: Icon(
-                        Icons.check_rounded,
+                  child: const Center(
+                    child: Text(
+                      "1",
+                      style: TextStyle(
+                        fontSize: 12,
                         color: Color.fromRGBO(255, 255, 255, 1),
                       ),
                     ),
                   ),
-                  Text(
-                    Keys.chat.name.tr +
-                        Keys.withAny.name.tr +
-                        Keys.coach.name.tr,
-                    style: Get.textTheme.bodyMedium,
+                ),
+                Container(
+                  height: 28,
+                  width: 28,
+                  decoration: BoxDecoration(
+                    color: const Color.fromRGBO(67, 216, 147, 1),
+                    borderRadius: BorderRadius.circular(28),
                   ),
-                ],
-              ),
+                  child: const Center(
+                    child: Icon(
+                      Icons.check_rounded,
+                      color: Color.fromRGBO(255, 255, 255, 1),
+                    ),
+                  ),
+                ),
+                Text(
+                  Keys.chat.name.tr + Keys.withAny.name.tr + Keys.coach.name.tr,
+                  style: Get.textTheme.bodyMedium,
+                ),
+              ],
             ),
-            Container(
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 45),
+            child: SizedBox(
               height: 50,
-              child: const VerticalDivider(
+              child: VerticalDivider(
                 thickness: 2,
                 color: Color.fromRGBO(160, 164, 180, 1),
               ),
             ),
-            Row(
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 15),
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -130,74 +134,77 @@ class PremiumScreen extends GetView<PremiumViewModel> {
                 ),
               ],
             ),
-            Container(
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 45),
+            child: const SizedBox(
               height: 50,
-              child: const VerticalDivider(
+              child: VerticalDivider(
                 thickness: 2,
                 color: Color.fromRGBO(160, 164, 180, 1),
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  height: 25,
-                  width: 25,
-                  decoration: BoxDecoration(
-                    color: const Color.fromRGBO(52, 71, 103, 1),
-                    borderRadius: BorderRadius.circular(25),
-                  ),
-                  child: const Center(
-                    child: Text(
-                      "3",
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromRGBO(255, 255, 255, 1),
-                      ),
-                    ),
-                  ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                height: 25,
+                width: 25,
+                decoration: BoxDecoration(
+                  color: const Color.fromRGBO(52, 71, 103, 1),
+                  borderRadius: BorderRadius.circular(25),
                 ),
-                Container(
-                  height: 28,
-                  width: 28,
-                  decoration: BoxDecoration(
-                    color: const Color.fromRGBO(67, 216, 147, 1),
-                    borderRadius: BorderRadius.circular(28),
-                  ),
-                  child: const Center(
-                    child: Icon(
-                      Icons.check_rounded,
+                child: const Center(
+                  child: Text(
+                    "3",
+                    style: TextStyle(
+                      fontSize: 12,
                       color: Color.fromRGBO(255, 255, 255, 1),
                     ),
                   ),
                 ),
-                Text(
-                  Keys.change.name.tr + Keys.your.name.tr + Keys.coach.name.tr,
-                  style: Get.textTheme.bodyMedium,
+              ),
+              Container(
+                height: 28,
+                width: 28,
+                decoration: BoxDecoration(
+                  color: const Color.fromRGBO(67, 216, 147, 1),
+                  borderRadius: BorderRadius.circular(28),
                 ),
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 80),
-              child: Text(
-                Keys.content.name.tr,
-                style: const TextStyle(
-                  fontSize: 15,
-                  color: Color.fromRGBO(185, 180, 180, 1),
+                child: const Center(
+                  child: Icon(
+                    Icons.check_rounded,
+                    color: Color.fromRGBO(255, 255, 255, 1),
+                  ),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsetsDirectional.only(top: 75),
-              child: custemBtn(
-                textbtn: Keys.upgrade.name.tr + Keys.toPremium.name.tr,
-                onPressed: controller.openCamera,
-                withIcon: true,
+              Text(
+                Keys.change.name.tr + Keys.your.name.tr + Keys.coach.name.tr,
+                style: Get.textTheme.bodyMedium,
+              ),
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 80),
+            child: Text(
+              Keys.content.name.tr,
+              style: const TextStyle(
+                fontSize: 15,
+                color: Color.fromRGBO(185, 180, 180, 1),
               ),
             ),
-          ],
-        ),
+          ),
+          Padding(
+            padding: const EdgeInsetsDirectional.only(top: 75),
+            child: custemBtn(
+              textbtn: Keys.upgrade.name.tr + Keys.toPremium.name.tr,
+              onPressed: controller.openCamera,
+              withIcon: true,
+            ),
+          ),
+        ],
       ),
     );
   }

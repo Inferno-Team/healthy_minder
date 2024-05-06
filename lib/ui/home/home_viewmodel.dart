@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:healthy_minder/ui/chat_feature/chat/chat_screen.dart';
 import 'package:healthy_minder/ui/home/home_screen.dart';
 import 'package:healthy_minder/ui/notifications/notification_screen.dart';
 import 'package:healthy_minder/ui/premium/premium_binding.dart';
@@ -128,6 +129,12 @@ class HomeViewModel extends GetxController {
           page: () => const NotificationScreen(),
           transition: Transition.zoom,
         );
+      case HealthyRoutes.chatsPageRoute:
+        return GetPageRoute(
+          settings: settings,
+          page: () => ChatScreen(),
+          transition: Transition.zoom,
+        );
       case HealthyRoutes.premiumScreenRoute:
         return GetPageRoute(
           settings: settings,
@@ -162,7 +169,7 @@ enum DrawerItem {
       case "home":
         return HealthyRoutes.homeScreenRoute;
       case "message":
-        return HealthyRoutes.premiumScreenRoute;
+        return HealthyRoutes.chatsPageRoute;
       case "preimum-screen":
         return HealthyRoutes.premiumScreenRoute;
       case "notification":
