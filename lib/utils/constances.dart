@@ -20,8 +20,6 @@ class Constance {
   static const String themeState = 'light';
   static const String tokenValue = 'token_value';
   static const String languageValue = 'language';
-  static const int NUMBER_LENGTH = 10;
-  static const String phoneCode = '+966';
 }
 
 class HealthyRoutes {
@@ -32,6 +30,7 @@ class HealthyRoutes {
   static const String finalSignupRoute = '/third-signup-page';
   static const String homePageRoute = '/home';
   static const String chatsPageRoute = '/chats-page';
+  static const String allChatsPageRoute = '/all-chats-page';
   static const String sendMessageRoute = '/send-message-page';
   static const String preimumPageRoute = '/preimum-page';
   static const String homeScreenRoute = '/home/home-screen';
@@ -89,7 +88,6 @@ int? convert2int(value) =>
 class InitialGetBinding extends Bindings {
   @override
   void dependencies() {
-    Get.put(StorageHelper());
     Get.put(DataService());
     // Get.put(LocalDatabase());
   }

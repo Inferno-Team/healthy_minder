@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:healthy_minder/socket/pusher_socket.dart';
 import 'package:healthy_minder/utils/constances.dart';
 import 'package:healthy_minder/utils/storage_helper.dart';
 import 'package:healthy_minder/utils/themes.dart';
 import 'package:healthy_minder/utils/translator.dart';
 
 void main() async {
-  await GetStorage.init();
-  print(GetStorage().getKeys());
-  // await PusherSocket().init();
+  await StorageHelper.init();
+  print(StorageHelper.storage.getKeys());
+  print(PusherSocket().hashCode.toString());
+  await PusherSocket().init();
+  print(PusherSocket().hashCode.toString());
   runApp(const MyApp());
 }
 
@@ -23,9 +26,9 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       getPages: HealthyRoutes.getPages(),
       debugShowCheckedModeBanner: false,
-      // initialRoute:
-      //     isLoggedIn ? HealthyRoutes.homePageRoute : HealthyRoutes.loginRoute,
-      initialRoute: HealthyRoutes.homePageRoute,
+      initialRoute:
+          isLoggedIn ? HealthyRoutes.homePageRoute : HealthyRoutes.loginRoute,
+      // initialRoute: HealthyRoutes.homePageRoute,
       builder: (context, child) => Container(
         // textDirection: TextDirection.ltr,
         child: child ?? Container(),

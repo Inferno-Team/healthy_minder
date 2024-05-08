@@ -8,11 +8,10 @@ import 'package:healthy_minder/ui/custom/custem_circular_btn.dart';
 import 'package:healthy_minder/utils/translator.dart';
 
 class ChatScreen extends GetView<ChatViewModel> {
-  final _controller = ScrollController();
   final String id = '';
   final String email = '';
 
-  ChatScreen({super.key});
+  const ChatScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +24,7 @@ class ChatScreen extends GetView<ChatViewModel> {
             () => SizedBox(
               height: size.height * 0.73,
               child: ListView.builder(
-                controller: _controller,
+                controller: controller.scrollController,
                 itemCount: controller.messages.length,
                 itemBuilder: (context, index) {
                   return ChatBubble(

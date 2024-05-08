@@ -24,4 +24,13 @@ class SavedUser {
         email: json['email'] ?? '',
         id: json['id'] ?? -1,
       );
+
+  Map<String, dynamic> toJson() {
+    return {
+      "username": username,
+      "imageUrl": imageUrl,
+      "id": id,
+      "email": email,
+    };
+  }
 }

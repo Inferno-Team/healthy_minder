@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:healthy_minder/models/premium_status.dart';
+import 'package:healthy_minder/models/return_types.dart';
+import 'package:healthy_minder/repositories/data_service.dart';
+import 'package:healthy_minder/ui/chat_feature/all_chat/all_chat_screen.dart';
 import 'package:healthy_minder/ui/chat_feature/chat/chat_binding.dart';
 import 'package:healthy_minder/ui/chat_feature/chat/chat_screen.dart';
 import 'package:healthy_minder/ui/home/home_screen.dart';
@@ -11,6 +15,12 @@ import 'package:healthy_minder/utils/constances.dart';
 import 'package:healthy_minder/utils/storage_helper.dart';
 
 class HomeViewModel extends GetxController {
+  final DataService dataService;
+
+  HomeViewModel({required this.dataService});
+
+  static var premiumStatus = PremiumStatus.empty();
+
   final _xOffset = 0.0.obs;
   final _yOffset = 0.0.obs;
   final _xShadowOffset = 0.0.obs;
@@ -26,8 +36,6 @@ class HomeViewModel extends GetxController {
 
   changeCurrent(DrawerItem value) {
     toggleMenu();
-    print("1: ${value.name}");
-    print("2: $value");
     changeCurrentRoute(value.name);
     Get.toNamed(value.toString(), id: 1);
     _currentActive.value = value;
@@ -42,7 +50,14 @@ class HomeViewModel extends GetxController {
   double get xShadowOffset => _xShadowOffset.value;
 
   @override
-  void onInit() {
+  void onInit() async {
+    ReturnType<PremiumStatus?>? response =
+        await dataService.myPremiumStatus(StorageHelper.getToken());
+    if (response is ReturnDataType) {
+      PremiumStatus? premiumStatusNullable =
+          (response as ReturnDataType<PremiumStatus?>).data;
+      premiumStatus = premiumStatusNullable ?? PremiumStatus.empty();
+    }
     _direction.value = StorageHelper.getTextDirection();
     _directionString.value = StorageHelper.getTextDirection().name;
     _calcShadowOffset();
@@ -107,7 +122,7 @@ class HomeViewModel extends GetxController {
     }
 
     Get.back(id: 1);
-    toggleMenu();
+    if (isDrawerOpen) toggleMenu();
     return false;
   }
 
@@ -133,10 +148,17 @@ class HomeViewModel extends GetxController {
       case HealthyRoutes.chatsPageRoute:
         return GetPageRoute(
           settings: settings,
-          page: () => ChatScreen(),
+          page: () => const ChatScreen(),
           binding: ChatBinding(),
           transition: Transition.zoom,
         );
+      case HealthyRoutes.allChatsPageRoute:
+        return GetPageRoute(
+          settings: settings,
+          page: () => const AllChatsScreen(),
+          transition: Transition.zoom,
+        );
+
       case HealthyRoutes.premiumScreenRoute:
         return GetPageRoute(
           settings: settings,
@@ -157,7 +179,7 @@ class HomeViewModel extends GetxController {
 enum DrawerItem {
   home('home'),
   message('message'),
-  premium('preimum-screen'),
+  premium('premium'),
   notification('notification');
 
   final String _text;
@@ -166,13 +188,14 @@ enum DrawerItem {
 
   @override
   String toString() {
-    print('3. $_text');
     switch (_text) {
       case "home":
         return HealthyRoutes.homeScreenRoute;
       case "message":
-        return HealthyRoutes.chatsPageRoute;
-      case "preimum-screen":
+        return HomeViewModel.premiumStatus.status == "approved"
+            ? HealthyRoutes.allChatsPageRoute
+            : HealthyRoutes.chatsPageRoute;
+      case "premium":
         return HealthyRoutes.premiumScreenRoute;
       case "notification":
         return HealthyRoutes.notificationScreenRoute;
@@ -183,14 +206,13 @@ enum DrawerItem {
   }
 
   static DrawerItem fromRoute(String route) {
-    print(route);
     switch (route) {
       case HealthyRoutes.homeScreenRoute:
         return DrawerItem.home;
       case HealthyRoutes.premiumScreenRoute:
         return DrawerItem.premium;
-      // case HealthyRoutes.homeScreenRoute:
-      //   return DrawerItem.premium;
+      case HealthyRoutes.chatsPageRoute:
+        return DrawerItem.message;
       case HealthyRoutes.notificationScreenRoute:
         return DrawerItem.notification;
 

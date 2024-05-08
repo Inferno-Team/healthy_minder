@@ -5,36 +5,45 @@ import 'package:healthy_minder/models/saved_user.dart';
 import 'package:healthy_minder/utils/constances.dart';
 
 class StorageHelper {
+  static late GetStorage storage;
+
+  static Future<void> init() async {
+    await GetStorage.init();
+    storage = GetStorage();
+  }
+
   static void login(String token) {
-    GetStorage storage = GetStorage();
+    storage = GetStorage();
     storage.write(Constance.loginState, true);
     storage.write(Constance.tokenValue, token);
-    storage.save();
   }
 
   static void saveUser(SavedUser user) {
-    GetStorage storage = GetStorage();
-    storage.write(Constance.savedUser, user);
-    storage.save();
+    storage = GetStorage();
+    storage.write(Constance.savedUser, user.toJson());
   }
 
   static bool isLoggedIn() {
-    GetStorage storage = GetStorage();
+    storage = GetStorage();
     return storage.read(Constance.loginState) ?? false;
   }
 
   static String getToken() {
-    GetStorage storage = GetStorage();
+    storage = GetStorage();
     return storage.read(Constance.tokenValue) ?? "";
   }
 
   static SavedUser getUser() {
-    GetStorage storage = GetStorage();
-    return storage.read(Constance.savedUser) ?? SavedUser.empty();
+    storage = GetStorage();
+    var data = storage.read(Constance.savedUser);
+    if (data != null) {
+      return SavedUser.fromJson(data);
+    }
+    return SavedUser.empty();
   }
 
   static String? getSavedLanguage() {
-    GetStorage storage = GetStorage();
+    storage = GetStorage();
     String? lang = storage.read(Constance.languageValue);
     return lang;
   }
@@ -60,13 +69,12 @@ class StorageHelper {
   }
 
   static void _changeLanguage(String code) {
-    GetStorage storage = GetStorage();
+    storage = GetStorage();
     storage.write(Constance.languageValue, code);
-    storage.save();
   }
 
   static Locale swipeLanguage() {
-    GetStorage storage = GetStorage();
+    storage = GetStorage();
     String? lang = storage.read(Constance.languageValue);
 
     if (lang == null || lang == 'ar') {
@@ -78,13 +86,13 @@ class StorageHelper {
   }
 
   static void logout() {
-    GetStorage storage = GetStorage();
+    storage = GetStorage();
     storage.remove(Constance.loginState);
     storage.remove(Constance.tokenValue);
   }
 
   static ThemeMode currentTheme() {
-    GetStorage storage = GetStorage();
+    storage = GetStorage();
     String current = storage.read(Constance.themeState) ?? 'none';
     switch (current) {
       case 'dark':
