@@ -1,15 +1,3 @@
-<<<<<<< Updated upstream
-
-
-import 'package:flutter/material.dart';
-
-class AllChatsScreen extends StatelessWidget {
-  const AllChatsScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
-=======
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:healthy_minder/ui/custom/chat_card.dart';
@@ -47,6 +35,5 @@ class AllChatScreen extends StatelessWidget {
             color: Color.fromRGBO(255, 255, 255, 1),
           ),
         ));
->>>>>>> Stashed changes
   }
 }

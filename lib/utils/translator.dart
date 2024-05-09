@@ -73,6 +73,12 @@ class Translator extends Translations {
           Keys.aText.name: ' نصاً  ',
           Keys.general.name: 'عام ',
           Keys.fullName.name: 'الاسم الكامل ',
+          Keys.thereIs.name: 'ليس هناك   ',
+          Keys.noChatYet.name: 'أي محادثات بعد  ',
+          Keys.pressOn.name: 'اضغط على  ',
+          Keys.plusIcon.name: 'الر أدناه  ',
+          Keys.toStart.name: 'لبدء  ',
+          Keys.neweChat.name: 'محادثة جديدة  ',
         },
         'en_US': {
           Keys.password.name: 'Password ',
@@ -146,6 +152,12 @@ class Translator extends Translations {
           Keys.aText.name: 'a text ',
           Keys.general.name: 'General ',
           Keys.fullName.name: 'Full Name  ',
+          Keys.thereIs.name: 'There is   ',
+          Keys.noChatYet.name: 'no chat yet  ',
+          Keys.pressOn.name: 'Press on  ',
+          Keys.plusIcon.name: 'plus icon  ',
+          Keys.toStart.name: 'to start  ',
+          Keys.neweChat.name: 'new chat  ',
         },
       };
 }
@@ -222,5 +234,11 @@ enum Keys {
   enter,
   aText,
   general,
-  fullName
+  fullName,
+  thereIs,
+  noChatYet,
+  pressOn,
+  plusIcon,
+  toStart,
+  neweChat
 }

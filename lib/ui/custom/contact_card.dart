@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class ChatCard extends StatelessWidget {
+class ContactCard extends StatelessWidget {
+  //contact card is used in new chat screen
   final String username;
   final void Function()? onTap;
-  const ChatCard({super.key, this.onTap, required this.username});
+  const ContactCard({super.key, this.onTap, required this.username});
 
   @override
   Widget build(BuildContext context) {
