@@ -60,20 +60,20 @@ class DataService {
       uri: uri,
       body: {
         "message": message,
-        "channel_id": channelId.toString(),
+        "conversation": channelId.toString(),
       },
     );
   }
 
-  Future<ReturnType<List<Message>?>?> getChannelOldMessages(
-      String token, int channelId) async {
-    String route = "/api/load-channel-old-message/";
+  Future<ReturnType<List<Message>?>?> getConversationOldMessages(
+      String token, int conversationId) async {
+    String route = "/api/load-conversation-old-message/";
     return await _createGetRequest<List<Message>?>(
       fromJson: (json) =>
           (json as List).map((message) => Message.fromJson(message)).toList(),
       key: "messages",
       headers: _createAuthHeader(token),
-      url: "$baseUrl$route$channelId",
+      url: "$baseUrl$route$conversationId",
     );
   }
 

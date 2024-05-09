@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:healthy_minder/models/channel.dart';
 import 'package:healthy_minder/models/premium_status.dart';
 import 'package:healthy_minder/models/return_types.dart';
 import 'package:healthy_minder/repositories/data_service.dart';
@@ -36,6 +37,7 @@ class HomeViewModel extends GetxController {
   DrawerItem get current => _currentActive.value;
 
   String get message => _messageFromSubPage.value;
+
   void setMessage(String msg) => _messageFromSubPage.value = msg;
 
   changeCurrent(DrawerItem value) {
@@ -55,6 +57,7 @@ class HomeViewModel extends GetxController {
 
   @override
   void onInit() async {
+    print(StorageHelper.getUser().channels.map((e) => e.toJsonString()));
     ReturnType<PremiumStatus?>? response =
         await dataService.myPremiumStatus(StorageHelper.getToken());
     if (response is ReturnDataType) {
@@ -150,9 +153,13 @@ class HomeViewModel extends GetxController {
           transition: Transition.zoom,
         );
       case HealthyRoutes.chatsPageRoute:
+        Channel channel = StorageHelper.getUser().channels.firstWhere(
+              (element) =>
+                  element.id == 1 && element.type == ChannelType.presence,
+            );
         return GetPageRoute(
           settings: settings,
-          page: () => const ChatScreen(),
+          page: () =>  ChatScreen(channel:channel),
           binding: ChatBinding(),
           transition: Transition.zoom,
         );
@@ -181,7 +188,7 @@ class HomeViewModel extends GetxController {
 
   void logout() {
     StorageHelper.logout();
-    Get.offAndToNamed(HealthyRoutes.loginRoute);
+    Get.toNamed(HealthyRoutes.loginRoute);
   }
 }
 

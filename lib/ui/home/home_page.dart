@@ -23,7 +23,7 @@ class HomePage extends GetView<HomeViewModel> {
         backgroundColor: const Color.fromRGBO(251, 99, 64, 1),
         body: Stack(
           children: [
-            const CustomDrawer(),
+            CustomDrawer(),
             Obx(
               () => AnimatedContainer(
                 transform: Matrix4.translationValues(
@@ -181,7 +181,7 @@ class CustomHomeTopBar extends StatelessWidget {
                           color: Color.fromRGBO(0, 0, 0, 1),
                         ),
                       )
-                    : Container(),
+                    : Container(height: 21,),
               ),
             ],
           ),
