@@ -1,10 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
 class ChatCard extends StatelessWidget {
+  //chat card is used in all chat screen
   final String username;
+  final String massegae;
+  final String date;
   final void Function()? onTap;
-  const ChatCard({super.key, this.onTap, required this.username});
+  const ChatCard(
+      {super.key,
+      required this.username,
+      this.onTap,
+      required this.massegae,
+      required this.date});
 
   @override
   Widget build(BuildContext context) {
@@ -18,10 +27,23 @@ class ChatCard extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              CircleAvatar(),
+              Container(width: 48, height: 48, child: CircleAvatar()),
+              Column(
+                children: [
+                  Text(
+                    username,
+                    style: Get.textTheme.bodyMedium,
+                  ),
+                  Text(
+                    massegae,
+                    style: Get.textTheme.bodySmall,
+                  )
+                ],
+              ),
               Text(
-                username,
-                style: Get.textTheme.bodyMedium,
+                date,
+                style: TextStyle(
+                    fontSize: 12, color: Color.fromRGBO(217, 217, 217, 0.6)),
               )
             ],
           ),
