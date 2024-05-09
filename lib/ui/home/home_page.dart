@@ -143,10 +143,7 @@ class CustomHomeTopBar extends StatelessWidget {
                       child: Text(
                         Keys.goodMorning.name.tr +
                             StorageHelper.getUser().username,
-                        style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                            color: Color.fromRGBO(255, 255, 255, 1)),
+                        style: Get.textTheme.headlineMedium,
                       ),
                     ),
                     Padding(
@@ -171,11 +168,7 @@ class CustomHomeTopBar extends StatelessWidget {
                   Keys.strength.name.tr +
                       Keys.health.name.tr +
                       Keys.andFitness.name.tr,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                    color: Color.fromRGBO(255, 255, 255, 1),
-                  ),
+                  style: Get.textTheme.headlineLarge
                 ),
               ),
               Padding(

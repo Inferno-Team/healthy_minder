@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class CustomTextField extends StatelessWidget {
   //متغير من اجل الهينت تكست حيث لكل تكست فورم عملنا باني له بارمتر نعطيه قيمة من اجل الهينت
@@ -48,10 +49,7 @@ class CustomTextField extends StatelessWidget {
         decoration: InputDecoration(
           label: Text(
             label,
-            style: const TextStyle(
-              fontSize: 15,
-              color: Color.fromRGBO(251, 99, 64, 1),
-            ),
+            style: Get.textTheme.titleSmall
           ),
           suffixIcon: suffix,
           focusedBorder: OutlineInputBorder(

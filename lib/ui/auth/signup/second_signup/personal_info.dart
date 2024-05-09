@@ -29,18 +29,14 @@ class SecondSignupPage extends GetView<PersonalInfoViewModel> {
                 Center(
                   child: Text(
                     Keys.personalInfo.name.tr,
-                    style: const TextStyle(
-                        fontSize: 48,
-                        color: Color.fromRGBO(52, 71, 103, 1),
-                        fontWeight: FontWeight.bold),
+                    style: Get.textTheme.titleLarge
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 20),
                   child: Text(
                     Keys.personalInfoTitle.name.tr,
-                    style: const TextStyle(
-                        fontSize: 20, color: Color.fromRGBO(52, 71, 103, 1)),
+                    style:Get.textTheme.titleMedium,
                   ),
                 ),
                 Padding(
@@ -88,10 +84,7 @@ class SecondSignupPage extends GetView<PersonalInfoViewModel> {
                       children: [
                         Text(
                           Keys.gender.name.tr,
-                          style: const TextStyle(
-                            fontSize: 20,
-                            color: Color(0xff344767),
-                          ),
+                          style: Get.textTheme.bodyMedium
                         ),
                         Padding(
                           padding: const EdgeInsets.only(left: 5),
@@ -112,10 +105,7 @@ class SecondSignupPage extends GetView<PersonalInfoViewModel> {
                           padding: const EdgeInsets.only(left: 8),
                           child: Text(
                             Keys.male.name.tr,
-                            style: const TextStyle(
-                              fontSize: 15,
-                              color: Color.fromRGBO(251, 99, 64, 1),
-                            ),
+                            style: Get.textTheme.titleSmall
                           ),
                         ),
                         Padding(
@@ -137,10 +127,7 @@ class SecondSignupPage extends GetView<PersonalInfoViewModel> {
                           padding: const EdgeInsets.only(left: 8),
                           child: Text(
                             Keys.female.name.tr,
-                            style: const TextStyle(
-                              fontSize: 15,
-                              color: Color.fromRGBO(251, 99, 64, 1),
-                            ),
+                            style: Get.textTheme.titleSmall
                           ),
                         ),
                       ],

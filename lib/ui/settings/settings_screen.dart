@@ -11,19 +11,19 @@ class SettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Padding(
-        padding: EdgeInsets.only(left: 20, right: 20, top: 54),
+        padding: const EdgeInsets.only(left: 20, right: 20, top: 54),
         child: Column(
           children: [
             Text(
               Keys.personalInfo.name.tr,
-              style: Get.textTheme.bodySmall,
+              style: Get.textTheme.bodyMedium,
             ),
-            Divider(
+            const Divider(
               thickness: 1.5,
               color: Color.fromRGBO(0, 0, 0, 1),
             ),
             Padding(
-              padding: EdgeInsets.only(top: 4),
+              padding: const EdgeInsets.only(top: 4),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -39,7 +39,7 @@ class SettingsScreen extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(top: 4),
+              padding: const EdgeInsets.only(top: 4),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [

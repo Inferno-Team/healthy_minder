@@ -30,20 +30,14 @@ class SignUpPage extends GetView<SignupViewModel> {
                 Center(
                   child: Text(
                     Keys.signup.name.tr,
-                    style: const TextStyle(
-                        fontSize: 48,
-                        color: Color.fromRGBO(52, 71, 103, 1),
-                        fontWeight: FontWeight.bold),
+                    style: Get.textTheme.titleLarge
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 20),
                   child: Text(
                     Keys.signupTitle.name.tr,
-                    style: const TextStyle(
-                      fontSize: 20,
-                      color: Color.fromRGBO(103, 116, 142, 1),
-                    ),
+                    style: Get.textTheme.titleMedium
                   ),
                 ),
                 Padding(
@@ -99,10 +93,7 @@ class SignUpPage extends GetView<SignupViewModel> {
                       children: [
                         Text(
                           Keys.alreadyHaveAccount.name.tr,
-                          style: const TextStyle(
-                            fontSize: 13,
-                            color: Color.fromRGBO(103, 116, 142, 1),
-                          ),
+                          style: Get.textTheme.bodySmall
                         ),
                         InkWell(
                           onTap: () {
@@ -110,10 +101,7 @@ class SignUpPage extends GetView<SignupViewModel> {
                           },
                           child: Text(
                             Keys.login.name.tr,
-                            style: const TextStyle(
-                                fontSize: 13,
-                                color: Color.fromRGBO(52, 71, 103, 1),
-                                fontWeight: FontWeight.bold),
+                            style: Get.textTheme.displaySmall
                           ),
                         )
                       ],

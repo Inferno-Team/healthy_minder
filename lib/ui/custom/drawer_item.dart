@@ -67,7 +67,7 @@ class CustomDrawerItem extends StatelessWidget {
                   text,
                   style: isActive
                       ? Get.theme.textTheme.bodyMedium
-                      : Get.theme.textTheme.bodySmall,
+                      : Get.theme.textTheme.titleMedium,
                 ),
               )
             ],

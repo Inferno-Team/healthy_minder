@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class custemBtn extends StatelessWidget {
   final void Function()? onPressed;
@@ -26,8 +27,7 @@ class custemBtn extends StatelessWidget {
         children: [
           Text(
             (textbtn),
-            style: const TextStyle(
-                color: Color.fromRGBO(255, 255, 255, 1), fontSize: 20),
+            style: Get.textTheme.headlineMedium,
           ),
           withIcon ? const Icon(Icons.qr_code_scanner_rounded) : Container()
         ],

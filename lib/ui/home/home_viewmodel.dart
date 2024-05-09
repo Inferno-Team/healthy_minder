@@ -159,7 +159,7 @@ class HomeViewModel extends GetxController {
       case HealthyRoutes.allChatsPageRoute:
         return GetPageRoute(
           settings: settings,
-          page: () => const AllChatsScreen(),
+          page: () => const AllChatScreen(),
           transition: Transition.zoom,
         );
 

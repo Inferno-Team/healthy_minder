@@ -240,5 +240,5 @@ enum Keys {
   pressOn,
   plusIcon,
   toStart,
-  neweChat
+  neweChat,
 }

@@ -27,10 +27,7 @@ class PremiumScreen extends GetView<PremiumViewModel> {
                   Keys.access.name.tr +
                       Keys.toAll.name.tr +
                       Keys.features.name.tr,
-                  style: const TextStyle(
-                    fontSize: 15,
-                    color: Color.fromRGBO(52, 71, 103, 1),
-                  ),
+                  style: Get.textTheme.displaySmall
                 ),
               ],
             ),
@@ -74,13 +71,13 @@ class PremiumScreen extends GetView<PremiumViewModel> {
                 ),
                 Text(
                   Keys.chat.name.tr + Keys.withAny.name.tr + Keys.coach.name.tr,
-                  style: Get.textTheme.bodyMedium,
+                  style: Get.textTheme.bodySmall,
                 ),
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 45),
+          const Padding(
+            padding: EdgeInsets.only(left: 45),
             child: SizedBox(
               height: 50,
               child: VerticalDivider(
@@ -130,14 +127,14 @@ class PremiumScreen extends GetView<PremiumViewModel> {
                       Keys.your.name.tr +
                       Keys.private.name.tr +
                       Keys.coach.name.tr,
-                  style: Get.textTheme.bodyMedium,
+                  style: Get.textTheme.bodySmall,
                 ),
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 45),
-            child: const SizedBox(
+          const Padding(
+            padding: EdgeInsets.only(left: 45),
+            child: SizedBox(
               height: 50,
               child: VerticalDivider(
                 thickness: 2,
@@ -182,7 +179,7 @@ class PremiumScreen extends GetView<PremiumViewModel> {
               ),
               Text(
                 Keys.change.name.tr + Keys.your.name.tr + Keys.coach.name.tr,
-                style: Get.textTheme.bodyMedium,
+                style: Get.textTheme.bodySmall,
               ),
             ],
           ),

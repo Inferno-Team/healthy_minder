@@ -6,6 +6,7 @@ import 'package:healthy_minder/ui/auth/signup/final_signup/final_signup_viewmode
 import 'package:healthy_minder/ui/custom/custem_button.dart';
 import 'package:healthy_minder/ui/custom/next_page_indicator.dart';
 import 'package:healthy_minder/utils/constances.dart';
+import 'package:healthy_minder/utils/translator.dart';
 import 'package:multi_dropdown/multiselect_dropdown.dart';
 
 class ThirdSignupPage extends GetView<ThirdSignupViewModel> {
@@ -25,33 +26,24 @@ class ThirdSignupPage extends GetView<ThirdSignupViewModel> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Center(
+                 Center(
                   child: Text(
-                    "Personal Info",
-                    style: TextStyle(
-                        fontSize: 48,
-                        color: Color.fromRGBO(52, 71, 103, 1),
-                        fontWeight: FontWeight.bold),
+                    Keys.personalInfo.name.tr,
+                    style: Get.textTheme.titleLarge
                   ),
                 ),
-                const Padding(
-                  padding: EdgeInsets.only(top: 20),
+                 Padding(
+                  padding: const EdgeInsets.only(top: 20),
                   child: Text(
-                    "Before start We would love to have your help ",
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Color.fromRGBO(103, 116, 142, 1),
-                    ),
+                    Keys.personalInfoTitle.name.tr,
+                    style:Get.textTheme.titleMedium
                   ),
                 ),
-                const Padding(
+                 Padding(
                   padding: EdgeInsets.only(top: 20),
                   child: Text(
-                    "Do you suffer from any diseases?",
-                    style: TextStyle(
-                      fontSize: 15,
-                      color: Color.fromRGBO(52, 71, 103, 1),
-                    ),
+                    Keys.diseaseQuestion.name.tr,
+                    style:Get.textTheme.displaySmall
                   ),
                 ),
                 Padding(
@@ -69,12 +61,11 @@ class ThirdSignupPage extends GetView<ThirdSignupViewModel> {
                     selectedOptionIcon: const Icon(Icons.check_circle),
                   ),
                 ),
-                const Padding(
-                  padding: EdgeInsets.only(top: 42),
+                 Padding(
+                  padding: const EdgeInsets.only(top: 42),
                   child: Text(
-                    "Choose your goal",
-                    style: TextStyle(
-                        fontSize: 15, color: Color.fromRGBO(52, 71, 103, 1)),
+                   Keys.goalsQuestion.name.tr,
+                    style: Get.textTheme.displaySmall ,
                   ),
                 ),
                 Padding(
@@ -100,7 +91,7 @@ class ThirdSignupPage extends GetView<ThirdSignupViewModel> {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 20),
                   child: custemBtn(
-                    textbtn: "Sign Up",
+                    textbtn: Keys.signup.name.tr,
                     onPressed: () {
                       Get.toNamed(HealthyRoutes.homePageRoute);
                     },

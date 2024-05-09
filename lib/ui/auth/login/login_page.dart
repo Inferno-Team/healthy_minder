@@ -28,25 +28,14 @@ class LoginPage extends GetView<LoginViewmodel> {
                 Center(
                   child: Padding(
                     padding: const EdgeInsets.only(top: 100),
-                    child: Text(
-                      Keys.login.name.tr,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 48,
-                        color: Color.fromRGBO(52, 71, 103, 1),
-                      ),
-                    ),
+                    child: Text(Keys.login.name.tr,
+                        style: Get.textTheme.titleLarge),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 50),
-                  child: Text(
-                    Keys.loginTitle.name.tr,
-                    style: const TextStyle(
-                      fontSize: 20,
-                      color: Color.fromRGBO(103, 116, 142, 1),
-                    ),
-                  ),
+                  child: Text(Keys.loginTitle.name.tr,
+                      style: Get.textTheme.titleMedium),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 20),
@@ -84,25 +73,14 @@ class LoginPage extends GetView<LoginViewmodel> {
                       padding: const EdgeInsets.only(top: 20, left: 50),
                       child: Row(
                         children: [
-                          Text(
-                            Keys.doNotHaveAccount.name.tr,
-                            style: const TextStyle(
-                              fontSize: 13,
-                              color: Color.fromRGBO(103, 116, 142, 1),
-                            ),
-                          ),
+                          Text(Keys.doNotHaveAccount.name.tr,
+                              style: Get.textTheme.bodySmall),
                           InkWell(
-                            onTap: () {
-                              Get.toNamed(HealthyRoutes.firstSignupRoute);
-                            },
-                            child: Text(
-                              Keys.registerNow.name.tr,
-                              style: const TextStyle(
-                                  fontSize: 13,
-                                  color: Color.fromRGBO(52, 71, 103, 1),
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          )
+                              onTap: () {
+                                Get.toNamed(HealthyRoutes.firstSignupRoute);
+                              },
+                              child: Text(Keys.registerNow.name.tr,
+                                  style: Get.textTheme.displaySmall))
                         ],
                       )),
                 ),

@@ -21,13 +21,13 @@ class AllChatScreen extends StatelessWidget {
                     Keys.plusIcon.name.tr +
                     Keys.toStart.name.tr +
                     Keys.neweChat.name.tr,
-                style: Get.textTheme.bodySmall,
+                style: Get.textTheme.titleMedium,
               )
             ],
           ),
         ),
         floatingActionButton: FloatingActionButton(
-          backgroundColor: Color.fromRGBO(251, 99, 64, 1),
+          backgroundColor: const Color.fromRGBO(251, 99, 64, 1),
           onPressed: () {},
           tooltip: 'Increment',
           child: const Icon(
