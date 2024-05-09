@@ -22,7 +22,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool isLoggedIn = StorageHelper.isLoggedIn();
-    print(StorageHelper.getToken());
     return GetMaterialApp(
       getPages: HealthyRoutes.getPages(),
       debugShowCheckedModeBanner: false,
@@ -33,8 +32,8 @@ class MyApp extends StatelessWidget {
         // textDirection: TextDirection.ltr,
         child: child ?? Container(),
       ),
-      themeMode: ThemeMode.light,
-      // themeMode: StorageHelper.currentTheme(),
+      // themeMode: ThemeMode.light,
+      themeMode: StorageHelper.currentTheme(),
       translations: Translator(),
       initialBinding: InitialGetBinding(),
       locale: StorageHelper.getLanguage(),

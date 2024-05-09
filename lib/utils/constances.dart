@@ -20,7 +20,8 @@ class Constance {
   static const String themeState = 'light';
   static const String tokenValue = 'token_value';
   static const String languageValue = 'language';
-  static const String hostName = "192.168.251.160";
+  // static const String hostName = "192.168.251.160";
+  static const String hostName = "192.168.1.7";
 }
 
 class HealthyRoutes {

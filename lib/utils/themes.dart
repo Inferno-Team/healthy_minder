@@ -65,7 +65,7 @@ final lightTheme = ThemeData(
 final darkTheme = ThemeData(
   brightness: Brightness.dark,
   primaryColor: const Color.fromRGBO(251,99,64,1),
-  colorScheme: const ColorScheme.light(
+  colorScheme: const ColorScheme.dark(
     background: Color.fromRGBO(251, 99, 64, 1),
     secondary: Color.fromRGBO(5, 17, 57, 1)
   ),

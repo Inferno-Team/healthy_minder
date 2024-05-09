@@ -40,6 +40,7 @@ class ChatViewModel extends GetxController {
       List<Message>? messages =
           (response as ReturnDataType<List<Message>?>).data;
       _messagesList.addAll(messages!);
+      await Future.delayed(const Duration(milliseconds: 250));
       try {
         await _scrollDown();
       } catch (e) {
@@ -48,8 +49,9 @@ class ChatViewModel extends GetxController {
     }
   }
 
-  void onNewMessageEvent(Message message) {
+  void onNewMessageEvent(Message message) async {
     messages.add(message);
+    await Future.delayed(const Duration(milliseconds: 250));
     try {
       _scrollDown();
     } catch (e) {
@@ -60,7 +62,7 @@ class ChatViewModel extends GetxController {
   Future<void> _scrollDown() async {
     await scrollController.animateTo(
       scrollController.position.maxScrollExtent,
-      duration: const Duration(milliseconds: 1500),
+      duration: const Duration(milliseconds: 1000),
       curve: Curves.fastOutSlowIn,
     );
   }
