@@ -28,7 +28,6 @@ class ChatScreen extends GetView<ChatViewModel> {
                 itemCount: controller.messages.length,
                 itemBuilder: (context, index) {
                   return ChatBubble(
-                    isMine: controller.messages[index].id == email,
                     message: controller.messages[index],
                     width: size.width * 0.75,
                   );
@@ -56,6 +55,7 @@ class ChatScreen extends GetView<ChatViewModel> {
                           style: const TextStyle(
                             fontSize: 18,
                           ),
+                          onChanged: controller.onChange,
                           decoration: InputDecoration(
                             hintText: Keys.enter.name.tr + Keys.aText.name.tr,
                             focusedBorder: const UnderlineInputBorder(

@@ -1,15 +1,25 @@
+import 'dart:async';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:healthy_minder/models/masseage.dart';
+import 'package:healthy_minder/models/return_types.dart';
+import 'package:healthy_minder/models/saved_user.dart';
 import 'package:healthy_minder/repositories/data_service.dart';
 import 'package:healthy_minder/socket/pusher_socket.dart';
+import 'package:healthy_minder/ui/home/home_viewmodel.dart';
 import 'package:healthy_minder/utils/storage_helper.dart';
 
 class ChatViewModel extends GetxController {
   final DataService dataService;
   final RxList<Message> _messagesList = <Message>[].obs;
   final ScrollController scrollController = ScrollController();
+  Timer? _timer;
+  String _inputFieldStatus = "stopped";
+  String _currentMessage = "";
+
   // TODO make it dynamic.
   final int channelId = 13;
 
@@ -21,23 +31,48 @@ class ChatViewModel extends GetxController {
   @override
   void onInit() async {
     String token = StorageHelper.getToken();
-    PusherSocket().connectToAllChatChannel(token, onNewMessageEvent);
+    PusherSocket()
+        .connectToAllChatChannel(token, onNewMessageEvent, whenOtherIsTyping);
+    ReturnType<List<Message>?>? response =
+        await dataService.getChannelOldMessages(token, channelId);
     super.onInit();
+    if (response is ReturnDataType) {
+      List<Message>? messages =
+          (response as ReturnDataType<List<Message>?>).data;
+      _messagesList.addAll(messages!);
+      try {
+        await _scrollDown();
+      } catch (e) {
+        print(e);
+      }
+    }
   }
 
   void onNewMessageEvent(Message message) {
     messages.add(message);
     try {
       _scrollDown();
-    } catch (e) {}
+    } catch (e) {
+      print(e);
+    }
   }
 
-  void _scrollDown() {
-    scrollController.animateTo(
+  Future<void> _scrollDown() async {
+    await scrollController.animateTo(
       scrollController.position.maxScrollExtent,
-      duration: const Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 1500),
       curve: Curves.fastOutSlowIn,
     );
+  }
+
+  void onChange(String? change) {
+    _currentMessage = change ?? "";
+    if (_inputFieldStatus == 'stopped') {
+      _sendStartTypingWhisper();
+    }
+    _timer?.cancel();
+
+    _sendStoppedTypingWhisper();
   }
 
   void sendNewMessage() {
@@ -47,17 +82,48 @@ class ChatViewModel extends GetxController {
     textController.text = "";
   }
 
-  // @override
-  // void dispose() {
-  //   PusherSocket().unSubscribeToAllChatChannel();
-  //   scrollController.dispose();
-  //   super.dispose();
-  // }
   @override
   void onClose() {
-    super.onClose();
     PusherSocket().unSubscribeToAllChatChannel();
     scrollController.dispose();
+    _timer?.cancel();
+    super.onClose();
   }
 
+  void whenOtherIsTyping(dynamic eventData) {
+    Map<String, dynamic> data = eventData;
+    print(data);
+    String fullName = data['fullname'];
+    String status = data['status'];
+    HomeViewModel homeController = Get.find<HomeViewModel>();
+    if (status != 'stopped') {
+      homeController.setMessage("$fullName is Typing.");
+    } else {
+      homeController.setMessage("");
+    }
+  }
+
+  void _sendStoppedTypingWhisper() {
+    _timer = Timer(const Duration(milliseconds: 1000), () {
+      _inputFieldStatus = 'stopped';
+      SavedUser user = StorageHelper.getUser();
+      PusherSocket().sendTypingWhisper(
+        channelId,
+        user.id,
+        user.username,
+        _inputFieldStatus,
+      );
+    });
+  }
+
+  void _sendStartTypingWhisper() {
+    _inputFieldStatus = "typing";
+    SavedUser user = StorageHelper.getUser();
+    PusherSocket().sendTypingWhisper(
+      channelId,
+      user.id,
+      user.username,
+      _inputFieldStatus,
+    );
+  }
 }

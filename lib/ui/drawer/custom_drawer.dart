@@ -106,9 +106,7 @@ class CustomDrawer extends GetView<HomeViewModel> {
                     iconColor: const Color.fromRGBO(255, 255, 255, 1),
                     isActive: false,
                     isBottom: true,
-                    onTap: () {
-                      Get.toNamed(HealthyRoutes.loginRoute);
-                    },
+                    onTap: controller.logout,
                   ),
                 ],
               ),

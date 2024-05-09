@@ -1,15 +1,12 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:healthy_minder/models/masseage.dart';
 
 class ChatBubble extends StatelessWidget {
   final Message message;
-  final bool isMine;
   final double width;
 
   const ChatBubble({
     super.key,
-    required this.isMine,
     required this.message,
     required this.width,
   });
@@ -17,13 +14,13 @@ class ChatBubble extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Align(
-      alignment: isMine ? Alignment.centerLeft : Alignment.centerRight,
+      alignment: message.isMe ? Alignment.centerLeft : Alignment.centerRight,
       child: Container(
         width: width,
         padding:
             const EdgeInsets.only(left: 16, top: 24, bottom: 24, right: 24),
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        decoration: isMine
+        decoration: message.isMe
             ? const BoxDecoration(
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(24),
@@ -44,16 +41,24 @@ class ChatBubble extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
+              message.fullName,
+              style: const TextStyle(
+                fontSize: 17,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
+            Text(
               message.message,
               style: const TextStyle(
-                fontSize: 15,
+                fontSize: 13,
                 color: Colors.white,
               ),
             ),
             Align(
               alignment: Alignment.bottomRight,
               child: Text(
-                _createTimeStamp(message.createdAt),
+                message.createdAt,
                 style: TextStyle(
                   fontSize: 11,
                   color: Colors.grey.shade100,

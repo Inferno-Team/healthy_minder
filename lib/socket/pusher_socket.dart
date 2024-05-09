@@ -1,6 +1,9 @@
 import 'package:dart_pusher_channels/dart_pusher_channels.dart';
 import 'package:get/get.dart';
 import 'package:healthy_minder/models/masseage.dart';
+import 'package:healthy_minder/utils/constances.dart';
+import 'package:healthy_minder/utils/storage_helper.dart';
+import 'dart:convert';
 
 class PusherSocket {
   late final PusherChannelsClient client;
@@ -13,9 +16,7 @@ class PusherSocket {
     return _singleton;
   }
 
-  PusherSocket._internal({debugMode = false}) {
-    // baseUrl = debugMode ? "http://192.168.251.160:8000" : "";
-  }
+  PusherSocket._internal({debugMode = false});
 
   Future<void> init({
     bool local = true,
@@ -31,7 +32,7 @@ class PusherSocket {
     } else {
       customOptions = const PusherChannelsOptions.fromHost(
         scheme: 'ws',
-        host: '192.168.251.160',
+        host: Constance.hostName,
         key: 'myKey',
         port: 6001,
       );
@@ -62,21 +63,24 @@ class PusherSocket {
   }
 
   void connectToAllChatChannel(
-      String token, void Function(Message message) onNewEvent) {
+    String token,
+    void Function(Message message) onNewEvent,
+    void Function(dynamic data) whenOtherIsTyping,
+  ) async {
     final allChatsChannel = client.presenceChannel(
       "presence-all-chats",
       authorizationDelegate:
           EndpointAuthorizableChannelTokenAuthorizationDelegate
               .forPresenceChannel(
         authorizationEndpoint: Uri.parse(
-          'http://192.168.251.160:8000/api/authenticate_websocket_mobile',
+          'http://${Constance.hostName}:8000/api/authenticate_websocket_mobile',
         ),
         headers: {
           "Authorization": "Bearer $token",
         },
       ),
     );
-    allChatsChannel.subscribeIfNotUnsubscribed();
+    allChatsChannel.subscribe();
     allChatsChannel
         .onSubscriptionError()
         .first
@@ -84,16 +88,33 @@ class PusherSocket {
     allChatsChannel.whenSubscriptionSucceeded().first.then((value) {
       channels["presence-all-chats"] = allChatsChannel;
     });
-    allChatsChannel.bindToAll().listen((event) {
-      print(event.data);
-      // TODO: make it only for new-message-event
+    allChatsChannel.bind('NewMessage').listen((event) {
+      Map<String, dynamic> message = json.decode(event.data);
       onNewEvent(
         Message(
-          message: "message",
-          id: "id",
-          createdAt: DateTime.utc(2024, 4, 4),
+          message: message['message'],
+          id: message['message_id'],
+          createdAt: message['created_at'],
+          fullName: message['sender']['fullname'],
+          isMe: message['sender']['email'] == StorageHelper.getUser().email,
+          avatar: message['sender']['avatar'],
         ),
       );
+    });
+    allChatsChannel.bind("client-user-typing-status").listen((event) {
+      whenOtherIsTyping(event.data);
+    });
+  }
+
+  void sendTypingWhisper(
+      int channelId, int userId, String fullName, String status) {
+    PresenceChannel? allChatChannel =
+        channels["presence-all-chats"] as PresenceChannel?;
+    allChatChannel?.trigger(eventName: "client-user-typing-status", data: {
+      "user_id": userId,
+      "chat": channelId,
+      "fullname": fullName,
+      "status": status,
     });
   }
 
@@ -108,7 +129,7 @@ class PusherSocket {
     return EndpointAuthorizableChannelTokenAuthorizationDelegate
         .forPrivateChannel(
       authorizationEndpoint: Uri.parse(
-        'http://192.168.251.160:8000/api/authenticate_websocket_mobile',
+        'http://${Constance.hostName}:8000/api/authenticate_websocket_mobile',
       ),
       headers: const {},
     );

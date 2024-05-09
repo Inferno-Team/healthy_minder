@@ -1,6 +1,8 @@
 import 'package:healthy_minder/models/login_response_model.dart';
+import 'package:healthy_minder/models/masseage.dart';
 import 'package:healthy_minder/models/premium_status.dart';
 import 'package:healthy_minder/models/return_types.dart';
+import 'package:healthy_minder/utils/constances.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -13,7 +15,7 @@ class DataService {
   }
 
   DataService._internal({debugMode = false}) {
-    baseUrl = debugMode ? "http://192.168.251.160:8000" : "";
+    baseUrl = debugMode ? "http://${Constance.hostName}:8000" : "";
   }
 
   Future<ReturnType<LoginResponse?>?> login(
@@ -63,6 +65,18 @@ class DataService {
     );
   }
 
+  Future<ReturnType<List<Message>?>?> getChannelOldMessages(
+      String token, int channelId) async {
+    String route = "/api/load-channel-old-message/";
+    return await _createGetRequest<List<Message>?>(
+      fromJson: (json) =>
+          (json as List).map((message) => Message.fromJson(message)).toList(),
+      key: "messages",
+      headers: _createAuthHeader(token),
+      url: "$baseUrl$route$channelId",
+    );
+  }
+
   Future<ReturnType<Type?>?> _createGetRequest<Type>({
     required url,
     headers,
@@ -86,6 +100,7 @@ class DataService {
       );
     } catch (e) {
       print('something wrong $url :  $body0');
+      print(e);
       try {
         Map<String, dynamic> jsonData = await json.decode(response.body);
         return ReturnError(

@@ -66,6 +66,7 @@ class HomePage extends GetView<HomeViewModel> {
                             CustomHomeTopBar(
                               isDrawerOpen: controller.isDrawerOpen,
                               toggleMenu: controller.toggleMenu,
+                              message: controller.message,
                             ),
                             CustemContainer(
                               isDrawerOpen: controller.isDrawerOpen,
@@ -92,12 +93,14 @@ class HomePage extends GetView<HomeViewModel> {
 
 class CustomHomeTopBar extends StatelessWidget {
   final bool isDrawerOpen;
+  final String message;
   final void Function()? toggleMenu;
 
   const CustomHomeTopBar({
     super.key,
     required this.isDrawerOpen,
     this.toggleMenu,
+    required this.message,
   });
 
   @override
@@ -174,7 +177,20 @@ class CustomHomeTopBar extends StatelessWidget {
                     color: Color.fromRGBO(255, 255, 255, 1),
                   ),
                 ),
-              )
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 4),
+                child: message != ''
+                    ? Text(
+                        message,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.normal,
+                          fontSize: 15,
+                          color: Color.fromRGBO(0, 0, 0, 1),
+                        ),
+                      )
+                    : Container(),
+              ),
             ],
           ),
         ),

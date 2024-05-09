@@ -31,8 +31,12 @@ class HomeViewModel extends GetxController {
   final _currentPath = ''.obs;
 
   final _currentActive = DrawerItem.home.obs;
+  final _messageFromSubPage = ''.obs;
 
   DrawerItem get current => _currentActive.value;
+
+  String get message => _messageFromSubPage.value;
+  void setMessage(String msg) => _messageFromSubPage.value = msg;
 
   changeCurrent(DrawerItem value) {
     toggleMenu();
@@ -173,6 +177,11 @@ class HomeViewModel extends GetxController {
           transition: Transition.zoom,
         );
     }
+  }
+
+  void logout() {
+    StorageHelper.logout();
+    Get.offAndToNamed(HealthyRoutes.loginRoute);
   }
 }
 
