@@ -55,6 +55,7 @@ class IndicatorSeparator extends StatelessWidget {
     return Text(
       "-------",
       style: TextStyle(
+        fontSize: 12,
         color: isBefore
             ? const Color.fromRGBO(251, 99, 64, 1)
             : const Color.fromRGBO(217, 217, 217, 1),

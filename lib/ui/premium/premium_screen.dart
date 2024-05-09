@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:healthy_minder/ui/custom/custem_button.dart';
 import 'package:healthy_minder/ui/premium/premium_viewmodel.dart';
@@ -24,11 +25,10 @@ class PremiumScreen extends GetView<PremiumViewModel> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  Keys.access.name.tr +
-                      Keys.toAll.name.tr +
-                      Keys.features.name.tr,
-                  style: Get.textTheme.displaySmall
-                ),
+                    Keys.access.name.tr +
+                        Keys.toAll.name.tr +
+                        Keys.features.name.tr,
+                    style: Get.textTheme.displaySmall),
               ],
             ),
           ),
@@ -38,19 +38,22 @@ class PremiumScreen extends GetView<PremiumViewModel> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  height: 25,
-                  width: 25,
-                  decoration: BoxDecoration(
-                    color: const Color.fromRGBO(52, 71, 103, 1),
-                    borderRadius: BorderRadius.circular(25),
-                  ),
-                  child: const Center(
-                    child: Text(
-                      "1",
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromRGBO(255, 255, 255, 1),
+                Align(
+                  alignment: AlignmentDirectional.topStart,
+                  child: Container(
+                    height: 25,
+                    width: 25,
+                    decoration: BoxDecoration(
+                      color: const Color.fromRGBO(52, 71, 103, 1),
+                      borderRadius: BorderRadius.circular(25),
+                    ),
+                    child: const Center(
+                      child: Text(
+                        "1",
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Color.fromRGBO(255, 255, 255, 1),
+                        ),
                       ),
                     ),
                   ),
@@ -78,11 +81,14 @@ class PremiumScreen extends GetView<PremiumViewModel> {
           ),
           const Padding(
             padding: EdgeInsets.only(left: 45),
-            child: SizedBox(
-              height: 50,
-              child: VerticalDivider(
-                thickness: 2,
-                color: Color.fromRGBO(160, 164, 180, 1),
+            child: Align(
+              alignment: AlignmentDirectional.topStart,
+              child: SizedBox(
+                height: 50,
+                child: VerticalDivider(
+                  thickness: 2,
+                  color: Color.fromRGBO(160, 164, 180, 1),
+                ),
               ),
             ),
           ),
@@ -217,33 +223,36 @@ class PremiumTopWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: size.height * 0.092,
-      width: size.width * 0.49,
-      decoration: const BoxDecoration(
-        color: Color.fromRGBO(17, 28, 68, 1),
-        borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(24),
-          bottomRight: Radius.circular(24),
+    return Align(
+      alignment: Alignment.center,
+      child: Container(
+        height: size.height * 0.092,
+        width: size.width * 0.49,
+        decoration: const BoxDecoration(
+          color: Color.fromRGBO(17, 28, 68, 1),
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(24),
+            bottomRight: Radius.circular(24),
+          ),
         ),
-      ),
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const Text(
-              "25K SP",
-              style: TextStyle(
-                fontSize: 20,
-                color: Color.fromRGBO(251, 99, 64, 1),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Text(
+                "25K SP",
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Color.fromRGBO(251, 99, 64, 1),
+                ),
               ),
-            ),
-            Text(
-              Keys.onceAndForAll.name.tr,
-              style: Get.textTheme.bodySmall,
-            ),
-          ],
+              Text(
+                Keys.onceAndForAll.name.tr,
+                style: Get.textTheme.bodySmall,
+              ),
+            ],
+          ),
         ),
       ),
     );
