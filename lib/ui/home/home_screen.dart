@@ -58,11 +58,15 @@ class HomeScreen extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.only(top: 20),
-              child: Text(
-                Keys.yourGoals.name.tr,
-                style: Get.textTheme.bodyMedium,
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  Keys.yourGoals.name.tr,
+                  style: Get.textTheme.bodyMedium,
+                ),
               ),
-            )
+            ),
+            
           ],
         ),
       ),

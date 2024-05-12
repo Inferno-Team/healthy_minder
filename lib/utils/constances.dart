@@ -12,6 +12,9 @@ import 'package:healthy_minder/ui/home/home_biding.dart';
 import 'package:healthy_minder/ui/home/home_page.dart';
 import 'package:healthy_minder/ui/premium/premium_binding.dart';
 import 'package:healthy_minder/ui/premium/premium_screen.dart';
+import 'package:healthy_minder/ui/settings/settings_binding.dart';
+import 'package:healthy_minder/ui/settings/settings_screen.dart';
+
 import 'package:healthy_minder/utils/storage_helper.dart';
 
 class Constance {
@@ -39,7 +42,7 @@ class HealthyRoutes {
   static const String notificationScreenRoute = '/notification-screen';
 
   static const String premiumScreenRoute = '/preimum-screen';
-  static const String lateScreenRoute = '/late-screen';
+  static const String settingsScreenRoute = '/settings-screen';
   static const String addPackageScreenRoute = '/add-package-screen';
 
   static List<GetPage> getPages() {
@@ -78,6 +81,12 @@ class HealthyRoutes {
         name: HealthyRoutes.preimumPageRoute,
         page: () => const PremiumScreen(),
         binding: PremiumBinding(),
+        transition: Transition.zoom,
+      ),
+      GetPage(
+        name: HealthyRoutes.settingsScreenRoute,
+        page: () => SettingsScreen(),
+        binding: SettingsBinding(),
         transition: Transition.zoom,
       ),
     ];

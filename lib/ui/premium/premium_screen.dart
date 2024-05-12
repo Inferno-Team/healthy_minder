@@ -93,7 +93,7 @@ class PremiumScreen extends GetView<PremiumViewModel> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 15),
+            padding: const EdgeInsets.only(left: 22),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.start,

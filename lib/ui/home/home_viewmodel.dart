@@ -11,6 +11,7 @@ import 'package:healthy_minder/ui/home/home_screen.dart';
 import 'package:healthy_minder/ui/notifications/notification_screen.dart';
 import 'package:healthy_minder/ui/premium/premium_binding.dart';
 import 'package:healthy_minder/ui/premium/premium_screen.dart';
+import 'package:healthy_minder/ui/settings/settings_screen.dart';
 import 'package:healthy_minder/utils/constances.dart';
 import 'package:healthy_minder/utils/storage_helper.dart';
 
@@ -170,6 +171,12 @@ class HomeViewModel extends GetxController {
           binding: PremiumBinding(),
           transition: Transition.zoom,
         );
+      case HealthyRoutes.settingsScreenRoute:
+        return GetPageRoute(
+          settings: settings,
+          page: () => const SettingsScreen(),
+          transition: Transition.zoom,
+        );
       default:
         return GetPageRoute(
           settings: settings,
@@ -189,6 +196,7 @@ enum DrawerItem {
   home('home'),
   message('message'),
   premium('premium'),
+  settings('settings'),
   notification('notification');
 
   final String _text;
@@ -208,6 +216,8 @@ enum DrawerItem {
         return HealthyRoutes.premiumScreenRoute;
       case "notification":
         return HealthyRoutes.notificationScreenRoute;
+      case "settings":
+        return HealthyRoutes.settingsScreenRoute;
 
       default:
         return HealthyRoutes.homeScreenRoute;
@@ -224,6 +234,8 @@ enum DrawerItem {
         return DrawerItem.message;
       case HealthyRoutes.notificationScreenRoute:
         return DrawerItem.notification;
+      case HealthyRoutes.settingsScreenRoute:
+        return DrawerItem.settings;
 
       default:
         return DrawerItem.home;

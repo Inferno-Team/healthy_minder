@@ -22,9 +22,23 @@ class CustomDrawer extends GetView<HomeViewModel> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            CustomDrawerTopNav(
-              username: StorageHelper.getUser().username,
-              email: StorageHelper.getUser().email,
+            Row(
+              children: [
+                CustomDrawerTopNav(
+                  username: StorageHelper.getUser().username,
+                  email: StorageHelper.getUser().email,
+                ),
+                IconButton(
+                    onPressed: () {
+                      controller.current == DrawerItem.settings;
+                      controller.changeCurrent(DrawerItem.settings);
+                    },
+                    icon: const Icon(
+                      Icons.settings,
+                      size: 24,
+                      color: Color.fromRGBO(255, 255, 255, 1),
+                    ))
+              ],
             ),
             SizedBox(
               width: size.width * 0.65,

@@ -79,6 +79,10 @@ class Translator extends Translations {
           Keys.plusIcon.name: 'الر أدناه  ',
           Keys.toStart.name: 'لبدء  ',
           Keys.neweChat.name: 'محادثة جديدة  ',
+          Keys.english.name: 'انكليزي ',
+          Keys.arabic.name: 'عربي ',
+          Keys.dark.name: 'الوضع المظلم ',
+          Keys.light.name: 'الوضع العادي '
         },
         'en_US': {
           Keys.password.name: 'Password ',
@@ -158,6 +162,10 @@ class Translator extends Translations {
           Keys.plusIcon.name: 'plus icon  ',
           Keys.toStart.name: 'to start  ',
           Keys.neweChat.name: 'new chat  ',
+          Keys.english.name: 'English ',
+          Keys.arabic.name: 'Arabic ',
+          Keys.dark.name: 'Dark ',
+          Keys.light.name: 'Light '
         },
       };
 }
@@ -241,4 +249,8 @@ enum Keys {
   plusIcon,
   toStart,
   neweChat,
+  english,
+  arabic,
+  dark,
+  light
 }
