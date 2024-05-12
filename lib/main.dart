@@ -9,10 +9,7 @@ import 'package:healthy_minder/utils/translator.dart';
 
 void main() async {
   await StorageHelper.init();
-  print(StorageHelper.storage.getKeys());
-  print(PusherSocket().hashCode.toString());
   await PusherSocket().init();
-  print(PusherSocket().hashCode.toString());
   runApp(const MyApp());
 }
 

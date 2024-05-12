@@ -64,11 +64,12 @@ class PusherSocket {
 
   void connectToAllChatChannel(
     String token,
+    String channelName,
     void Function(Message message) onNewEvent,
     void Function(dynamic data) whenOtherIsTyping,
   ) async {
     final allChatsChannel = client.presenceChannel(
-      "presence-all-chats",
+      channelName,
       authorizationDelegate:
           EndpointAuthorizableChannelTokenAuthorizationDelegate
               .forPresenceChannel(

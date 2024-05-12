@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:healthy_minder/models/channel.dart';
 import 'package:healthy_minder/models/masseage.dart';
 import 'package:healthy_minder/models/return_types.dart';
 import 'package:healthy_minder/models/saved_user.dart';
@@ -18,10 +19,9 @@ class ChatViewModel extends GetxController {
   final ScrollController scrollController = ScrollController();
   Timer? _timer;
   String _inputFieldStatus = "stopped";
-  String _currentMessage = "";
+  final _channel = Channel.empty().obs;
 
-  // TODO make it dynamic.
-  final int channelId = 13;
+  int conversationId = -1;
 
   ChatViewModel({required this.dataService});
 
@@ -30,23 +30,28 @@ class ChatViewModel extends GetxController {
 
   @override
   void onInit() async {
-    String token = StorageHelper.getToken();
-    PusherSocket()
-        .connectToAllChatChannel(token, onNewMessageEvent, whenOtherIsTyping);
-    ReturnType<List<Message>?>? response =
-        await dataService.getChannelOldMessages(token, channelId);
     super.onInit();
-    if (response is ReturnDataType) {
-      List<Message>? messages =
-          (response as ReturnDataType<List<Message>?>).data;
-      _messagesList.addAll(messages!);
-      await Future.delayed(const Duration(milliseconds: 250));
-      try {
-        await _scrollDown();
-      } catch (e) {
-        print(e);
+    String token = StorageHelper.getToken();
+    _channel.listen((channel) async {
+      print(channel.toJson());
+      conversationId = channel.conversations.first.id;
+      PusherSocket().connectToAllChatChannel(
+          token,"${channel.type.name}-${channel.name}", onNewMessageEvent, whenOtherIsTyping);
+      ReturnType<List<Message>?>? response =
+          await dataService.getConversationOldMessages(token, conversationId);
+
+      if (response is ReturnDataType) {
+        List<Message>? messages =
+            (response as ReturnDataType<List<Message>?>).data;
+        _messagesList.addAll(messages!);
+        await Future.delayed(const Duration(milliseconds: 250));
+        try {
+          await _scrollDown();
+        } catch (e) {
+          print(e);
+        }
       }
-    }
+    });
   }
 
   void onNewMessageEvent(Message message) async {
@@ -68,7 +73,6 @@ class ChatViewModel extends GetxController {
   }
 
   void onChange(String? change) {
-    _currentMessage = change ?? "";
     if (_inputFieldStatus == 'stopped') {
       _sendStartTypingWhisper();
     }
@@ -80,7 +84,7 @@ class ChatViewModel extends GetxController {
   void sendNewMessage() {
     String message = textController.text;
     String token = StorageHelper.getToken();
-    dataService.sendNewMessage(token, channelId, message);
+    dataService.sendNewMessage(token, conversationId, message);
     textController.text = "";
   }
 
@@ -110,7 +114,7 @@ class ChatViewModel extends GetxController {
       _inputFieldStatus = 'stopped';
       SavedUser user = StorageHelper.getUser();
       PusherSocket().sendTypingWhisper(
-        channelId,
+        conversationId,
         user.id,
         user.username,
         _inputFieldStatus,
@@ -122,10 +126,12 @@ class ChatViewModel extends GetxController {
     _inputFieldStatus = "typing";
     SavedUser user = StorageHelper.getUser();
     PusherSocket().sendTypingWhisper(
-      channelId,
+      conversationId,
       user.id,
       user.username,
       _inputFieldStatus,
     );
   }
+
+  setChannel(Channel channel) => _channel.value = channel;
 }

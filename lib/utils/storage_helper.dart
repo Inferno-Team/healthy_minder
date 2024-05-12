@@ -89,6 +89,7 @@ class StorageHelper {
     storage = GetStorage();
     storage.remove(Constance.loginState);
     storage.remove(Constance.tokenValue);
+    storage.remove(Constance.savedUser);
   }
 
   static ThemeMode currentTheme() {
