@@ -104,4 +104,9 @@ class StorageHelper {
         return ThemeMode.system;
     }
   }
+
+  static void saveTheme(ThemeMode mode) {
+    storage = GetStorage();
+    storage.write(Constance.themeState, mode.name);
+  }
 }

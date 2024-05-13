@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:healthy_minder/ui/settings/settings_viewmodel.dart';
 import 'package:healthy_minder/utils/translator.dart';
 
-class SettingsScreen extends StatelessWidget {
+class SettingsScreen extends GetView<SettingsViewModel> {
   final String userName = '';
   final String email = '';
   final String password = '';
@@ -153,23 +154,27 @@ class SettingsScreen extends StatelessWidget {
                       )
                     ])),
             Padding(
-                padding: const EdgeInsets.only(top: 12),
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        Keys.dark.name.tr,
-                        style: Get.textTheme.bodyMedium,
+              padding: const EdgeInsets.only(top: 12),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    Keys.dark.name.tr,
+                    style: Get.textTheme.bodyMedium,
+                  ),
+                  Material(
+                    color: Color.fromRGBO(185, 178, 178, 1),
+                    child: Obx(
+                      () => Switch(
+                        value: controller.themeModeValue,
+                        onChanged: controller.changeTheme,
+                        activeColor: const Color.fromRGBO(67, 216, 147, 1),
                       ),
-                      Material(
-                        color: Color.fromRGBO(185, 178, 178, 1),
-                        child: Switch(
-                          value: value,
-                          onChanged: (value) {},
-                          activeColor: const Color.fromRGBO(67, 216, 147, 1),
-                        ),
-                      ),
-                    ]))
+                    ),
+                  ),
+                ],
+              ),
+            )
           ],
         ),
       ),

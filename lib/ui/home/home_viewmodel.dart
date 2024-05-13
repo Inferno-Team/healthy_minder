@@ -12,6 +12,7 @@ import 'package:healthy_minder/ui/home/home_screen.dart';
 import 'package:healthy_minder/ui/notifications/notification_screen.dart';
 import 'package:healthy_minder/ui/premium/premium_binding.dart';
 import 'package:healthy_minder/ui/premium/premium_screen.dart';
+import 'package:healthy_minder/ui/settings/settings_binding.dart';
 import 'package:healthy_minder/ui/settings/settings_screen.dart';
 import 'package:healthy_minder/utils/constances.dart';
 import 'package:healthy_minder/utils/storage_helper.dart';
@@ -183,6 +184,7 @@ class HomeViewModel extends GetxController {
           settings: settings,
           page: () => const SettingsScreen(),
           transition: Transition.zoom,
+          binding: SettingsBinding(),
         );
       default:
         return GetPageRoute(
