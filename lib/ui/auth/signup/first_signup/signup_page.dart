@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:healthy_minder/ui/auth/signup/first_signup/signup_viewmodel.dart';
+import 'package:healthy_minder/ui/auth/signup/signup_viewmodel.dart';
 import 'package:healthy_minder/ui/custom/custem_button.dart';
 import 'package:healthy_minder/ui/custom/custem_text_field.dart';
 import 'package:healthy_minder/ui/custom/next_page_indicator.dart';
 import 'package:healthy_minder/utils/constances.dart';
 import 'package:healthy_minder/utils/translator.dart';
 
-class SignUpPage extends GetView<SignupViewModel> {
+class SignUpPage extends GetView<SignupViewmodel> {
   const SignUpPage({super.key});
 
   @override
@@ -28,24 +28,20 @@ class SignUpPage extends GetView<SignupViewModel> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Center(
-                  child: Text(
-                    Keys.signup.name.tr,
-                    style: Get.textTheme.titleLarge
-                  ),
+                  child: Text(Keys.signup.name.tr,
+                      style: Get.textTheme.titleLarge),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 20),
-                  child: Text(
-                    Keys.signupTitle.name.tr,
-                    style: Get.textTheme.titleMedium
-                  ),
+                  child: Text(Keys.signupTitle.name.tr,
+                      style: Get.textTheme.titleMedium),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 32),
                   child: CustomTextField(
                     label: Keys.firstName.name.tr,
                     textInputType: TextInputType.name,
-                    onChange: (String? value) {},
+                    onChange: controller.firstNameChanged,
                   ),
                 ),
                 Padding(
@@ -53,7 +49,7 @@ class SignUpPage extends GetView<SignupViewModel> {
                   child: CustomTextField(
                     label: Keys.lastName.name.tr,
                     textInputType: TextInputType.name,
-                    onChange: (String? value) {},
+                    onChange: controller.lastNameChanged,
                   ),
                 ),
                 Padding(
@@ -61,7 +57,7 @@ class SignUpPage extends GetView<SignupViewModel> {
                   child: CustomTextField(
                     label: Keys.email.name.tr,
                     textInputType: TextInputType.emailAddress,
-                    onChange: (String? value) {},
+                    onChange: controller.emailChanged,
                   ),
                 ),
                 Obx(
@@ -69,7 +65,7 @@ class SignUpPage extends GetView<SignupViewModel> {
                     padding: const EdgeInsets.only(top: 30),
                     child: CustomTextField(
                       label: Keys.password.name.tr,
-                      obscureText: true,
+                      obscureText: controller.passwordState,
                       suffix: IconButton(
                         onPressed: controller.changePasswordState,
                         icon: FaIcon(
@@ -81,7 +77,7 @@ class SignUpPage extends GetView<SignupViewModel> {
                         ),
                       ),
                       textInputType: TextInputType.text,
-                      onChange: (String? value) {},
+                      onChange: controller.passwordChanged,
                     ),
                   ),
                 ),
@@ -91,18 +87,14 @@ class SignUpPage extends GetView<SignupViewModel> {
                     padding: const EdgeInsets.only(top: 20, left: 75),
                     child: Row(
                       children: [
-                        Text(
-                          Keys.alreadyHaveAccount.name.tr,
-                          style: Get.textTheme.bodySmall
-                        ),
+                        Text(Keys.alreadyHaveAccount.name.tr,
+                            style: Get.textTheme.bodySmall),
                         InkWell(
                           onTap: () {
                             Get.toNamed(HealthyRoutes.loginRoute);
                           },
-                          child: Text(
-                            Keys.login.name.tr,
-                            style: Get.textTheme.displaySmall
-                          ),
+                          child: Text(Keys.login.name.tr,
+                              style: Get.textTheme.displaySmall),
                         )
                       ],
                     ),

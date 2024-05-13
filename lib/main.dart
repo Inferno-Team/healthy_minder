@@ -9,21 +9,24 @@ import 'package:healthy_minder/utils/translator.dart';
 
 void main() async {
   await StorageHelper.init();
-  await PusherSocket().init();
-  runApp(const MyApp());
+  String currentStep = StorageHelper.getCurrentStep();
+  // await PusherSocket().init();
+  runApp(MyApp(currentStep: currentStep));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final String currentStep;
+
+  const MyApp({super.key, required this.currentStep});
 
   @override
   Widget build(BuildContext context) {
-    bool isLoggedIn = StorageHelper.isLoggedIn();
+    final initialRoute = _findInitialRoute(currentStep);
     return GetMaterialApp(
       getPages: HealthyRoutes.getPages(),
       debugShowCheckedModeBanner: false,
-      initialRoute:
-          isLoggedIn ? HealthyRoutes.homePageRoute : HealthyRoutes.loginRoute,
+      initialRoute: initialRoute,
+      // isLoggedIn ? HealthyRoutes.homePageRoute : HealthyRoutes.loginRoute,
       // initialRoute: HealthyRoutes.homePageRoute,
       builder: (context, child) => Container(
         // textDirection: TextDirection.ltr,
@@ -38,5 +41,17 @@ class MyApp extends StatelessWidget {
       theme: lightTheme,
       darkTheme: darkTheme,
     );
+  }
+
+  _findInitialRoute(String currentStep) {
+    bool isLoggedIn = StorageHelper.isLoggedIn();
+    if (!isLoggedIn) {
+      return HealthyRoutes.loginRoute;
+    }
+    if (currentStep == 'register') {
+      return HealthyRoutes.selectPlanRoute;
+    } else {
+      return HealthyRoutes.homePageRoute;
+    }
   }
 }

@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:healthy_minder/models/disease.dart';
 import 'package:healthy_minder/models/goal.dart';
-import 'package:healthy_minder/ui/auth/signup/final_signup/final_signup_viewmodel.dart';
+import 'package:healthy_minder/ui/auth/signup/signup_viewmodel.dart';
 import 'package:healthy_minder/ui/custom/custem_button.dart';
 import 'package:healthy_minder/ui/custom/next_page_indicator.dart';
 import 'package:healthy_minder/utils/constances.dart';
 import 'package:healthy_minder/utils/translator.dart';
 import 'package:multi_dropdown/multiselect_dropdown.dart';
 
-class ThirdSignupPage extends GetView<ThirdSignupViewModel> {
+class ThirdSignupPage extends GetView<SignupViewmodel> {
   const ThirdSignupPage({super.key});
 
   @override
@@ -92,9 +92,7 @@ class ThirdSignupPage extends GetView<ThirdSignupViewModel> {
                   padding: const EdgeInsets.symmetric(vertical: 20),
                   child: custemBtn(
                     textbtn: Keys.signup.name.tr,
-                    onPressed: () {
-                      Get.toNamed(HealthyRoutes.homePageRoute);
-                    },
+                    onPressed: controller.preformSignup,
                     withIcon: false,
                   ),
                 )

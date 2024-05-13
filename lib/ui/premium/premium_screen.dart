@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
@@ -33,7 +34,7 @@ class PremiumScreen extends GetView<PremiumViewModel> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 46),
+            padding: const EdgeInsets.only(top: 40),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -80,7 +81,7 @@ class PremiumScreen extends GetView<PremiumViewModel> {
             ),
           ),
           const Padding(
-            padding: EdgeInsets.only(left: 45),
+            padding: EdgeInsets.only(left: 38),
             child: Align(
               alignment: AlignmentDirectional.topStart,
               child: SizedBox(
@@ -93,7 +94,7 @@ class PremiumScreen extends GetView<PremiumViewModel> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 22),
+            padding: const EdgeInsets.only(top: 2),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -129,17 +130,16 @@ class PremiumScreen extends GetView<PremiumViewModel> {
                   ),
                 ),
                 Text(
-                  Keys.choose.name.tr +
-                      Keys.your.name.tr +
-                      Keys.private.name.tr +
-                      Keys.coach.name.tr,
+                  "${Keys.choose.name.tr}"
+                  "${Keys.your.name.tr}"
+                  "${Keys.private.name.tr}",
                   style: Get.textTheme.bodySmall,
                 ),
               ],
             ),
           ),
           const Padding(
-            padding: EdgeInsets.only(left: 45),
+            padding: EdgeInsets.only(left: 38, bottom: 2),
             child: SizedBox(
               height: 50,
               child: VerticalDivider(

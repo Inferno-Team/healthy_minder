@@ -1,12 +1,15 @@
+import 'package:healthy_minder/models/get_goals_diseases_response.dart';
 import 'package:healthy_minder/models/login_response_model.dart';
 import 'package:healthy_minder/models/masseage.dart';
+import 'package:healthy_minder/models/notification.dart';
+import 'package:healthy_minder/models/plan.dart';
 import 'package:healthy_minder/models/premium_status.dart';
 import 'package:healthy_minder/models/return_types.dart';
+import 'package:healthy_minder/models/select_plan.dart';
+import 'package:healthy_minder/repositories/essential_methods.dart';
 import 'package:healthy_minder/utils/constances.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 
-class DataService {
+class DataService with EssentialMethod {
   static final DataService _singleton = DataService._internal(debugMode: true);
   late final String baseUrl;
 
@@ -23,7 +26,7 @@ class DataService {
     String route = "/api/login";
     Uri uri = Uri.parse("$baseUrl$route");
     ReturnType<LoginResponse?>? response =
-        await _createPostRequest<LoginResponse>(
+        await createPostRequest<LoginResponse>(
       uri: uri,
       body: {
         "email": email,
@@ -35,14 +38,38 @@ class DataService {
     return response;
   }
 
+  Future<ReturnType<LoginResponse?>?> register(
+      Map<String, dynamic> sendData) async {
+    String route = "/api/register";
+    Uri uri = Uri.parse("$baseUrl$route");
+    return await createPostRequest(
+      uri: uri,
+      body: sendData,
+      fromJson: (json) => LoginResponse.fromJson(json),
+      key: "data",
+    );
+  }
+
   Future<ReturnType<PremiumStatus?>?> myPremiumStatus(String token) async {
     String route = "/api/is-premium";
     ReturnType<PremiumStatus?>? response =
-        await _createGetRequest<PremiumStatus>(
+        await createGetRequest<PremiumStatus>(
       url: "$baseUrl$route",
       fromJson: (json) => PremiumStatus.fromValue(json),
       key: "status",
-      headers: _createAuthHeader(token),
+      headers: createAuthHeader(token),
+    );
+    return response;
+  }
+
+  Future<ReturnType<GetGoalsAndDiseasesResponse?>?>
+      getGoalsAndDiseasesResponse() async {
+    String route = "/api/goals-diseases";
+    ReturnType<GetGoalsAndDiseasesResponse?>? response =
+        await createGetRequest<GetGoalsAndDiseasesResponse>(
+      url: "$baseUrl$route",
+      fromJson: (json) => GetGoalsAndDiseasesResponse.fromJson(json),
+      key: "gd",
     );
     return response;
   }
@@ -54,9 +81,9 @@ class DataService {
   ) async {
     String route = "/api/send-new-message";
     Uri uri = Uri.parse("$baseUrl$route");
-    _createPostRequest(
+    createPostRequest(
       fromJson: null,
-      headers: _createAuthHeader(token),
+      headers: createAuthHeader(token),
       uri: uri,
       body: {
         "message": message,
@@ -68,104 +95,58 @@ class DataService {
   Future<ReturnType<List<Message>?>?> getConversationOldMessages(
       String token, int conversationId) async {
     String route = "/api/load-conversation-old-message/";
-    return await _createGetRequest<List<Message>?>(
+    return await createGetRequest<List<Message>?>(
       fromJson: (json) =>
           (json as List).map((message) => Message.fromJson(message)).toList(),
       key: "messages",
-      headers: _createAuthHeader(token),
+      headers: createAuthHeader(token),
       url: "$baseUrl$route$conversationId",
     );
   }
 
-  Future<ReturnType<Type?>?> _createGetRequest<Type>({
-    required url,
-    headers,
-    params,
-    key,
-    required Type Function(dynamic j) fromJson,
-  }) async {
-    var body0 = '';
-    late http.Response response;
-    try {
-      String finalUrl = _createUrl(url, params);
-      final uri = Uri.parse(finalUrl);
-      response = await http.get(uri, headers: headers);
-      body0 = response.body;
-      Map<String, dynamic> jsonData =
-          await json.decode(response.body); // Map<String,dynamic>
-      return ReturnDataType(
-        msg: jsonData['msg'],
-        code: jsonData['code'],
-        data: key != null ? fromJson(jsonData[key]) : null,
-      );
-    } catch (e) {
-      print('something wrong $url :  $body0');
-      print(e);
-      try {
-        Map<String, dynamic> jsonData = await json.decode(response.body);
-        return ReturnError(
-          msg: jsonData['msg'],
-          code: jsonData['code'],
-          errors: Error.fromListJson(jsonData['errors']),
-        );
-      } catch (ee) {
-        return null;
-      }
-    }
+  Future<ReturnType<List<SelectPlan>?>?> getPlanOfGoalsAndDiseases(
+      String token, Map data) async {
+    String route = "/api/get-plan-of-goals-diseases/";
+    return await createGetRequest<List<SelectPlan>>(
+      headers: createAuthHeader(token),
+      url: "$baseUrl$route",
+      params: data,
+      key: "plans",
+      fromJson: (j) => SelectPlan.fromListJson(j),
+    );
   }
 
-  Future<ReturnType<Type?>?> _createPostRequest<Type>({
-    uri,
-    body,
-    headers,
-    Type Function(dynamic j)? fromJson,
-    String? key,
-  }) async {
-    var body0 = '';
-    late http.Response response;
-    try {
-      response = await http.post(uri, body: body, headers: headers);
-      body0 = response.body;
-      Map<String, dynamic> jsonData =
-          await json.decode(response.body); // Map<String,dynamic>
-      return ReturnDataType(
-        msg: jsonData['msg'],
-        code: jsonData['code'],
-        data: key != null ? fromJson!(jsonData[key]) : null,
-      );
-    } catch (e) {
-      print('something wrong $uri :  $body0');
-      print(e);
-      try {
-        Map<String, dynamic> jsonData = await json.decode(response.body);
-        return ReturnError(
-          msg: jsonData['msg'],
-          code: jsonData['code'],
-          errors: Error.fromListJson(jsonData['errors']),
-        );
-      } catch (ee) {
-        return null;
-      }
-    }
+  Future<ReturnType<dynamic>?> selectPlanTimeline(String token, int id) async {
+    String route = "/api/select-plan-timeline";
+    Uri uri = Uri.parse("$baseUrl$route");
+    return await createPostRequest(
+      uri: uri,
+      body: {
+        "id": id.toString(),
+      },
+      headers: createAuthHeader(token),
+    );
   }
 
-  String _createUrl(url, Map? params) {
-    if (params == null) {
-      return url;
-    } else {
-      var newURL = url;
-      var keys = params.keys.toList();
-      for (int i = 0; i < keys.length; i++) {
-        if (i == 0) {
-          newURL += '?${keys[i]}=${params[keys[i]]}';
-        } else {
-          newURL += '&${keys[i]}=${params[keys[i]]}';
-        }
-      }
-      return newURL;
-    }
+  Future<ReturnType<List<Notification>?>?> loadMyNotifications(
+      String token) async {
+    String route = "/api/all-notifications";
+    return await createGetRequest(
+      headers: createAuthHeader(token),
+      url: "$baseUrl$route",
+      key: "notifications",
+      fromJson: (json) => Notification.listFromJson(json),
+    );
   }
 
-  Map<String, String> _createAuthHeader(String token) =>
-      {"Authorization": "Bearer $token"};
+  Future<ReturnType<List<Notification>?>?> loadMyUnreadNotifications(
+      String token) async {
+    String route = "/api/unread-notifications";
+    return await createGetRequest(
+      headers: createAuthHeader(token),
+      url: "$baseUrl$route",
+      key: "notifications",
+      fromJson: (json) => Notification.listFromJson(json),
+    );
+  }
 }

@@ -23,7 +23,7 @@ class HomePage extends GetView<HomeViewModel> {
         backgroundColor: const Color.fromRGBO(251, 99, 64, 1),
         body: Stack(
           children: [
-            CustomDrawer(),
+            const CustomDrawer(),
             Obx(
               () => AnimatedContainer(
                 transform: Matrix4.translationValues(
@@ -32,7 +32,7 @@ class HomePage extends GetView<HomeViewModel> {
                   0,
                 )
                   ..scale(controller.isDrawerOpen ? 0.80 : 1.00)
-                  ..rotateZ(controller.isDrawerOpen ? -50 : 0.00),
+                  ..rotateZ(controller.isDrawerOpen ? 50 : 0.00),
                 duration: const Duration(milliseconds: 200),
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -67,6 +67,9 @@ class HomePage extends GetView<HomeViewModel> {
                               isDrawerOpen: controller.isDrawerOpen,
                               toggleMenu: controller.toggleMenu,
                               message: controller.message,
+                              openNotification: controller.openNotification,
+                              notificationCount:
+                                  controller.unreadNotifications.length,
                             ),
                             CustemContainer(
                               isDrawerOpen: controller.isDrawerOpen,
@@ -94,13 +97,17 @@ class HomePage extends GetView<HomeViewModel> {
 class CustomHomeTopBar extends StatelessWidget {
   final bool isDrawerOpen;
   final String message;
+  final int notificationCount;
   final void Function()? toggleMenu;
+  final void Function()? openNotification;
 
   const CustomHomeTopBar({
     super.key,
     required this.isDrawerOpen,
+    required this.openNotification,
     this.toggleMenu,
     required this.message,
+    required this.notificationCount,
   });
 
   @override
@@ -148,15 +155,27 @@ class CustomHomeTopBar extends StatelessWidget {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(left: 16),
-                      child: CustemCircularBtn(
-                        onTap: () {
-                          // Get.toNamed();
-                        },
-                        containerchild: const Icon(
-                          FontAwesomeIcons.bell,
-                          size: 20,
-                          color: Color.fromRGBO(255, 255, 255, 1),
-                        ),
+                      child: Stack(
+                        children: [
+                          CustemCircularBtn(
+                            onTap: openNotification,
+                            containerchild: const Icon(
+                              FontAwesomeIcons.bell,
+                              size: 20,
+                              color: Color.fromRGBO(255, 255, 255, 1),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 40,
+                            height: 50,
+                            child: Align(
+                              alignment: Alignment.bottomRight,
+                              child: Container(
+                                child: Text("$notificationCount"),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     )
                   ],
@@ -181,7 +200,9 @@ class CustomHomeTopBar extends StatelessWidget {
                           color: Color.fromRGBO(0, 0, 0, 1),
                         ),
                       )
-                    : Container(height: 21,),
+                    : Container(
+                        height: 21,
+                      ),
               ),
             ],
           ),

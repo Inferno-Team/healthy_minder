@@ -13,28 +13,26 @@ class StorageHelper {
   }
 
   static void login(String token) {
-    storage = GetStorage();
     storage.write(Constance.loginState, true);
     storage.write(Constance.tokenValue, token);
   }
 
-  static void saveUser(SavedUser user) {
-    storage = GetStorage();
-    storage.write(Constance.savedUser, user.toJson());
-  }
+  static saveUser(SavedUser user) =>
+      storage.write(Constance.savedUser, user.toJson());
 
-  static bool isLoggedIn() {
-    storage = GetStorage();
-    return storage.read(Constance.loginState) ?? false;
-  }
+  static saveOtherData(String otherData) =>
+      storage.write(Constance.otherValues, otherData);
 
-  static String getToken() {
-    storage = GetStorage();
-    return storage.read(Constance.tokenValue) ?? "";
-  }
+  static String getOtherData() => storage.read(Constance.otherValues) ?? "{}";
+
+  static saveCurrentStep(String step) =>
+      storage.write(Constance.currentStep, step);
+
+  static bool isLoggedIn() => storage.read(Constance.loginState) ?? false;
+
+  static String getToken() => storage.read(Constance.tokenValue) ?? "";
 
   static SavedUser getUser() {
-    storage = GetStorage();
     var data = storage.read(Constance.savedUser);
     if (data != null) {
       return SavedUser.fromJson(data);
@@ -42,11 +40,7 @@ class StorageHelper {
     return SavedUser.empty();
   }
 
-  static String? getSavedLanguage() {
-    storage = GetStorage();
-    String? lang = storage.read(Constance.languageValue);
-    return lang;
-  }
+  static String? getSavedLanguage() => storage.read(Constance.languageValue);
 
   static Locale? getLanguage() {
     String? lang = getSavedLanguage();
@@ -68,13 +62,10 @@ class StorageHelper {
     return lang == 'en' ? TextDirection.ltr : TextDirection.rtl;
   }
 
-  static void _changeLanguage(String code) {
-    storage = GetStorage();
-    storage.write(Constance.languageValue, code);
-  }
+  static _changeLanguage(String code) =>
+      storage.write(Constance.languageValue, code);
 
   static Locale swipeLanguage() {
-    storage = GetStorage();
     String? lang = storage.read(Constance.languageValue);
 
     if (lang == null || lang == 'ar') {
@@ -85,15 +76,9 @@ class StorageHelper {
     return const Locale('ar', 'SY');
   }
 
-  static void logout() {
-    storage = GetStorage();
-    storage.remove(Constance.loginState);
-    storage.remove(Constance.tokenValue);
-    storage.remove(Constance.savedUser);
-  }
+  static void logout() => storage.erase();
 
   static ThemeMode currentTheme() {
-    storage = GetStorage();
     String current = storage.read(Constance.themeState) ?? 'none';
     switch (current) {
       case 'dark':
@@ -105,8 +90,9 @@ class StorageHelper {
     }
   }
 
+  static String getCurrentStep() => storage.read(Constance.currentStep) ?? "";
+
   static void saveTheme(ThemeMode mode) {
-    storage = GetStorage();
     storage.write(Constance.themeState, mode.name);
   }
 }

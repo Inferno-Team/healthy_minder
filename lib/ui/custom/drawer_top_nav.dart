@@ -36,7 +36,7 @@ class CustomDrawerTopNav extends StatelessWidget {
               padding: const EdgeInsets.only(top: 20),
               child: Text(
                 username,
-                style: Get.textTheme.displayLarge,
+                style: Get.textTheme.displayMedium,
                 softWrap: true,
                 maxLines: 2,
               ),
@@ -46,7 +46,7 @@ class CustomDrawerTopNav extends StatelessWidget {
             padding: const EdgeInsets.only(top: 15),
             child: Text(
               email,
-              style: Get.textTheme.displaySmall,
+              style: Get.textTheme.headlineSmall,
             ),
           )
         ],
