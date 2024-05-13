@@ -2,11 +2,9 @@ import 'package:get/get.dart';
 import 'package:healthy_minder/repositories/data_service.dart';
 import 'package:healthy_minder/ui/auth/login/login_binding.dart';
 import 'package:healthy_minder/ui/auth/login/login_page.dart';
-import 'package:healthy_minder/ui/auth/signup/first_signup/signup_binding.dart';
 import 'package:healthy_minder/ui/auth/signup/first_signup/signup_page.dart';
 import 'package:healthy_minder/ui/auth/signup/second_signup/personal_info.dart';
-import 'package:healthy_minder/ui/auth/signup/second_signup/personal_info_binding.dart';
-import 'package:healthy_minder/ui/auth/signup/final_signup/final_signup_binding.dart';
+
 import 'package:healthy_minder/ui/auth/signup/final_signup/final_signup_page.dart';
 import 'package:healthy_minder/ui/home/home_biding.dart';
 import 'package:healthy_minder/ui/home/home_page.dart';
@@ -23,6 +21,8 @@ class Constance {
   static const String themeState = 'light';
   static const String tokenValue = 'token_value';
   static const String languageValue = 'language';
+  static const String currentStep = 'current_step';
+  static const String otherValues = 'other_values';
   // static const String hostName = "192.168.251.160";
   static const String hostName = "192.168.1.7";
 }
@@ -40,6 +40,7 @@ class HealthyRoutes {
   static const String preimumPageRoute = '/preimum-page';
   static const String homeScreenRoute = '/home/home-screen';
   static const String notificationScreenRoute = '/notification-screen';
+  static const String selectPlanRoute = '/select-plan-route';
 
   static const String premiumScreenRoute = '/preimum-screen';
   static const String settingsScreenRoute = '/settings-screen';
@@ -56,7 +57,6 @@ class HealthyRoutes {
       GetPage(
         name: HealthyRoutes.firstSignupRoute,
         page: () => const SignUpPage(),
-        binding: SignUpBinding(),
         transition: Transition.zoom,
       ),
       GetPage(
@@ -68,13 +68,11 @@ class HealthyRoutes {
       GetPage(
         name: HealthyRoutes.secondSignupRoute,
         page: () => const SecondSignupPage(),
-        binding: PersonalInfoBinding(),
         transition: Transition.zoom,
       ),
       GetPage(
         name: HealthyRoutes.finalSignupRoute,
         page: () => const ThirdSignupPage(),
-        binding: ThirdSignupBinding(),
         transition: Transition.zoom,
       ),
       GetPage(
