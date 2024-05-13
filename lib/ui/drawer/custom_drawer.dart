@@ -31,16 +31,9 @@ class CustomDrawer extends GetView<HomeViewModel> {
                     CustomDrawerTopNav(
                       username: StorageHelper.getUser().username,
                       email: StorageHelper.getUser().email,
+                      onSettingPressed:()=> controller.changeCurrent(DrawerItem.settings),
                     ),
-                    IconButton(
-                      // onPressed: () {},
-                      onPressed:()=> controller.changeCurrent(DrawerItem.settings),
-                      icon: const Icon(
-                        Icons.settings,
-                        size: 20,
-                        color: Color.fromRGBO(255, 255, 255, 1),
-                      ),
-                    )
+                    
                   ],
                 ),
                 SizedBox(

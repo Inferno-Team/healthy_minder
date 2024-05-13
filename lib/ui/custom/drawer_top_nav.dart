@@ -1,14 +1,19 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 class CustomDrawerTopNav extends StatelessWidget {
   final String username;
   final String email;
 
+  final void Function() onSettingPressed;
+
   const CustomDrawerTopNav({
     super.key,
     this.username = "",
     this.email = "",
+    required this.onSettingPressed,
   });
 
   @override
@@ -30,17 +35,32 @@ class CustomDrawerTopNav extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(
-            width: size.width * 0.45,
-            child: Padding(
-              padding: const EdgeInsets.only(top: 20),
-              child: Text(
-                username,
-                style: Get.textTheme.displayMedium,
-                softWrap: true,
-                maxLines: 2,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                width: size.width * 0.37,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: Text(
+                    username,
+                    style: Get.textTheme.displayMedium,
+                    softWrap: true,
+                    maxLines: 2,
+                  ),
+                ),
               ),
-            ),
+              IconButton(
+                // onPressed: () {},
+                onPressed: onSettingPressed,
+                icon: const Icon(
+                  Icons.settings,
+                  size: 20,
+                  color: Color.fromRGBO(255, 255, 255, 1),
+                ),
+              ),
+            ],
           ),
           Padding(
             padding: const EdgeInsets.only(top: 15),

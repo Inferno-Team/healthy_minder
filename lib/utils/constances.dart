@@ -1,11 +1,15 @@
 import 'package:get/get.dart';
+import 'package:healthy_minder/models/select_plan.dart';
 import 'package:healthy_minder/repositories/data_service.dart';
 import 'package:healthy_minder/ui/auth/login/login_binding.dart';
 import 'package:healthy_minder/ui/auth/login/login_page.dart';
+import 'package:healthy_minder/ui/auth/plans/select_plan_bindings.dart';
+import 'package:healthy_minder/ui/auth/plans/select_plan_page.dart';
 import 'package:healthy_minder/ui/auth/signup/first_signup/signup_page.dart';
 import 'package:healthy_minder/ui/auth/signup/second_signup/personal_info.dart';
 
 import 'package:healthy_minder/ui/auth/signup/final_signup/final_signup_page.dart';
+import 'package:healthy_minder/ui/auth/signup/signup_bindings.dart';
 import 'package:healthy_minder/ui/home/home_biding.dart';
 import 'package:healthy_minder/ui/home/home_page.dart';
 import 'package:healthy_minder/ui/premium/premium_binding.dart';
@@ -23,8 +27,8 @@ class Constance {
   static const String languageValue = 'language';
   static const String currentStep = 'current_step';
   static const String otherValues = 'other_values';
-  // static const String hostName = "192.168.251.160";
-  static const String hostName = "192.168.1.7";
+  static const String hostName = "192.168.180.160";
+  // static const String hostName = "192.168.1.7";
 }
 
 class HealthyRoutes {
@@ -58,6 +62,7 @@ class HealthyRoutes {
         name: HealthyRoutes.firstSignupRoute,
         page: () => const SignUpPage(),
         transition: Transition.zoom,
+        binding: SignupBinding(),
       ),
       GetPage(
         name: HealthyRoutes.homePageRoute,
@@ -85,6 +90,12 @@ class HealthyRoutes {
         name: HealthyRoutes.settingsScreenRoute,
         page: () => SettingsScreen(),
         binding: SettingsBinding(),
+        transition: Transition.zoom,
+      ),
+       GetPage(
+        name: HealthyRoutes.selectPlanRoute,
+        page: () => SelectPlanPage(),
+        binding: SelectPlanBindings(),
         transition: Transition.zoom,
       ),
     ];
