@@ -1,183 +1,258 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:healthy_minder/ui/settings/settings_viewmodel.dart';
 import 'package:healthy_minder/utils/translator.dart';
 
 class SettingsScreen extends GetView<SettingsViewModel> {
-  final String userName = '';
-  final String email = '';
-  final String password = '';
-  final String birthdate = '';
   const SettingsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    bool value = false;
-    return ListView(children: [
-      Padding(
-        padding: const EdgeInsets.only(
-          left: 20,
-          right: 20,
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              Keys.personalInfo.name.tr,
-              style: Get.textTheme.bodyMedium,
+    return Obx(
+      () => Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(
+              left: 20,
+              right: 20,
+              top: 20,
             ),
-            const Divider(
-              thickness: 1.5,
-              color: Color.fromRGBO(0, 0, 0, 1),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 4),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(
-                    Keys.fullName.name.tr + ":",
-                    style: Get.textTheme.bodyMedium,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  Keys.personalInfo.name.tr,
+                  style: Get.textTheme.bodyMedium,
+                ),
+                const Divider(
+                  thickness: 1.5,
+                  color: Color.fromRGBO(0, 0, 0, 1),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Obx(
+                        () => GestureDetector(
+                          onTap: controller.onImageClicked,
+                          child: CircleAvatar(
+                            radius: 64,
+                            backgroundColor:
+                                const Color.fromRGBO(86, 185, 117, 1),
+                            child: controller.profile.avatar == null
+                                ? Center(
+                                    child: Text(
+                                      controller.profile.userName.characters
+                                                  .length >
+                                              1
+                                          ? controller
+                                              .profile.userName.characters.first
+                                              .toUpperCase()
+                                          : '',
+                                      style: Get.textTheme.bodyMedium,
+                                    ),
+                                  )
+                                : ClipOval(
+                                    child: !controller.profile.avatar!
+                                            .startsWith("http")
+                                        ? Image.file(
+                                            File(controller.profile.avatar!),
+                                            fit: BoxFit.cover,
+                                            width: 128,
+                                            height: 128,
+                                          )
+                                        : Image.network(
+                                            controller.profile.avatar!,
+                                            fit: BoxFit.cover,
+                                            width: 128,
+                                            height: 128,
+                                          ),
+                                  ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  Text(
-                    userName,
-                    style: Get.textTheme.bodySmall,
-                  )
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 4),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(
-                    Keys.email.name.tr + ":",
-                    style: Get.textTheme.bodyMedium,
-                  ),
-                  Text(
-                    email,
-                    style: Get.textTheme.bodySmall,
-                  )
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 4),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(
-                    Keys.password.name.tr + ":",
-                    style: Get.textTheme.bodyMedium,
-                  ),
-                  Text(
-                    password,
-                    style: Get.textTheme.bodySmall,
-                  ),
-                  IconButton(
-                      onPressed: () {},
-                      icon: const Icon(
-                        Icons.edit,
-                        size: 21,
-                        color: Color.fromRGBO(17, 28, 68, 1),
-                      ))
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 4),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    Keys.birthDate.name.tr + ":",
-                    style: Get.textTheme.bodyMedium,
-                  ),
-                  Text(
-                    birthdate,
-                    style: Get.textTheme.bodySmall,
-                  )
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 4),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(
-                    Keys.weight.name.tr + ":",
-                    style: Get.textTheme.bodyMedium,
-                  ),
-                  Text(
-                    birthdate,
-                    style: Get.textTheme.bodySmall,
-                  ),
-                  IconButton(
-                      onPressed: () {},
-                      icon: const Icon(
-                        Icons.edit,
-                        size: 21,
-                        color: Color.fromRGBO(17, 28, 68, 1),
-                      ))
-                ],
-              ),
-            ),
-            const Padding(padding: EdgeInsets.only(top: 50)),
-            Text(
-              Keys.general.name.tr,
-              style: Get.textTheme.bodyMedium,
-            ),
-            const Divider(
-              thickness: 1.5,
-              color: Color.fromRGBO(0, 0, 0, 1),
-            ),
-            Padding(
-                padding: const EdgeInsets.only(top: 4),
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 4),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
-                        Keys.english.name.tr,
+                        "${Keys.firstName.name.tr}: ",
                         style: Get.textTheme.bodyMedium,
                       ),
-                      Material(
-                        color: Color.fromRGBO(255, 255, 255, 1),
-                        child: Switch(
-                          value: value,
-                          onChanged: (value) {},
-                          activeColor: const Color.fromRGBO(67, 216, 147, 1),
-                        ),
+                      Text(
+                        controller.profile.firstName,
+                        style: Get.textTheme.bodySmall,
                       )
-                    ])),
-            Padding(
-              padding: const EdgeInsets.only(top: 12),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    Keys.dark.name.tr,
-                    style: Get.textTheme.bodyMedium,
+                    ],
                   ),
-                  Material(
-                    color: Color.fromRGBO(185, 178, 178, 1),
-                    child: Obx(
-                      () => Switch(
-                        value: controller.themeModeValue,
-                        onChanged: controller.changeTheme,
-                        activeColor: const Color.fromRGBO(67, 216, 147, 1),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 4),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        "${Keys.lastName.name.tr}: ",
+                        style: Get.textTheme.bodyMedium,
                       ),
-                    ),
+                      Text(
+                        controller.profile.lastName,
+                        style: Get.textTheme.bodySmall,
+                      )
+                    ],
                   ),
-                ],
-              ),
-            )
-          ],
-        ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 4),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        "${Keys.userName.name.tr}: ",
+                        style: Get.textTheme.bodyMedium,
+                      ),
+                      Text(
+                        controller.profile.userName,
+                        style: Get.textTheme.bodySmall,
+                      )
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 4),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        "${Keys.email.name.tr}: ",
+                        style: Get.textTheme.bodyMedium,
+                      ),
+                      Text(
+                        controller.profile.email,
+                        style: Get.textTheme.bodySmall,
+                      )
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 4),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        "${Keys.birthDate.name.tr}: ",
+                        style: Get.textTheme.bodyMedium,
+                      ),
+                      Text(
+                        controller.profile.dob,
+                        style: Get.textTheme.bodySmall,
+                      )
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 4),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        "${Keys.weight.name.tr}: ",
+                        style: Get.textTheme.bodyMedium,
+                      ),
+                      Text(
+                        "${controller.profile.weight} Kg",
+                        style: Get.textTheme.bodySmall,
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 4),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        "${Keys.height.name.tr}: ",
+                        style: Get.textTheme.bodyMedium,
+                      ),
+                      Text(
+                        "${controller.profile.height} cm",
+                        style: Get.textTheme.bodySmall,
+                      ),
+                    ],
+                  ),
+                ),
+                const Padding(padding: EdgeInsets.only(top: 50)),
+                Text(
+                  Keys.timeline.name.tr,
+                  style: Get.textTheme.bodyMedium,
+                ),
+                const Divider(
+                  thickness: 1.5,
+                  color: Color.fromRGBO(0, 0, 0, 1),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 4),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        "${Keys.coach.name.tr}: ",
+                        style: Get.textTheme.bodyMedium,
+                      ),
+                      Text(
+                        controller.profile.coach,
+                        style: Get.textTheme.bodySmall,
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 4),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        "${Keys.timeline.name.tr} Name : ",
+                        style: Get.textTheme.bodyMedium,
+                      ),
+                      Text(
+                        controller.profile.timelineName,
+                        style: Get.textTheme.bodySmall,
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 4),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Events Count : ",
+                        style: Get.textTheme.bodyMedium,
+                      ),
+                      Text(
+                        "${controller.profile.eventCount}",
+                        style: Get.textTheme.bodySmall,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
-    ]);
+    );
   }
 }

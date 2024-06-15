@@ -1,14 +1,25 @@
+import 'dart:convert';
+
+import 'package:dart_pusher_channels/dart_pusher_channels.dart'
+    as pusher_channels;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:healthy_minder/models/channel.dart';
 import 'package:healthy_minder/models/premium_status.dart';
 import 'package:healthy_minder/models/return_types.dart';
+import 'package:healthy_minder/models/saved_user.dart';
 import 'package:healthy_minder/repositories/data_service.dart';
 import 'package:healthy_minder/socket/pusher_socket.dart';
+import 'package:healthy_minder/ui/chat_feature/all_chat/all_chat_binding.dart';
 import 'package:healthy_minder/ui/chat_feature/all_chat/all_chat_screen.dart';
 import 'package:healthy_minder/ui/chat_feature/chat/chat_binding.dart';
 import 'package:healthy_minder/ui/chat_feature/chat/chat_screen.dart';
+import 'package:healthy_minder/ui/chat_feature/coach_chat/coach_chat_binding.dart';
+import 'package:healthy_minder/ui/chat_feature/coach_chat/coach_chat_screen.dart';
+import 'package:healthy_minder/ui/chat_feature/new_chat/new_chat_binding.dart';
+import 'package:healthy_minder/ui/chat_feature/new_chat/new_chat_screen.dart';
 import 'package:healthy_minder/ui/home/home_screen.dart';
 import 'package:healthy_minder/ui/notifications/notification_bindings.dart';
 import 'package:healthy_minder/ui/notifications/notification_screen.dart';
@@ -25,10 +36,12 @@ class HomeViewModel extends GetxController {
 
   HomeViewModel({required this.dataService});
 
-  static var premiumStatus = PremiumStatus.empty();
-  final _unreadNotifications = RxList<not.Notification>.empty();
+  Rx<PremiumStatus> premiumStatus = PremiumStatus.empty().obs;
+  final unreadNotifications = RxList<not.Notification>.empty();
+  final _savedUser = SavedUser.empty().obs;
 
-  List<not.Notification> get unreadNotifications => _unreadNotifications;
+  SavedUser get savedUser => _savedUser.value;
+
   final _xOffset = 0.0.obs;
   final _yOffset = 0.0.obs;
   final _xShadowOffset = 0.0.obs;
@@ -64,14 +77,16 @@ class HomeViewModel extends GetxController {
 
   @override
   void onInit() async {
-    PusherSocket().init();
     String token = StorageHelper.getToken();
     dataService.loadMyUnreadNotifications(token).then((value) {
-      print(value);
       if (value != null && value is ReturnDataType<List<not.Notification>?>?) {
-        _unreadNotifications.value =
+        unreadNotifications.value =
             (value as ReturnDataType<List<not.Notification>?>).data!;
       }
+    });
+    _savedUser.value = StorageHelper.getUser();
+    StorageHelper.storage.listenKey(Constance.savedUser, (value) {
+      _savedUser.value = StorageHelper.getUser();
     });
     // print(StorageHelper.getUser().channels.map((e) => e.toJsonString()));
     ReturnType<PremiumStatus?>? response =
@@ -79,7 +94,7 @@ class HomeViewModel extends GetxController {
     if (response is ReturnDataType) {
       PremiumStatus? premiumStatusNullable =
           (response as ReturnDataType<PremiumStatus?>).data;
-      premiumStatus = premiumStatusNullable ?? PremiumStatus.empty();
+      premiumStatus.value = premiumStatusNullable ?? PremiumStatus.empty();
     }
     _direction.value = StorageHelper.getTextDirection();
     _directionString.value = StorageHelper.getTextDirection().name;
@@ -87,6 +102,28 @@ class HomeViewModel extends GetxController {
     _currentPath.value = '/home';
     _currentRoute.value = 'home';
     super.onInit();
+    await PusherSocket().init();
+    PusherSocket()
+        .connectToUserChannel(token, StorageHelper.getUser().username, {
+      "PremiumStatusChanged": (pusher_channels.ChannelReadEvent event) {
+        String data = event.data;
+        print(data);
+        Map<String, dynamic> map = json.decode(data);
+        premiumStatus.value = PremiumStatus.fromJson(map);
+      },
+      "NewMessage": (pusher_channels.ChannelReadEvent event) {
+        var data = json.decode(event.data);
+        not.Notification notification = not.Notification(
+          id: data['id'],
+          body: data['sender']['fullname'] + " : " + data['message']['message'],
+          timestamp: DateTime.parse(data['message']['created_at'])
+              .millisecondsSinceEpoch,
+          title: data['conversation']['name'],
+          avatar: data['conversation']['avatar'],
+        );
+        unreadNotifications.value = [...unreadNotifications, notification];
+      }
+    });
   }
 
   void _calcShadowOffset() {
@@ -180,17 +217,24 @@ class HomeViewModel extends GetxController {
           binding: ChatBinding(),
           transition: Transition.zoom,
         );
-      case HealthyRoutes.allChatsPageRoute:
+      case HealthyRoutes.coachChatPageRoute:
         return GetPageRoute(
           settings: settings,
-          page: () => const AllChatScreen(),
+          page: () => const CoachChatScreen(),
+          binding: CoachChatBinding(),
           transition: Transition.zoom,
         );
-
+      case HealthyRoutes.newMessageRoute:
+        return GetPageRoute(
+          settings: settings,
+          page: () => const NewChatScreen(),
+          binding: NewChatBindings(),
+          transition: Transition.zoom,
+        );
       case HealthyRoutes.premiumScreenRoute:
         return GetPageRoute(
           settings: settings,
-          page: () => const PremiumScreen(),
+          page: () => PremiumScreen(),
           binding: PremiumBinding(),
           transition: Transition.zoom,
         );
@@ -212,7 +256,7 @@ class HomeViewModel extends GetxController {
 
   void logout() {
     StorageHelper.logout();
-    Get.toNamed(HealthyRoutes.loginRoute);
+    Get.offNamed(HealthyRoutes.loginRoute);
   }
 
   openNotification() {
@@ -221,11 +265,18 @@ class HomeViewModel extends GetxController {
     Get.toNamed(value.toString(), id: 1);
     _currentActive.value = value;
   }
+
+  @override
+  void onClose() {
+    PusherSocket().disconnect();
+    super.onClose();
+  }
 }
 
 enum DrawerItem {
   home('home'),
   message('message'),
+  coachMessage('coachMessage'),
   premium('premium'),
   settings('settings'),
   notification('notification');
@@ -240,15 +291,18 @@ enum DrawerItem {
       case "home":
         return HealthyRoutes.homeScreenRoute;
       case "message":
-        return HomeViewModel.premiumStatus.status == "approved"
+        return /*HomeViewModel.premiumStatus.value.status == "approved"
             ? HealthyRoutes.allChatsPageRoute
-            : HealthyRoutes.chatsPageRoute;
+            :*/
+            HealthyRoutes.chatsPageRoute;
       case "premium":
         return HealthyRoutes.premiumScreenRoute;
       case "notification":
         return HealthyRoutes.notificationScreenRoute;
       case "settings":
         return HealthyRoutes.settingsScreenRoute;
+      case "coachMessage":
+        return HealthyRoutes.coachChatPageRoute;
 
       default:
         return HealthyRoutes.homeScreenRoute;

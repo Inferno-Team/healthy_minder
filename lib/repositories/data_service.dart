@@ -1,10 +1,15 @@
+import 'dart:io';
+
+import 'package:healthy_minder/models/conversation.dart';
 import 'package:healthy_minder/models/get_goals_diseases_response.dart';
 import 'package:healthy_minder/models/login_response_model.dart';
 import 'package:healthy_minder/models/masseage.dart';
 import 'package:healthy_minder/models/notification.dart';
 import 'package:healthy_minder/models/plan.dart';
 import 'package:healthy_minder/models/premium_status.dart';
+import 'package:healthy_minder/models/profile.dart';
 import 'package:healthy_minder/models/return_types.dart';
+import 'package:healthy_minder/models/saved_user.dart';
 import 'package:healthy_minder/models/select_plan.dart';
 import 'package:healthy_minder/repositories/essential_methods.dart';
 import 'package:healthy_minder/utils/constances.dart';
@@ -72,6 +77,16 @@ class DataService with EssentialMethod {
       key: "gd",
     );
     return response;
+  }
+
+  Future<ReturnType<Profile?>?> getProfile(String token) async {
+    String route = "/api/profile";
+    return await createGetRequest(
+      url: "$baseUrl$route",
+      fromJson: (json) => Profile.fromJson(json),
+      key: "profile",
+      headers: createAuthHeader(token),
+    );
   }
 
   Future<void> sendNewMessage(
@@ -147,6 +162,65 @@ class DataService with EssentialMethod {
       url: "$baseUrl$route",
       key: "notifications",
       fromJson: (json) => Notification.listFromJson(json),
+    );
+  }
+
+  Future<ReturnType<SavedUser?>?> updateProfileAvatar(
+      String token, File compressedFile) async {
+    String route = "/api/update-profile-avatar";
+    Uri uri = Uri.parse("$baseUrl$route");
+    return await createPostWithFileRequest(
+      uri: uri,
+      files: [compressedFile],
+      headers: createAuthHeader(token),
+      key: "user",
+      fromJson: (json) => SavedUser.fromJson(json),
+    );
+  }
+
+  Future<ReturnType<String?>?> sendPremiumRequest(
+      String token, String code) async {
+    String route = "/api/send-premium-request";
+    Uri uri = Uri.parse("$baseUrl$route");
+    return await createPostRequest(
+      uri: uri,
+      headers: createAuthHeader(token),
+      body: {
+        "code": code,
+      },
+    );
+  }
+
+  Future<ReturnType<SavedUser?>?> me(String token) async {
+    String route = "/api/me";
+    return await createGetRequest(
+      url: "$baseUrl$route",
+      headers: createAuthHeader(token),
+      key: "user",
+      fromJson: (json) => SavedUser.fromJson(json),
+    );
+  }
+
+  sendNotificationSeen(String token, String notId) async {
+    String route = "/api/send-notification-seen";
+    Uri uri = Uri.parse("$baseUrl$route");
+    return await createPostRequest(
+      uri: uri,
+      headers: createAuthHeader(token),
+      body: {
+        "id": notId,
+      },
+    );
+  }
+
+  Future<ReturnType<Conversation?>?> getCoachConversationWithMe(
+      String token) async {
+    String route = "/api/get-coach-conversation-with-me";
+    return await createGetRequest(
+      url: "$baseUrl$route",
+      headers: createAuthHeader(token),
+      key: "conversation",
+      fromJson: (json) => Conversation.fromJson(json),
     );
   }
 }

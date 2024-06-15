@@ -15,13 +15,15 @@ class Channel {
     required this.conversations,
   });
 
-  factory Channel.fromJson(json) => Channel(
-        id: json['id'],
-        name: json['name'],
-        type: ChannelType.values
-            .firstWhere((element) => element.name == json['type']),
-        conversations: Conversation.fromJsonList(json['conversations']),
-      );
+  factory Channel.fromJson(json) => json.isEmpty
+      ? Channel.empty()
+      : Channel(
+          id: json['id'],
+          name: json['name'],
+          type: ChannelType.values
+              .firstWhere((element) => element.name == json['type']),
+          conversations: Conversation.fromJsonList(json['conversations']),
+        );
 
   factory Channel.empty() => Channel(
         id: -1,

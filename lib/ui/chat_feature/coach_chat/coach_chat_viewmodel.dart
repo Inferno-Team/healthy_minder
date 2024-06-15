@@ -1,10 +1,8 @@
 import 'dart:async';
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:healthy_minder/models/channel.dart';
+import 'package:healthy_minder/models/conversation.dart';
 import 'package:healthy_minder/models/masseage.dart';
 import 'package:healthy_minder/models/return_types.dart';
 import 'package:healthy_minder/models/saved_user.dart';
@@ -13,17 +11,16 @@ import 'package:healthy_minder/socket/pusher_socket.dart';
 import 'package:healthy_minder/ui/home/home_viewmodel.dart';
 import 'package:healthy_minder/utils/storage_helper.dart';
 
-class ChatViewModel extends GetxController {
+class CoachChatViewModel extends GetxController {
   final DataService dataService;
   final RxList<Message> _messagesList = <Message>[].obs;
   final ScrollController scrollController = ScrollController();
+  late final Conversation conversation;
   Timer? _timer;
   String _inputFieldStatus = "stopped";
   final _channel = Channel.empty().obs;
 
-  int conversationId = -1;
-
-  ChatViewModel({required this.dataService});
+  CoachChatViewModel({required this.dataService});
 
   List<Message> get messages => _messagesList;
   TextEditingController textController = TextEditingController();
@@ -32,15 +29,17 @@ class ChatViewModel extends GetxController {
   void onInit() async {
     super.onInit();
     String token = StorageHelper.getToken();
-    _channel.listen((channel) async {
-      conversationId = channel.conversations.first.id;
+    ReturnType<Conversation?>? res =
+        await dataService.getCoachConversationWithMe(token);
+    if (res != null && res is ReturnDataType<Conversation?>) {
+      conversation = res.data!;
       PusherSocket().connectToAllChatChannel(
           token,
-          "${channel.type.name}-${channel.name}",
+          "${conversation.channelType}-${conversation.channelName}",
           onNewMessageEvent,
           whenOtherIsTyping);
       ReturnType<List<Message>?>? response =
-          await dataService.getConversationOldMessages(token, conversationId);
+          await dataService.getConversationOldMessages(token, conversation.id);
 
       if (response is ReturnDataType) {
         List<Message>? messages =
@@ -53,7 +52,7 @@ class ChatViewModel extends GetxController {
           print(e);
         }
       }
-    });
+    }
   }
 
   void onNewMessageEvent(Message message) async {
@@ -86,7 +85,7 @@ class ChatViewModel extends GetxController {
   void sendNewMessage() {
     String message = textController.text;
     String token = StorageHelper.getToken();
-    dataService.sendNewMessage(token, conversationId, message);
+    dataService.sendNewMessage(token, conversation.id, message);
     textController.text = "";
   }
 
@@ -116,8 +115,8 @@ class ChatViewModel extends GetxController {
       _inputFieldStatus = 'stopped';
       SavedUser user = StorageHelper.getUser();
       PusherSocket().sendTypingWhisper(
-        "presence-all-chat",
-        conversationId,
+        "${conversation.channelType}-${conversation.channelName}",
+        conversation.id,
         user.id,
         user.username,
         _inputFieldStatus,
@@ -129,13 +128,13 @@ class ChatViewModel extends GetxController {
     _inputFieldStatus = "typing";
     SavedUser user = StorageHelper.getUser();
     PusherSocket().sendTypingWhisper(
-      "presence-all-chat",
-      conversationId,
+      "${conversation.channelType}-${conversation.channelName}",
+      conversation.id,
       user.id,
       user.username,
       _inputFieldStatus,
     );
   }
 
-  setChannel(Channel channel) => _channel.value = channel;
+  setChannel(Channel? channel) => _channel.value = channel ?? Channel.empty();
 }

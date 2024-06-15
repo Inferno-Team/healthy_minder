@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:healthy_minder/models/select_plan.dart';
 import 'package:healthy_minder/repositories/data_service.dart';
 import 'package:healthy_minder/ui/auth/login/login_binding.dart';
 import 'package:healthy_minder/ui/auth/login/login_page.dart';
@@ -27,8 +26,9 @@ class Constance {
   static const String languageValue = 'language';
   static const String currentStep = 'current_step';
   static const String otherValues = 'other_values';
-  static const String hostName = "192.168.180.160";
-  // static const String hostName = "192.168.1.7";
+
+  // static const String hostName = "192.168.137.160";
+  static const String hostName = "192.168.1.7";
 }
 
 class HealthyRoutes {
@@ -39,8 +39,9 @@ class HealthyRoutes {
   static const String finalSignupRoute = '/third-signup-page';
   static const String homePageRoute = '/home';
   static const String chatsPageRoute = '/chats-page';
-  static const String allChatsPageRoute = '/all-chats-page';
+  static const String coachChatPageRoute = '/all-chats-page';
   static const String sendMessageRoute = '/send-message-page';
+  static const String newMessageRoute = '/new-message-page';
   static const String preimumPageRoute = '/preimum-page';
   static const String homeScreenRoute = '/home/home-screen';
   static const String notificationScreenRoute = '/notification-screen';
@@ -61,8 +62,8 @@ class HealthyRoutes {
       GetPage(
         name: HealthyRoutes.firstSignupRoute,
         page: () => const SignUpPage(),
-        transition: Transition.zoom,
         binding: SignupBinding(),
+        transition: Transition.zoom,
       ),
       GetPage(
         name: HealthyRoutes.homePageRoute,
@@ -82,19 +83,19 @@ class HealthyRoutes {
       ),
       GetPage(
         name: HealthyRoutes.preimumPageRoute,
-        page: () => const PremiumScreen(),
+        page: () =>  PremiumScreen(),
         binding: PremiumBinding(),
         transition: Transition.zoom,
       ),
       GetPage(
         name: HealthyRoutes.settingsScreenRoute,
-        page: () => SettingsScreen(),
+        page: () => const SettingsScreen(),
         binding: SettingsBinding(),
         transition: Transition.zoom,
       ),
-       GetPage(
+      GetPage(
         name: HealthyRoutes.selectPlanRoute,
-        page: () => SelectPlanPage(),
+        page: () => const SelectPlanPage(),
         binding: SelectPlanBindings(),
         transition: Transition.zoom,
       ),

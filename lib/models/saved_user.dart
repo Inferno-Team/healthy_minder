@@ -7,6 +7,7 @@ class SavedUser {
   final String email;
   final int id;
   final List<Channel> channels;
+  final String? avatar;
 
   SavedUser({
     required this.username,
@@ -15,6 +16,7 @@ class SavedUser {
     required this.email,
     required this.id,
     required this.channels,
+    this.avatar,
   });
 
   factory SavedUser.empty() => SavedUser(
@@ -27,13 +29,13 @@ class SavedUser {
       );
 
   factory SavedUser.fromJson(dynamic json) => SavedUser(
-        username: json['username'] ?? '',
-        fullName: json['fullname'] ?? '',
-        imageUrl: json['avatar'] ?? '',
-        email: json['email'] ?? '',
-        id: json['id'] ?? -1,
-        channels: Channel.fromJsonList(json['channels'] ?? []),
-      );
+      username: json['username'] ?? '',
+      fullName: json['fullname'] ?? '',
+      imageUrl: json['avatar'] ?? '',
+      email: json['email'] ?? '',
+      id: json['id'] ?? -1,
+      channels: Channel.fromJsonList(json['channels'] ?? []),
+      avatar: json['avatar']);
 
   Map<String, dynamic> toJson() {
     return {
@@ -42,7 +44,8 @@ class SavedUser {
       "fullname": fullName,
       "id": id,
       "email": email,
-      "channels": channels,
+      "channels": channels.map((Channel channel) => channel.toJson()).toList(),
+      "avatar": avatar,
     };
   }
 }

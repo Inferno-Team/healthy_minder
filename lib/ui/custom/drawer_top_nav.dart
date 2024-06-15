@@ -1,18 +1,22 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 class CustomDrawerTopNav extends StatelessWidget {
   final String username;
   final String email;
-
+  final String? avatar;
+  final bool isPremium;
   final void Function() onSettingPressed;
 
   const CustomDrawerTopNav({
     super.key,
     this.username = "",
     this.email = "",
+    this.avatar,
+    this.isPremium = false,
     required this.onSettingPressed,
   });
 
@@ -25,15 +29,42 @@ class CustomDrawerTopNav extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CircleAvatar(
-            radius: 32,
-            backgroundColor: const Color.fromRGBO(86, 185, 117, 1),
-            child: Center(
-              child: Text(
-                username.characters.length > 1 ? username.characters.first : '',
-                style: Get.textTheme.bodyLarge,
+          Column(
+            children: [
+              if (isPremium)
+                const FaIcon(
+                  FontAwesomeIcons.crown,
+                  color: Colors.yellowAccent,
+                ),
+              CircleAvatar(
+                radius: 64,
+                backgroundColor: const Color.fromRGBO(86, 185, 117, 1),
+                child: avatar == null
+                    ? Center(
+                        child: Text(
+                          username.characters.length > 1
+                              ? username.characters.first.toUpperCase()
+                              : '',
+                          style: Get.textTheme.bodyMedium,
+                        ),
+                      )
+                    : ClipOval(
+                        child: !avatar!.startsWith("http")
+                            ? Image.file(
+                                File(avatar!),
+                                fit: BoxFit.cover,
+                                width: 128,
+                                height: 128,
+                              )
+                            : Image.network(
+                                avatar!,
+                                fit: BoxFit.cover,
+                                width: 128,
+                                height: 128,
+                              ),
+                      ),
               ),
-            ),
+            ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,

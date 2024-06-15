@@ -6,7 +6,7 @@ import 'package:healthy_minder/utils/storage_helper.dart';
 import 'dart:convert';
 
 class PusherSocket {
-  late final PusherChannelsClient client;
+  late PusherChannelsClient client;
   static final PusherSocket _singleton =
       PusherSocket._internal(debugMode: true);
 
@@ -37,6 +37,7 @@ class PusherSocket {
         port: 6001,
       );
     }
+
     client = PusherChannelsClient.websocket(
       options: customOptions,
       connectionErrorHandler: (exception, trace, refresh) {
@@ -87,7 +88,7 @@ class PusherSocket {
         .first
         .then((value) => print(value.rootObject));
     allChatsChannel.whenSubscriptionSucceeded().first.then((value) {
-      channels["presence-all-chats"] = allChatsChannel;
+      channels[channelName] = allChatsChannel;
     });
     allChatsChannel.bind('NewMessage').listen((event) {
       Map<String, dynamic> message = json.decode(event.data);
@@ -107,22 +108,55 @@ class PusherSocket {
     });
   }
 
-  void sendTypingWhisper(
-      int channelId, int userId, String fullName, String status) {
-    PresenceChannel? allChatChannel =
-        channels["presence-all-chats"] as PresenceChannel?;
+  void connectToUserChannel(
+    String token,
+    String channelName,
+    Map<String, void Function(ChannelReadEvent data)> functions,
+  ) async {
+    final channel = client.presenceChannel(
+      "presence-$channelName",
+      authorizationDelegate:
+          EndpointAuthorizableChannelTokenAuthorizationDelegate
+              .forPresenceChannel(
+        authorizationEndpoint: Uri.parse(
+          'http://${Constance.hostName}:8000/api/authenticate_user_private_channel',
+        ),
+        headers: {
+          "Authorization": "Bearer $token",
+        },
+      ),
+    );
+    channel.subscribe();
+
+    channel.whenSubscriptionSucceeded().listen((event) {
+      print(event.name);
+      for (String key in functions.keys) {
+        channel.bind(key).listen(functions[key]);
+      }
+    });
+    channel.onSubscriptionError().listen((event) {
+      print("Error");
+      print(event.name);
+      print(event.data);
+    });
+  }
+
+  void sendTypingWhisper(String channelName, int conversationId, int userId,
+      String fullName, String status) {
+    PresenceChannel? allChatChannel = channels[channelName] as PresenceChannel?;
     allChatChannel?.trigger(eventName: "client-user-typing-status", data: {
       "user_id": userId,
-      "chat": channelId,
+      "chat": conversationId,
       "fullname": fullName,
       "status": status,
     });
   }
 
   void unSubscribeToAllChatChannel() {
-    PresenceChannel? allChatChannel =
-        channels["presence-all-chats"] as PresenceChannel?;
-    allChatChannel?.unsubscribe();
+    for (String key in channels.keys) {
+      Channel? channel = channels[key];
+      channel?.unsubscribe();
+    }
   }
 
   EndpointAuthorizableChannelAuthorizationDelegate<
@@ -134,5 +168,12 @@ class PusherSocket {
       ),
       headers: const {},
     );
+  }
+
+  void disconnect() async {
+    for (Channel channel in channels.values) {
+      channel.unsubscribe();
+    }
+    await client.disconnect();
   }
 }

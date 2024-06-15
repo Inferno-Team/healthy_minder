@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:healthy_minder/models/premium_status.dart';
 import 'package:healthy_minder/ui/custom/drawer_item.dart';
 import 'package:healthy_minder/ui/custom/drawer_top_nav.dart';
 import 'package:healthy_minder/ui/home/home_viewmodel.dart';
@@ -28,12 +29,17 @@ class CustomDrawer extends GetView<HomeViewModel> {
               children: [
                 Row(
                   children: [
-                    CustomDrawerTopNav(
-                      username: StorageHelper.getUser().username,
-                      email: StorageHelper.getUser().email,
-                      onSettingPressed:()=> controller.changeCurrent(DrawerItem.settings),
+                    Obx(
+                      () => CustomDrawerTopNav(
+                        username: controller.savedUser.username,
+                        email: controller.savedUser.email,
+                        avatar: controller.savedUser.avatar,
+                        isPremium: controller.premiumStatus.value.status ==
+                            PremiumStatusTypes.approved,
+                        onSettingPressed: () =>
+                            controller.changeCurrent(DrawerItem.settings),
+                      ),
                     ),
-                    
                   ],
                 ),
                 SizedBox(
@@ -71,7 +77,7 @@ class CustomDrawer extends GetView<HomeViewModel> {
                             child: CustomDrawerItem(
                               icon: FontAwesomeIcons.message,
                               background: Colors.white,
-                              text: "Messages",
+                              text: "Public Chat",
                               iconBackground:
                                   const Color.fromRGBO(157, 64, 251, 1),
                               iconColor: const Color.fromRGBO(255, 255, 255, 1),
@@ -81,21 +87,49 @@ class CustomDrawer extends GetView<HomeViewModel> {
                                   controller.changeCurrent(DrawerItem.message),
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 20),
-                            child: CustomDrawerItem(
-                              icon: FontAwesomeIcons.crown,
-                              background: Colors.white,
-                              text: "Premium",
-                              iconBackground:
-                                  const Color.fromRGBO(60, 125, 146, 1),
-                              iconColor: const Color.fromRGBO(255, 214, 0, 1),
-                              isActive:
-                                  controller.current == DrawerItem.premium,
-                              onTap: () =>
-                                  controller.changeCurrent(DrawerItem.premium),
-                            ),
-                          ),
+                          Obx(() {
+                            if (controller.premiumStatus.value.status ==
+                                PremiumStatusTypes.unknown) {
+                              return Padding(
+                                padding: const EdgeInsets.only(top: 20),
+                                child: CustomDrawerItem(
+                                  icon: FontAwesomeIcons.crown,
+                                  background: Colors.white,
+                                  text: "Premium",
+                                  iconBackground:
+                                      const Color.fromRGBO(60, 125, 146, 1),
+                                  iconColor:
+                                      const Color.fromRGBO(255, 214, 0, 1),
+                                  isActive:
+                                      controller.current == DrawerItem.premium,
+                                  onTap: () => controller
+                                      .changeCurrent(DrawerItem.premium),
+                                ),
+                              );
+                            } else if (controller.premiumStatus.value.status ==
+                                PremiumStatusTypes.approved) {
+                              return Padding(
+                                padding: const EdgeInsets.only(top: 20),
+                                child: CustomDrawerItem(
+                                  icon: FontAwesomeIcons.solidMessage,
+                                  background: Colors.white,
+                                  text: "Coach Chat",
+                                  iconBackground:
+                                      const Color.fromRGBO(60, 125, 146, 1),
+                                  iconColor:
+                                      const Color.fromRGBO(255, 214, 0, 1),
+                                  isActive: controller.current ==
+                                      DrawerItem.coachMessage,
+                                  onTap: () => controller
+                                      .changeCurrent(DrawerItem.coachMessage),
+                                ),
+                              );
+                            } else {
+                              return const Padding(
+                                padding: EdgeInsets.only(top: 0),
+                              );
+                            }
+                          }),
                           Padding(
                             padding: const EdgeInsets.only(top: 20),
                             child: CustomDrawerItem(

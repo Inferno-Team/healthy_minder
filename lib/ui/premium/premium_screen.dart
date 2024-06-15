@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:healthy_minder/ui/custom/custem_button.dart';
+import 'package:healthy_minder/ui/custom/custem_text_field.dart';
 import 'package:healthy_minder/ui/premium/premium_viewmodel.dart';
 import 'package:healthy_minder/utils/translator.dart';
 
 class PremiumScreen extends GetView<PremiumViewModel> {
-  const PremiumScreen({super.key});
+  PremiumScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -200,12 +201,40 @@ class PremiumScreen extends GetView<PremiumViewModel> {
             ),
           ),
           Padding(
-            padding: const EdgeInsetsDirectional.only(top: 75),
+            padding: const EdgeInsetsDirectional.only(top: 55),
             child: custemBtn(
               textbtn: Keys.upgrade.name.tr + Keys.toPremium.name.tr,
-              onPressed: controller.openCamera,
+              onPressed: _showDialog,
               withIcon: true,
             ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showDialog() {
+    Get.dialog(
+      AlertDialog(
+        backgroundColor: Colors.white,
+        title:
+            Text('Enter your process code', style: Get.textTheme.displaySmall),
+        content: CustomTextField(
+          label: "Code",
+          obscureText: false,
+          textInputType: TextInputType.number,
+          textController: controller.premiumTextController,
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Get.back();
+            },
+            child: Text('Cancel', style: Get.textTheme.displaySmall),
+          ),
+          TextButton(
+            onPressed: controller.sendPremiumRequest,
+            child: Text('Confirm', style: Get.textTheme.displaySmall),
           ),
         ],
       ),

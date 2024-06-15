@@ -1,7 +1,9 @@
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:healthy_minder/models/notification.dart';
 import 'package:healthy_minder/models/return_types.dart';
 import 'package:healthy_minder/repositories/data_service.dart';
+import 'package:healthy_minder/ui/home/home_viewmodel.dart';
 import 'package:healthy_minder/utils/storage_helper.dart';
 
 class NotificationViewmodel extends GetxController {
@@ -21,5 +23,19 @@ class NotificationViewmodel extends GetxController {
       _notifications.value = (response).data!;
     }
     super.onInit();
+    Get.find<HomeViewModel>().unreadNotifications.listen(
+      (p0) {
+        _notifications.value = p0;
+      },
+    );
+  }
+
+  sendNotificationSeen(String notId) async {
+    String token = StorageHelper.getToken();
+    await dataService.sendNotificationSeen(token, notId);
+    _notifications.removeWhere((element) => element.id == notId);
+    Get.find<HomeViewModel>()
+        .unreadNotifications
+        .removeWhere((element) => element.id == notId);
   }
 }
