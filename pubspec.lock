@@ -350,6 +350,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.3.2"
+  flutter_corner_banner:
+    dependency: "direct main"
+    description:
+      name: flutter_corner_banner
+      sha256: "67dd5c20a1c4da58bc43e6cd1dd1eb3687d2dbcdfd2eb112a85ae6ff77e39bd1"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.1"
   flutter_gen_core:
     dependency: transitive
     description:
@@ -434,18 +442,18 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_neat_and_clean_calendar
-      sha256: "04d89cb42b998e59e9255f0c4b15d6d2ba3800999adda24c45f96230ed63dbc4"
+      sha256: "3e092fa42eae91bad2093a0c18a0c0f3af78e62f250b3ae8cfe88b4579965797"
       url: "https://pub.dev"
     source: hosted
-    version: "0.3.18+40"
+    version: "0.3.19+41"
   flutter_platform_widgets:
     dependency: transitive
     description:
       name: flutter_platform_widgets
-      sha256: c483c0591d845d2adb84e341a1cfb746f1a8a7aff4c72a5957772446020601f4
+      sha256: "1a52147c03f0265b4f64d607f05ccfce5b2390224c6d40435ebc212f23576fff"
       url: "https://pub.dev"
     source: hosted
-    version: "6.1.0"
+    version: "7.0.0"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
@@ -641,13 +649,13 @@ packages:
     source: hosted
     version: "0.2.1+1"
   intl:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: intl
-      sha256: "3bc132a9dbce73a7e4a21a17d06e1878839ffbf975568bc875c60537824b0c4d"
+      sha256: d6f56758b7d3014a48af9701c085700aac781a92a87a62b1333b46d8879661cf
       url: "https://pub.dev"
     source: hosted
-    version: "0.18.1"
+    version: "0.19.0"
   io:
     dependency: transitive
     description:
@@ -672,6 +680,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.8.1"
+  kalender:
+    dependency: "direct main"
+    description:
+      name: kalender
+      sha256: "1ccc220cb8db8506ac272622af65d347b675660e0817c85390917dda42481b41"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.4.1"
   leak_tracker:
     dependency: transitive
     description:
@@ -724,10 +740,10 @@ packages:
     dependency: transitive
     description:
       name: macos_ui
-      sha256: "68d89f8d657f9e2f3dec30de1f2788d098b6d831b094d1aef3a9d5955cdc4f22"
+      sha256: "91c7f3427f763fd96b65831342b896b18751140e6bf55f8572fcb41f7b30bcab"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.6"
+    version: "2.0.7"
   macos_window_utils:
     dependency: transitive
     description:
@@ -984,6 +1000,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.27.7"
+  scrollable_positioned_list:
+    dependency: transitive
+    description:
+      name: scrollable_positioned_list
+      sha256: "1b54d5f1329a1e263269abc9e2543d90806131aa14fe7c6062a8054d57249287"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.8"
   shelf:
     dependency: transitive
     description:

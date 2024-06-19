@@ -11,6 +11,7 @@ import 'package:healthy_minder/models/profile.dart';
 import 'package:healthy_minder/models/return_types.dart';
 import 'package:healthy_minder/models/saved_user.dart';
 import 'package:healthy_minder/models/select_plan.dart';
+import 'package:healthy_minder/models/timeline_event.dart';
 import 'package:healthy_minder/repositories/essential_methods.dart';
 import 'package:healthy_minder/utils/constances.dart';
 
@@ -221,6 +222,29 @@ class DataService with EssentialMethod {
       headers: createAuthHeader(token),
       key: "conversation",
       fromJson: (json) => Conversation.fromJson(json),
+    );
+  }
+
+  Future<ReturnType<List<TimelineEvent>?>?> getTodayEvents(String token) async {
+    String route = "/api/timeline/today-events";
+    return await createGetRequest(
+      url: "$baseUrl$route",
+      headers: createAuthHeader(token),
+      key: "events",
+      fromJson: (json) =>
+          (json as List).map((j) => TimelineEvent.fromJson(j)).toList(),
+    );
+  }
+
+  Future<ReturnType<List<TimelineEvent>?>?> getTimelineEvents(
+      String token) async {
+    String route = "/api/timeline/events";
+    return await createGetRequest(
+      url: "$baseUrl$route",
+      headers: createAuthHeader(token),
+      key: "events",
+      fromJson: (json) =>
+          (json as List).map((j) => TimelineEvent.fromJson(j)).toList(),
     );
   }
 }

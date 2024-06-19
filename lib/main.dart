@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
         child: child ?? Container(),
       ),
       // themeMode: ThemeMode.light,
-      themeMode: StorageHelper.currentTheme(),
+      themeMode: ThemeMode.light,
       translations: Translator(),
       initialBinding: InitialGetBinding(),
       locale: StorageHelper.getLanguage(),

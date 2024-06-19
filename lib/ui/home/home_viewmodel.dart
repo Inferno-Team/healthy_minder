@@ -10,6 +10,7 @@ import 'package:healthy_minder/models/channel.dart';
 import 'package:healthy_minder/models/premium_status.dart';
 import 'package:healthy_minder/models/return_types.dart';
 import 'package:healthy_minder/models/saved_user.dart';
+import 'package:healthy_minder/models/timeline_event.dart';
 import 'package:healthy_minder/repositories/data_service.dart';
 import 'package:healthy_minder/socket/pusher_socket.dart';
 import 'package:healthy_minder/ui/chat_feature/all_chat/all_chat_binding.dart';
@@ -30,6 +31,7 @@ import 'package:healthy_minder/ui/settings/settings_screen.dart';
 import 'package:healthy_minder/utils/constances.dart';
 import 'package:healthy_minder/utils/storage_helper.dart';
 import 'package:healthy_minder/models/notification.dart' as not;
+import 'package:kalender/kalender.dart';
 
 class HomeViewModel extends GetxController {
   final DataService dataService;
@@ -38,6 +40,10 @@ class HomeViewModel extends GetxController {
 
   Rx<PremiumStatus> premiumStatus = PremiumStatus.empty().obs;
   final unreadNotifications = RxList<not.Notification>.empty();
+  final todayEvents = RxList<TimelineEvent>.empty();
+  final timelineEvents = RxList<TimelineEvent>.empty();
+  bool isTodayEventsLoading = true;
+  bool isTimelineEventsLoading = true;
   final _savedUser = SavedUser.empty().obs;
 
   SavedUser get savedUser => _savedUser.value;
@@ -57,6 +63,24 @@ class HomeViewModel extends GetxController {
   DrawerItem get current => _currentActive.value;
 
   String get message => _messageFromSubPage.value;
+  List<ViewConfiguration> viewConfigurations = [
+    DayConfiguration(
+      timeIndicatorSnapping: true,
+      verticalStepDuration: const Duration(minutes: 30),
+      initialHeightPerMinute: 1.5,
+      enableRescheduling: false,
+      enableResizing: false,
+    ),
+    WeekConfiguration(),
+    MonthConfiguration(),
+  ];
+  final calendarController = CalendarController<TimelineEvent>(
+    initialDate: DateTime.now(),
+  );
+  CalendarEventsController<TimelineEvent> eventController =
+      CalendarEventsController();
+
+  final currentConfiguration = Rxn<ViewConfiguration>();
 
   void setMessage(String msg) => _messageFromSubPage.value = msg;
 
@@ -78,6 +102,33 @@ class HomeViewModel extends GetxController {
   @override
   void onInit() async {
     String token = StorageHelper.getToken();
+    currentConfiguration.value = viewConfigurations[0];
+    dataService.getTodayEvents(token).then((value) {
+      isTodayEventsLoading = false;
+      if (value != null && value is ReturnDataType<List<TimelineEvent>?>?) {
+        todayEvents.value =
+            (value as ReturnDataType<List<TimelineEvent>?>).data!;
+      }
+    });
+
+    dataService.getTimelineEvents(token).then((value) {
+      isTimelineEventsLoading = false;
+      if (value != null && value is ReturnDataType<List<TimelineEvent>?>?) {
+        timelineEvents.value =
+            (value as ReturnDataType<List<TimelineEvent>?>).data!;
+        for (TimelineEvent event in timelineEvents) {
+          CalendarEvent<TimelineEvent> eventTime = CalendarEvent<TimelineEvent>(
+            eventData: event,
+            dateTimeRange: DateTimeRange(
+              start: event.eventStartAt,
+              end: event.eventEndAt,
+            ),
+          );
+          eventController.addEvent(eventTime);
+        }
+      }
+    });
+
     dataService.loadMyUnreadNotifications(token).then((value) {
       if (value != null && value is ReturnDataType<List<not.Notification>?>?) {
         unreadNotifications.value =
@@ -270,6 +321,285 @@ class HomeViewModel extends GetxController {
   void onClose() {
     PusherSocket().disconnect();
     super.onClose();
+  }
+
+  Future<void> onHomeScreenRefresh() async {
+    isTodayEventsLoading = true;
+    isTimelineEventsLoading = true;
+    String token = StorageHelper.getToken();
+    todayEvents.value = [];
+    timelineEvents.value = [];
+
+    dataService.getTodayEvents(token).then((value) {
+      isTodayEventsLoading = false;
+      if (value != null && value is ReturnDataType<List<TimelineEvent>?>?) {
+        todayEvents.value =
+            (value as ReturnDataType<List<TimelineEvent>?>).data!;
+      }
+    });
+    eventController.clearEvents();
+    dataService.getTimelineEvents(token).then((value) {
+      isTimelineEventsLoading = false;
+      if (value != null && value is ReturnDataType<List<TimelineEvent>?>?) {
+        timelineEvents.value =
+            (value as ReturnDataType<List<TimelineEvent>?>).data!;
+        for (TimelineEvent event in timelineEvents) {
+          CalendarEvent<TimelineEvent> eventTime = CalendarEvent<TimelineEvent>(
+            eventData: event,
+            dateTimeRange: DateTimeRange(
+              start: event.eventStartAt,
+              end: event.eventEndAt,
+            ),
+          );
+          eventController.addEvent(eventTime);
+        }
+      }
+    });
+  }
+
+  void updateCurrentConfiguration(ViewConfiguration? value) {
+    if (value != null) {
+      currentConfiguration.value = value;
+    }
+  }
+
+  void showMealInfoDialog(MealEventItem event) {
+    Get.dialog(
+      AlertDialog(
+        backgroundColor: Colors.white,
+        title: Text(event.name, style: Get.textTheme.displaySmall),
+        content: SizedBox(
+          height: 500,
+          child: SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                IntrinsicWidth(
+                  child: SizedBox(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            const Text("Quantity : "),
+                            Text(
+                              "${event.qty} ${event.qtyType}",
+                              style: Get.textTheme.bodySmall,
+                            ),
+                          ],
+                        ),
+                        const Divider(
+                          thickness: 1.5,
+                          color: Color.fromRGBO(0, 0, 0, 1),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                IntrinsicWidth(
+                  child: SizedBox(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            const Text("Meal Type : "),
+                            Text(
+                              event.type,
+                              style: Get.textTheme.bodySmall,
+                            ),
+                          ],
+                        ),
+                        const Divider(
+                          thickness: 1.5,
+                          color: Color.fromRGBO(0, 0, 0, 1),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const IntrinsicWidth(
+                  child: SizedBox(
+                    width: 120,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Ingredients : "),
+                        Divider(
+                          thickness: 1.5,
+                          color: Color.fromRGBO(0, 0, 0, 1),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Text(
+                  event.ingredients,
+                  style: Get.textTheme.bodySmall,
+                ),
+                const SizedBox(
+                  width: 120,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Description : "),
+                      Divider(
+                        thickness: 1.5,
+                        color: Color.fromRGBO(0, 0, 0, 1),
+                      ),
+                    ],
+                  ),
+                ),
+                Text(
+                  event.description,
+                  style: Get.textTheme.bodySmall,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  void showExerciseInfoDialog(ExerciseEventItem event) {
+    Get.dialog(
+      AlertDialog(
+        backgroundColor: Colors.white,
+        title: Text(event.name, style: Get.textTheme.displaySmall),
+        content: SizedBox(
+          height: 500,
+          child: SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                IntrinsicWidth(
+                  child: SizedBox(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            const Text("Type : "),
+                            Text(
+                              event.type,
+                              style: Get.textTheme.bodySmall,
+                            ),
+                          ],
+                        ),
+                        const Divider(
+                          thickness: 1.5,
+                          color: Color.fromRGBO(0, 0, 0, 1),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                IntrinsicWidth(
+                  child: SizedBox(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            const Text("Equipment : "),
+                            Text(
+                              event.equipment,
+                              style: Get.textTheme.bodySmall,
+                            ),
+                          ],
+                        ),
+                        const Divider(
+                          thickness: 1.5,
+                          color: Color.fromRGBO(0, 0, 0, 1),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                IntrinsicWidth(
+                  child: SizedBox(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            const Text("Duration : "),
+                            Text(
+                              event.duration,
+                              style: Get.textTheme.bodySmall,
+                            ),
+                          ],
+                        ),
+                        const Divider(
+                          thickness: 1.5,
+                          color: Color.fromRGBO(0, 0, 0, 1),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  width: 75,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Media : "),
+                      Divider(
+                        thickness: 1.5,
+                        color: Color.fromRGBO(0, 0, 0, 1),
+                      ),
+                    ],
+                  ),
+                ),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Image.network(
+                    event.media,
+                    loadingBuilder:
+                        (_, Widget child, ImageChunkEvent? loadingProgress) {
+                      if (loadingProgress == null) {
+                        return child;
+                      }
+                      return const Center(
+                        child: CircularProgressIndicator(
+                          color: Color.fromRGBO(251, 99, 64, 1),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                Container(
+                  width: 120,
+                  margin: const EdgeInsets.only(top: 25),
+                  child: const Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Description : "),
+                      Divider(
+                        thickness: 1.5,
+                        color: Color.fromRGBO(0, 0, 0, 1),
+                      ),
+                    ],
+                  ),
+                ),
+                Text(
+                  event.description,
+                  style: Get.textTheme.bodySmall,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
 
