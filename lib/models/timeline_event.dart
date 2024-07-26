@@ -80,7 +80,7 @@ class MealEventItem extends TimelineEventItem {
 }
 
 class ExerciseEventItem extends TimelineEventItem {
-  final String media;
+  final String? media;
   final String type;
   final String equipment;
   final String duration;

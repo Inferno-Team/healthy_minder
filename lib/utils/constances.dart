@@ -28,7 +28,11 @@ class Constance {
   static const String otherValues = 'other_values';
 
   // static const String hostName = "192.168.137.160";
-  static const String hostName = "192.168.1.7";
+  // static const String hostName = "192.168.1.7";
+  static const String hostName = "healthy.digiworld-dev.com";
+    static const String fullHostName = "https://$hostName";
+  // static const String hostName = "192.168.63.160";
+  // static const String fullHostName = "http://$hostName:8000";
 }
 
 class HealthyRoutes {
@@ -48,6 +52,7 @@ class HealthyRoutes {
   static const String selectPlanRoute = '/select-plan-route';
 
   static const String premiumScreenRoute = '/preimum-screen';
+  static const String myProgressScreenRoute = '/myProgress-screen';
   static const String settingsScreenRoute = '/settings-screen';
   static const String addPackageScreenRoute = '/add-package-screen';
 

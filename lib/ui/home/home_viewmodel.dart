@@ -22,6 +22,8 @@ import 'package:healthy_minder/ui/chat_feature/coach_chat/coach_chat_screen.dart
 import 'package:healthy_minder/ui/chat_feature/new_chat/new_chat_binding.dart';
 import 'package:healthy_minder/ui/chat_feature/new_chat/new_chat_screen.dart';
 import 'package:healthy_minder/ui/home/home_screen.dart';
+import 'package:healthy_minder/ui/my_progress/my_progress_bindings.dart';
+import 'package:healthy_minder/ui/my_progress/my_progress_screen.dart';
 import 'package:healthy_minder/ui/notifications/notification_bindings.dart';
 import 'package:healthy_minder/ui/notifications/notification_screen.dart';
 import 'package:healthy_minder/ui/premium/premium_binding.dart';
@@ -71,8 +73,6 @@ class HomeViewModel extends GetxController {
       enableRescheduling: false,
       enableResizing: false,
     ),
-    WeekConfiguration(),
-    MonthConfiguration(),
   ];
   final calendarController = CalendarController<TimelineEvent>(
     initialDate: DateTime.now(),
@@ -87,6 +87,7 @@ class HomeViewModel extends GetxController {
   changeCurrent(DrawerItem value) {
     toggleMenu();
     changeCurrentRoute(value.name);
+    print(value.toString());
     Get.toNamed(value.toString(), id: 1);
     _currentActive.value = value;
   }
@@ -153,7 +154,7 @@ class HomeViewModel extends GetxController {
     _currentPath.value = '/home';
     _currentRoute.value = 'home';
     super.onInit();
-    await PusherSocket().init();
+    await PusherSocket().init(local: false);
     PusherSocket()
         .connectToUserChannel(token, StorageHelper.getUser().username, {
       "PremiumStatusChanged": (pusher_channels.ChannelReadEvent event) {
@@ -296,6 +297,14 @@ class HomeViewModel extends GetxController {
           transition: Transition.zoom,
           binding: SettingsBinding(),
         );
+      case HealthyRoutes.myProgressScreenRoute:
+        return GetPageRoute(
+          settings: settings,
+          page: () => const MyProgressScreen(),
+          transition: Transition.zoom,
+          binding: MyProgressBindings(),
+        );
+
       default:
         return GetPageRoute(
           settings: settings,
@@ -559,10 +568,11 @@ class HomeViewModel extends GetxController {
                     ],
                   ),
                 ),
-                ClipRRect(
+                if (event.media != null)
+                  ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: Image.network(
-                    event.media,
+                    event.media!,
                     loadingBuilder:
                         (_, Widget child, ImageChunkEvent? loadingProgress) {
                       if (loadingProgress == null) {
@@ -609,6 +619,7 @@ enum DrawerItem {
   coachMessage('coachMessage'),
   premium('premium'),
   settings('settings'),
+  myProgress("myProgress"),
   notification('notification');
 
   final String _text;
@@ -621,12 +632,11 @@ enum DrawerItem {
       case "home":
         return HealthyRoutes.homeScreenRoute;
       case "message":
-        return /*HomeViewModel.premiumStatus.value.status == "approved"
-            ? HealthyRoutes.allChatsPageRoute
-            :*/
-            HealthyRoutes.chatsPageRoute;
+        return HealthyRoutes.chatsPageRoute;
       case "premium":
         return HealthyRoutes.premiumScreenRoute;
+      case "myProgress":
+        return HealthyRoutes.myProgressScreenRoute;
       case "notification":
         return HealthyRoutes.notificationScreenRoute;
       case "settings":
@@ -651,7 +661,8 @@ enum DrawerItem {
         return DrawerItem.notification;
       case HealthyRoutes.settingsScreenRoute:
         return DrawerItem.settings;
-
+      case HealthyRoutes.myProgressScreenRoute:
+        return DrawerItem.myProgress;
       default:
         return DrawerItem.home;
     }

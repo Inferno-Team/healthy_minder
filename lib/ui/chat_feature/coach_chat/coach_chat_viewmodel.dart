@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:healthy_minder/models/channel.dart';
 import 'package:healthy_minder/models/conversation.dart';
+import 'package:healthy_minder/models/loading_status.dart';
 import 'package:healthy_minder/models/masseage.dart';
 import 'package:healthy_minder/models/return_types.dart';
 import 'package:healthy_minder/models/saved_user.dart';
@@ -13,14 +14,19 @@ import 'package:healthy_minder/utils/storage_helper.dart';
 
 class CoachChatViewModel extends GetxController {
   final DataService dataService;
+  CoachChatViewModel({required this.dataService});
   final RxList<Message> _messagesList = <Message>[].obs;
   final ScrollController scrollController = ScrollController();
   late final Conversation conversation;
   Timer? _timer;
   String _inputFieldStatus = "stopped";
   final _channel = Channel.empty().obs;
+  final _messageLoadingStatus = LoadingStatus.idle.obs;
+  final _sendButtonDisabledStatus = false.obs;
 
-  CoachChatViewModel({required this.dataService});
+  LoadingStatus get messageLoadingStatus => _messageLoadingStatus.value;
+  get sendButtonDisabledStatus => _sendButtonDisabledStatus.value;
+
 
   List<Message> get messages => _messagesList;
   TextEditingController textController = TextEditingController();
@@ -28,7 +34,11 @@ class CoachChatViewModel extends GetxController {
   @override
   void onInit() async {
     super.onInit();
+    textController.addListener(() {
+      _sendButtonDisabledStatus.value = textController.text.isEmpty;
+    });
     String token = StorageHelper.getToken();
+    _messageLoadingStatus.value = LoadingStatus.started;
     ReturnType<Conversation?>? res =
         await dataService.getCoachConversationWithMe(token);
     if (res != null && res is ReturnDataType<Conversation?>) {
@@ -38,10 +48,13 @@ class CoachChatViewModel extends GetxController {
           "${conversation.channelType}-${conversation.channelName}",
           onNewMessageEvent,
           whenOtherIsTyping);
+      _messageLoadingStatus.value = LoadingStatus.loading;
       ReturnType<List<Message>?>? response =
           await dataService.getConversationOldMessages(token, conversation.id);
+      _messageLoadingStatus.value = LoadingStatus.finished;
 
       if (response is ReturnDataType) {
+        _messageLoadingStatus.value = LoadingStatus.succeeded;
         List<Message>? messages =
             (response as ReturnDataType<List<Message>?>).data;
         _messagesList.addAll(messages!);
@@ -51,6 +64,8 @@ class CoachChatViewModel extends GetxController {
         } catch (e) {
           print(e);
         }
+      } else {
+        _messageLoadingStatus.value = LoadingStatus.failed;
       }
     }
   }

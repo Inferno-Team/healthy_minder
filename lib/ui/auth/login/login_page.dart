@@ -17,7 +17,7 @@ class LoginPage extends GetView<LoginViewmodel> {
     return Scaffold(
       backgroundColor: const Color.fromRGBO(248, 249, 250, 1),
       body: Padding(
-        padding: const EdgeInsets.only(right: 20, left: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         child: SingleChildScrollView(
           child: SizedBox(
             height: size.height - 40,
@@ -37,13 +37,18 @@ class LoginPage extends GetView<LoginViewmodel> {
                   child: Text(Keys.loginTitle.name.tr,
                       style: Get.textTheme.titleMedium),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 20),
-                  child: CustomTextField(
-                    label: Keys.email.name.tr,
-                    obscureText: false,
-                    textInputType: TextInputType.emailAddress,
-                    onChange: controller.setEmail,
+                Obx(
+                  () => Padding(
+                    padding: const EdgeInsets.only(top: 20),
+                    child: CustomTextField(
+                      label: Keys.email.name.tr,
+                      obscureText: false,
+                      textInputType: TextInputType.emailAddress,
+                      onChange: controller.setEmail,
+                      textInputAction: TextInputAction.next,
+                      errorLabel: controller.emailError,
+                      onTap: controller.clearEmailValidation,
+                    ),
                   ),
                 ),
                 Padding(
@@ -64,6 +69,8 @@ class LoginPage extends GetView<LoginViewmodel> {
                         ),
                       ),
                       textInputType: TextInputType.text,
+                      errorLabel: controller.passwordError,
+                      onTap: controller.clearPasswordValidation,
                     ),
                   ),
                 ),
@@ -85,12 +92,15 @@ class LoginPage extends GetView<LoginViewmodel> {
                       )),
                 ),
                 const Spacer(),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 20),
-                  child: custemBtn(
-                    textbtn: Keys.login.name.tr,
-                    onPressed: controller.login,
-                    withIcon: false,
+                Obx(
+                  () => Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 20),
+                    child: CustomButton(
+                      text: Keys.login.name.tr,
+                      onPressed: controller.login,
+                      status: controller.loginStatus,
+                      withIcon: false,
+                    ),
                   ),
                 )
               ],

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:healthy_minder/models/channel.dart';
+import 'package:healthy_minder/models/loading_status.dart';
 import 'package:healthy_minder/models/masseage.dart';
 import 'package:healthy_minder/ui/chat_feature/chat/chat_viewmodel.dart';
 import 'package:healthy_minder/ui/custom/chat_bubble.dart';
@@ -9,8 +10,6 @@ import 'package:healthy_minder/ui/custom/custem_circular_btn.dart';
 import 'package:healthy_minder/utils/translator.dart';
 
 class ChatScreen extends GetView<ChatViewModel> {
-  final String id = '';
-  final String email = '';
   final Channel channel;
 
   const ChatScreen({super.key, required this.channel});
@@ -24,19 +23,36 @@ class ChatScreen extends GetView<ChatViewModel> {
       child: Column(
         children: [
           Obx(
-            () => SizedBox(
-              height: size.height * 0.73,
-              child: ListView.builder(
-                controller: controller.scrollController,
-                itemCount: controller.messages.length,
-                itemBuilder: (context, index) {
-                  return ChatBubble(
-                    message: controller.messages[index],
-                    width: size.width * 0.75,
-                  );
-                },
-              ),
-            ),
+            () => controller.messages.isNotEmpty
+                ? SizedBox(
+                    height: size.height * 0.73,
+                    child: ListView.builder(
+                      controller: controller.scrollController,
+                      itemCount: controller.messages.length,
+                      itemBuilder: (context, index) {
+                        return ChatBubble(
+                          message: controller.messages[index],
+                          width: size.width * 0.75,
+                        );
+                      },
+                    ),
+                  )
+                : [LoadingStatus.started, LoadingStatus.loading]
+                        .contains(controller.messageLoadingStatus)
+                    ? SizedBox(
+                        height: size.height * 0.73,
+                        child: const Center(
+                          child: CircularProgressIndicator(
+                            color: Color.fromRGBO(251, 99, 64, 1),
+                          ),
+                        ),
+                      )
+                    : SizedBox(
+                        height: size.height * 0.73,
+                        child: const Center(
+                          child: Text("No Message yet."),
+                        ),
+                      ),
           ),
           SizedBox(
             child: Padding(
@@ -69,13 +85,18 @@ class ChatScreen extends GetView<ChatViewModel> {
                           ),
                         ),
                       ),
-                      CustemCircularBtn(
-                        containerchild: const Icon(
-                          Icons.send_rounded,
-                          color: Color.fromRGBO(251, 99, 64, 1),
+                      Obx(
+                        () => CustomCircularButton(
+                          onTap: controller.sendNewMessage,
+                          disabled: controller.sendButtonDisabledStatus,
+                          child: Icon(
+                            Icons.send_rounded,
+                            color: controller.sendButtonDisabledStatus
+                                ? Colors.grey
+                                : const Color.fromRGBO(251, 99, 64, 1),
+                          ),
                         ),
-                        onTap: controller.sendNewMessage,
-                      )
+                      ),
                     ],
                   ),
                 ],

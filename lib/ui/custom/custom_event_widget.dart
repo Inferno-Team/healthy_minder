@@ -104,13 +104,19 @@ class CustomEventMeal extends StatelessWidget {
                 radius: 20.0,
                 lineWidth: 5.0,
                 percent: (progress / 100),
-                center: Text(
-                  "$progress%",
-                  style: const TextStyle(
-                    fontSize: 12,
-                  ),
-                ),
-                progressColor: const Color.fromRGBO(251, 99, 64, 0.75),
+                center: progress != 100
+                    ? Text(
+                        "$progress%",
+                        style: const TextStyle(
+                          fontSize: 12,
+                        ),
+                      )
+                    : const Icon(
+                        Icons.check,
+                        color: Colors.green,
+                      ),
+                progressColor:
+                    progress != 100 ? Get.theme.primaryColor : Colors.green,
               ),
               CustomEventDateWidget(
                   eventStartAt: eventStartAt, eventEndAt: eventEndAt),
@@ -226,13 +232,19 @@ class CustomEventExercise extends StatelessWidget {
                 radius: 20.0,
                 lineWidth: 5.0,
                 percent: (progress / 100),
-                center: Text(
-                  "$progress%",
-                  style: const TextStyle(
-                    fontSize: 12,
-                  ),
-                ),
-                progressColor: const Color.fromRGBO(251, 99, 64, 0.75),
+                center: progress != 100
+                    ? Text(
+                        "$progress%",
+                        style: const TextStyle(
+                          fontSize: 12,
+                        ),
+                      )
+                    : const Icon(
+                        Icons.check,
+                        color: Colors.green,
+                      ),
+                progressColor:
+                    progress != 100 ? Get.theme.primaryColor : Colors.green,
               ),
               CustomEventDateWidget(
                   eventStartAt: eventStartAt, eventEndAt: eventEndAt),
@@ -268,23 +280,24 @@ class CustomEventExercise extends StatelessWidget {
                     ],
                   ),
                 ),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: Image.network(
-                    event.media,
-                    loadingBuilder:
-                        (_, Widget child, ImageChunkEvent? loadingProgress) {
-                      if (loadingProgress == null) {
-                        return child;
-                      }
-                      return const Center(
-                        child: CircularProgressIndicator(
-                          color: Color.fromRGBO(251, 99, 64, 1),
-                        ),
-                      );
-                    },
+                if (event.media != null)
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Image.network(
+                      event.media!,
+                      loadingBuilder:
+                          (_, Widget child, ImageChunkEvent? loadingProgress) {
+                        if (loadingProgress == null) {
+                          return child;
+                        }
+                        return const Center(
+                          child: CircularProgressIndicator(
+                            color: Color.fromRGBO(251, 99, 64, 1),
+                          ),
+                        );
+                      },
+                    ),
                   ),
-                ),
                 Container(
                   width: 120,
                   margin: const EdgeInsets.only(top: 25),

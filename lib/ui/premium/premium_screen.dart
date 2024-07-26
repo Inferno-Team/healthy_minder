@@ -8,7 +8,7 @@ import 'package:healthy_minder/ui/premium/premium_viewmodel.dart';
 import 'package:healthy_minder/utils/translator.dart';
 
 class PremiumScreen extends GetView<PremiumViewModel> {
-  PremiumScreen({super.key});
+  const PremiumScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -139,59 +139,9 @@ class PremiumScreen extends GetView<PremiumViewModel> {
               ],
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.only(left: 38, bottom: 2),
-            child: SizedBox(
-              height: 50,
-              child: VerticalDivider(
-                thickness: 2,
-                color: Color.fromRGBO(160, 164, 180, 1),
-              ),
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                height: 25,
-                width: 25,
-                decoration: BoxDecoration(
-                  color: const Color.fromRGBO(52, 71, 103, 1),
-                  borderRadius: BorderRadius.circular(25),
-                ),
-                child: const Center(
-                  child: Text(
-                    "3",
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Color.fromRGBO(255, 255, 255, 1),
-                    ),
-                  ),
-                ),
-              ),
-              Container(
-                height: 28,
-                width: 28,
-                decoration: BoxDecoration(
-                  color: const Color.fromRGBO(67, 216, 147, 1),
-                  borderRadius: BorderRadius.circular(28),
-                ),
-                child: const Center(
-                  child: Icon(
-                    Icons.check_rounded,
-                    color: Color.fromRGBO(255, 255, 255, 1),
-                  ),
-                ),
-              ),
-              Text(
-                Keys.change.name.tr + Keys.your.name.tr + Keys.coach.name.tr,
-                style: Get.textTheme.bodySmall,
-              ),
-            ],
-          ),
+          const Spacer(),
           Padding(
-            padding: const EdgeInsets.only(top: 80),
+            padding: const EdgeInsets.only(top: 0),
             child: Text(
               Keys.content.name.tr,
               style: const TextStyle(
@@ -200,12 +150,15 @@ class PremiumScreen extends GetView<PremiumViewModel> {
               ),
             ),
           ),
+          const Spacer(),
           Padding(
-            padding: const EdgeInsetsDirectional.only(top: 55),
-            child: custemBtn(
-              textbtn: Keys.upgrade.name.tr + Keys.toPremium.name.tr,
+            padding: const EdgeInsetsDirectional.only(bottom: 20),
+            child: CustomButton(
+              text: Keys.upgrade.name.tr + Keys.toPremium.name.tr,
               onPressed: _showDialog,
               withIcon: true,
+              icon: Icons.payment,
+              iconColor: Colors.white,
             ),
           ),
         ],

@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:healthy_minder/models/conversation.dart';
@@ -16,7 +17,7 @@ import 'package:healthy_minder/repositories/essential_methods.dart';
 import 'package:healthy_minder/utils/constances.dart';
 
 class DataService with EssentialMethod {
-  static final DataService _singleton = DataService._internal(debugMode: true);
+  static final DataService _singleton = DataService._internal(debugMode: false);
   late final String baseUrl;
 
   factory DataService() {
@@ -24,13 +25,15 @@ class DataService with EssentialMethod {
   }
 
   DataService._internal({debugMode = false}) {
-    baseUrl = debugMode ? "http://${Constance.hostName}:8000" : "";
+    baseUrl = debugMode
+        ? "http://${Constance.hostName}:8000"
+        : "https://${Constance.hostName}";
   }
 
   Future<ReturnType<LoginResponse?>?> login(
       String email, String password) async {
     String route = "/api/login";
-    Uri uri = Uri.parse("$baseUrl$route");
+    Uri uri = Uri.parse("$baseUrl$route"); // https://healthy.digiworld-dev.com/api/login
     ReturnType<LoginResponse?>? response =
         await createPostRequest<LoginResponse>(
       uri: uri,
@@ -129,6 +132,15 @@ class DataService with EssentialMethod {
       params: data,
       key: "plans",
       fromJson: (j) => SelectPlan.fromListJson(j),
+    );
+  }
+
+  Future<ReturnType<dynamic>?> removeMyAccount(String token) async {
+    String route = "/api/remove-my-account";
+    Uri uri = Uri.parse("$baseUrl$route");
+    return await createPostRequest(
+      uri: uri,
+      headers: createAuthHeader(token),
     );
   }
 
@@ -245,6 +257,34 @@ class DataService with EssentialMethod {
       key: "events",
       fromJson: (json) =>
           (json as List).map((j) => TimelineEvent.fromJson(j)).toList(),
+    );
+  }
+
+  Future<ReturnType<List<TimelineEvent>?>?> getTimelineWithMyProgress(
+      String token) async {
+    String route = "/api/timeline/events-with-my-progress";
+    return await createGetRequest(
+      url: "$baseUrl$route",
+      headers: createAuthHeader(token),
+      key: "events",
+      fromJson: (json) =>
+          (json as List).map((j) => TimelineEvent.fromJson(j)).toList(),
+    );
+  }
+
+  Future<ReturnType<TimelineEvent?>?> sendNewProgress(
+      String token, int id, double value) async {
+    String route = "/api/timeline/send-add-progress";
+    Uri uri = Uri.parse("$baseUrl$route");
+    return await createPostRequest(
+      uri: uri,
+      headers: createAuthHeader(token),
+      body: {
+        "id": "$id",
+        "value": "$value",
+      },
+      key: "item",
+      fromJson: (json) => TimelineEvent.fromJson(json),
     );
   }
 }

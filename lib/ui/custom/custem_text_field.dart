@@ -2,13 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class CustomTextField extends StatelessWidget {
-  //متغير من اجل الهينت تكست حيث لكل تكست فورم عملنا باني له بارمتر نعطيه قيمة من اجل الهينت
-
-  //متغير من اجل التاكد من عملية تعبئة الحقل النصي حيث لكل تكست فورم عملنا باني له بارمتر نعطيه قيمة من اجل التاكد واسندنا خاصية validator go
   final String? Function(String?)? validator;
   final void Function(String? value)? onChange;
   final String label;
   final dynamic textInputType;
+  final String? errorLabel;
 
   final Widget? suffix;
 
@@ -18,24 +16,26 @@ class CustomTextField extends StatelessWidget {
   final String? value;
 
   final TextEditingController? textController;
+  final TextInputAction textInputAction;
 
-  const CustomTextField({
-    super.key,
-    this.validator,
-    required this.label,
-    this.onChange,
-    this.suffix,
-    this.obscureText = false,
-    required this.textInputType,
-    this.onTap,
-    this.value,
-    this.textController,
-  });
+  const CustomTextField(
+      {super.key,
+      this.validator,
+      required this.label,
+      this.onChange,
+      this.suffix,
+      this.obscureText = false,
+      required this.textInputType,
+      this.onTap,
+      this.value,
+      this.textController,
+      this.textInputAction = TextInputAction.done,
+      this.errorLabel});
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 60,
+      height: errorLabel == null?60:80,
       child: TextFormField(
         onTap: onTap,
         onTapAlwaysCalled: true,
@@ -46,11 +46,9 @@ class CustomTextField extends StatelessWidget {
         controller: textController,
         style: const TextStyle(fontSize: 15, color: Colors.black),
         validator: validator,
+        textInputAction: textInputAction,
         decoration: InputDecoration(
-          label: Text(
-            label,
-            style: Get.textTheme.titleSmall
-          ),
+          label: Text(label, style: Get.textTheme.titleSmall),
           suffixIcon: suffix,
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(24),
@@ -63,6 +61,14 @@ class CustomTextField extends StatelessWidget {
           ),
           filled: true,
           fillColor: const Color.fromRGBO(217, 217, 217, 1),
+          errorText: errorLabel,
+          errorBorder:  OutlineInputBorder(
+            borderRadius: BorderRadius.circular(24),
+            borderSide: const BorderSide(
+              color: Colors.red,
+              width: 2
+            ),
+          ),
         ),
       ),
     );

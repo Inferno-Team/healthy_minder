@@ -4,6 +4,7 @@ class Translator extends Translations {
   @override
   Map<String, Map<String, String>> get keys => {
         'ar_SY': {
+          Keys.newKey.name:"مفتاح جديد",
           Keys.password.name: ' كلمة المرور',
           Keys.loginTitle.name: ' قم بتسجيل الدخول لحسابك',
           Keys.email.name: ' بريد الالكتروني',
@@ -92,6 +93,7 @@ class Translator extends Translations {
           Keys.timeline.name: 'مخطط الزمن',
         },
         'en_US': {
+          Keys.newKey.name:"New Key",
           Keys.password.name: 'Password ',
           Keys.loginTitle.name: 'Log in to your account ',
           Keys.email.name: 'Email ',
@@ -153,8 +155,8 @@ class Translator extends Translations {
           Keys.toAll.name: 'to all ',
           Keys.features.name: 'features ',
           Keys.chat.name: 'Chat ',
-          Keys.withAny.name: 'with any ',
-          Keys.private.name: 'private ',
+          Keys.withAny.name: 'with your ',
+          Keys.private.name: 'timeline',
           Keys.choose.name: ' Choose ',
           Keys.change.name: ' Change ',
           Keys.your.name: ' your ',
@@ -273,5 +275,6 @@ enum Keys {
   english,
   arabic,
   dark,
-  light
+  light,
+  newKey
 }

@@ -1,15 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:healthy_minder/models/loading_status.dart';
 
-class custemBtn extends StatelessWidget {
+class CustomButton extends StatelessWidget {
   final void Function()? onPressed;
   final bool withIcon;
-  final String textbtn;
-  const custemBtn({
+  final String text;
+  final IconData? icon;
+  final Color? iconColor;
+  final LoadingStatus status;
+
+  const CustomButton({
     super.key,
     this.onPressed,
-    required this.textbtn,
+    required this.text,
     required this.withIcon,
+    this.status = LoadingStatus.succeeded,
+    this.icon,
+    this.iconColor,
   });
 
   @override
@@ -21,17 +29,29 @@ class custemBtn extends StatelessWidget {
       color: const Color.fromRGBO(251, 99, 64, 1),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
       onPressed: onPressed,
-      child: Row(
-        mainAxisAlignment:
-            withIcon ? MainAxisAlignment.spaceEvenly : MainAxisAlignment.center,
-        children: [
-          Text(
-            (textbtn),
-            style: Get.textTheme.headlineMedium,
-          ),
-          withIcon ? const Icon(Icons.qr_code_scanner_rounded) : Container()
-        ],
-      ),
+      child: [
+        LoadingStatus.loading,
+        LoadingStatus.started,
+      ].contains(status)
+          ? const Center(
+              child: CircularProgressIndicator(
+                color: Colors.white,
+              ),
+            )
+          : Row(
+              mainAxisAlignment: withIcon
+                  ? MainAxisAlignment.spaceEvenly
+                  : MainAxisAlignment.center,
+              children: [
+                Text(
+                  (text),
+                  style: Get.textTheme.headlineMedium,
+                ),
+                withIcon
+                    ? Icon(icon,color: iconColor,)
+                    : Container()
+              ],
+            ),
     );
   }
 }

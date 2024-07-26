@@ -25,7 +25,7 @@ class PusherSocket {
     if (!local) {
       customOptions = const PusherChannelsOptions.fromHost(
         scheme: 'wss',
-        host: 'healthy.inferno-team.site',
+        host: Constance.hostName,
         key: 'myKey',
         port: 6002,
       );
@@ -75,7 +75,7 @@ class PusherSocket {
           EndpointAuthorizableChannelTokenAuthorizationDelegate
               .forPresenceChannel(
         authorizationEndpoint: Uri.parse(
-          'http://${Constance.hostName}:8000/api/authenticate_websocket_mobile',
+          '${Constance.fullHostName}/api/authenticate_websocket_mobile',
         ),
         headers: {
           "Authorization": "Bearer $token",
@@ -119,7 +119,7 @@ class PusherSocket {
           EndpointAuthorizableChannelTokenAuthorizationDelegate
               .forPresenceChannel(
         authorizationEndpoint: Uri.parse(
-          'http://${Constance.hostName}:8000/api/authenticate_user_private_channel',
+          '${Constance.fullHostName}/api/authenticate_user_private_channel',
         ),
         headers: {
           "Authorization": "Bearer $token",

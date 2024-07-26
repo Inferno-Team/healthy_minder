@@ -112,6 +112,7 @@ class CustomHomeTopBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Container(
       height: 150,
       decoration: BoxDecoration(
@@ -137,9 +138,9 @@ class CustomHomeTopBar extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    CustemCircularBtn(
+                    CustomCircularButton(
                       onTap: toggleMenu,
-                      containerchild: Icon(
+                      child: Icon(
                         isDrawerOpen ? Icons.arrow_forward_ios : Icons.menu,
                         size: 28,
                         color: const Color.fromRGBO(255, 255, 255, 1),
@@ -147,19 +148,22 @@ class CustomHomeTopBar extends StatelessWidget {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(left: 16),
-                      child: Text(
-                        Keys.goodMorning.name.tr +
-                            StorageHelper.getUser().username,
-                        style: Get.textTheme.headlineSmall,
+                      child: SizedBox(
+                        width: size.width * 0.6,
+                        child: Text(
+                          overflow: TextOverflow.ellipsis,
+                          "Hello ${StorageHelper.getUser().username}",
+                          style: Get.textTheme.headlineSmall,
+                        ),
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(left: 16),
                       child: Stack(
                         children: [
-                          CustemCircularBtn(
+                          CustomCircularButton(
                             onTap: openNotification,
-                            containerchild: const Icon(
+                            child: const Icon(
                               FontAwesomeIcons.bell,
                               size: 20,
                               color: Color.fromRGBO(255, 255, 255, 1),

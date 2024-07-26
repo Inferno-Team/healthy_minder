@@ -23,6 +23,7 @@ mixin EssentialMethod {
       body0 = response.body;
       Map<String, dynamic> jsonData =
           await json.decode(response.body); // Map<String,dynamic>
+      print(jsonData);
       return ReturnDataType(
         msg: jsonData['msg'],
         code: jsonData['code'],
@@ -59,11 +60,18 @@ mixin EssentialMethod {
       Map<String, dynamic> jsonData =
           await json.decode(response.body); // Map<String,dynamic>
       if (key != null) {
-        return ReturnDataType(
-          msg: jsonData['msg'],
-          code: jsonData['code'],
-          data: key != null ? fromJson!(jsonData[key]) : null,
-        );
+        if (jsonData['code'].toString() == '200') {
+          return ReturnDataType(
+            msg: jsonData['msg'],
+            code: jsonData['code'],
+            data: key != null ? fromJson!(jsonData[key]) : null,
+          );
+        }else{
+          return ReturnType(
+            msg: jsonData['msg'],
+            code: jsonData['code'],
+          );
+        }
       } else {
         return ReturnType(
           msg: jsonData['msg'],

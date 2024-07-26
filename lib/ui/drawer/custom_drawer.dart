@@ -59,7 +59,7 @@ class CustomDrawer extends GetView<HomeViewModel> {
                       Column(
                         children: [
                           Padding(
-                            padding: const EdgeInsets.only(top: 40),
+                            padding: const EdgeInsets.only(top: 20),
                             child: CustomDrawerItem(
                               icon: FontAwesomeIcons.house,
                               background: Colors.white,
@@ -73,7 +73,7 @@ class CustomDrawer extends GetView<HomeViewModel> {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.only(top: 20),
+                            padding: const EdgeInsets.only(top: 10),
                             child: CustomDrawerItem(
                               icon: FontAwesomeIcons.message,
                               background: Colors.white,
@@ -91,7 +91,7 @@ class CustomDrawer extends GetView<HomeViewModel> {
                             if (controller.premiumStatus.value.status ==
                                 PremiumStatusTypes.unknown) {
                               return Padding(
-                                padding: const EdgeInsets.only(top: 20),
+                                padding: const EdgeInsets.only(top: 10),
                                 child: CustomDrawerItem(
                                   icon: FontAwesomeIcons.crown,
                                   background: Colors.white,
@@ -109,7 +109,7 @@ class CustomDrawer extends GetView<HomeViewModel> {
                             } else if (controller.premiumStatus.value.status ==
                                 PremiumStatusTypes.approved) {
                               return Padding(
-                                padding: const EdgeInsets.only(top: 20),
+                                padding: const EdgeInsets.only(top: 10),
                                 child: CustomDrawerItem(
                                   icon: FontAwesomeIcons.solidMessage,
                                   background: Colors.white,
@@ -131,7 +131,7 @@ class CustomDrawer extends GetView<HomeViewModel> {
                             }
                           }),
                           Padding(
-                            padding: const EdgeInsets.only(top: 20),
+                            padding: const EdgeInsets.only(top: 10),
                             child: CustomDrawerItem(
                               icon: FontAwesomeIcons.bell,
                               background: Colors.white,
@@ -145,6 +145,22 @@ class CustomDrawer extends GetView<HomeViewModel> {
                                   .changeCurrent(DrawerItem.notification),
                             ),
                           ),
+                           Padding(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: CustomDrawerItem(
+                              icon: FontAwesomeIcons.barsProgress,
+                              background: Colors.white,
+                              text: "My Progress",
+                              iconBackground:
+                                  const Color.fromRGBO(22, 142, 110, 1.0),
+                              iconColor: const Color.fromRGBO(255, 255, 255, 1),
+                              isActive:
+                                  controller.current == DrawerItem.myProgress,
+                              onTap: () => controller
+                                  .changeCurrent(DrawerItem.myProgress),
+                            ),
+                          ),
+
                         ],
                       ),
                       CustomDrawerItem(

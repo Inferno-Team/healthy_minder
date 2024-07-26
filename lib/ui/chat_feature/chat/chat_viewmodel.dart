@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:healthy_minder/models/channel.dart';
+import 'package:healthy_minder/models/loading_status.dart';
 import 'package:healthy_minder/models/masseage.dart';
 import 'package:healthy_minder/models/return_types.dart';
 import 'package:healthy_minder/models/saved_user.dart';
@@ -17,21 +18,31 @@ class ChatViewModel extends GetxController {
   final DataService dataService;
   final RxList<Message> _messagesList = <Message>[].obs;
   final ScrollController scrollController = ScrollController();
+  final _sendButtonDisabledStatus = false.obs;
+  final _messageLoadingStatus = LoadingStatus.idle.obs;
   Timer? _timer;
   String _inputFieldStatus = "stopped";
   final _channel = Channel.empty().obs;
 
   int conversationId = -1;
 
+  LoadingStatus get messageLoadingStatus => _messageLoadingStatus.value;
+
   ChatViewModel({required this.dataService});
 
   List<Message> get messages => _messagesList;
   TextEditingController textController = TextEditingController();
 
+  get sendButtonDisabledStatus => _sendButtonDisabledStatus.value;
+
   @override
   void onInit() async {
     super.onInit();
+    textController.addListener(() {
+      _sendButtonDisabledStatus.value = textController.text.isEmpty;
+    });
     String token = StorageHelper.getToken();
+    _messageLoadingStatus.value = LoadingStatus.started;
     _channel.listen((channel) async {
       conversationId = channel.conversations.first.id;
       PusherSocket().connectToAllChatChannel(
@@ -39,10 +50,12 @@ class ChatViewModel extends GetxController {
           "${channel.type.name}-${channel.name}",
           onNewMessageEvent,
           whenOtherIsTyping);
+      _messageLoadingStatus.value = LoadingStatus.loading;
       ReturnType<List<Message>?>? response =
           await dataService.getConversationOldMessages(token, conversationId);
-
+      _messageLoadingStatus.value = LoadingStatus.finished;
       if (response is ReturnDataType) {
+        _messageLoadingStatus.value = LoadingStatus.succeeded;
         List<Message>? messages =
             (response as ReturnDataType<List<Message>?>).data;
         _messagesList.addAll(messages!);
@@ -52,6 +65,8 @@ class ChatViewModel extends GetxController {
         } catch (e) {
           print(e);
         }
+      } else {
+        _messageLoadingStatus.value = LoadingStatus.failed;
       }
     });
   }
@@ -85,6 +100,7 @@ class ChatViewModel extends GetxController {
 
   void sendNewMessage() {
     String message = textController.text;
+
     String token = StorageHelper.getToken();
     dataService.sendNewMessage(token, conversationId, message);
     textController.text = "";

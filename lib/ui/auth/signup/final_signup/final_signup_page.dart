@@ -26,25 +26,19 @@ class ThirdSignupPage extends GetView<SignupViewmodel> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                 Center(
-                  child: Text(
-                    Keys.personalInfo.name.tr,
-                    style: Get.textTheme.titleLarge
-                  ),
+                Center(
+                  child: Text(Keys.personalInfo.name.tr,
+                      style: Get.textTheme.titleLarge),
                 ),
-                 Padding(
+                Padding(
                   padding: const EdgeInsets.only(top: 20),
-                  child: Text(
-                    Keys.personalInfoTitle.name.tr,
-                    style:Get.textTheme.titleMedium
-                  ),
+                  child: Text(Keys.personalInfoTitle.name.tr,
+                      style: Get.textTheme.titleMedium),
                 ),
-                 Padding(
-                  padding: EdgeInsets.only(top: 20),
-                  child: Text(
-                    Keys.diseaseQuestion.name.tr,
-                    style:Get.textTheme.displaySmall
-                  ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: Text(Keys.diseaseQuestion.name.tr,
+                      style: Get.textTheme.displaySmall),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 20),
@@ -61,11 +55,11 @@ class ThirdSignupPage extends GetView<SignupViewmodel> {
                     selectedOptionIcon: const Icon(Icons.check_circle),
                   ),
                 ),
-                 Padding(
+                Padding(
                   padding: const EdgeInsets.only(top: 42),
                   child: Text(
-                   Keys.goalsQuestion.name.tr,
-                    style: Get.textTheme.displaySmall ,
+                    Keys.goalsQuestion.name.tr,
+                    style: Get.textTheme.displaySmall,
                   ),
                 ),
                 Padding(
@@ -88,14 +82,17 @@ class ThirdSignupPage extends GetView<SignupViewmodel> {
                   margin: EdgeInsets.symmetric(horizontal: size.width * 0.25),
                   child: const NextPageIndicator(current: 3),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 20),
-                  child: custemBtn(
-                    textbtn: Keys.signup.name.tr,
-                    onPressed: controller.preformSignup,
-                    withIcon: false,
+                Obx(
+                  () => Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 20),
+                    child: CustomButton(
+                      text: Keys.signup.name.tr,
+                      onPressed: controller.preformSignup,
+                      withIcon: false,
+                      status: controller.signUpStatus,
+                    ),
                   ),
-                )
+                ),
               ],
             ),
           ),

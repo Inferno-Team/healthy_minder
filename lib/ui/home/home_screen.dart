@@ -1,5 +1,4 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:healthy_minder/gen/assets.gen.dart';
@@ -102,22 +101,21 @@ class HomeScreen extends GetView<HomeViewModel> {
                         ),
                       ),
                     )
-                  : const Center(
-                      child: CircularProgressIndicator(
-                        color: Color.fromRGBO(251, 99, 64, 1),
-                      ),
-                    ),
-            )
+                  : controller.isTimelineEventsLoading
+                      ? const Center(
+                          child: CircularProgressIndicator(
+                            color: Color.fromRGBO(251, 99, 64, 1),
+                          ),
+                        )
+                      : const Center(
+                          child: Text(
+                            "Timeline Don't have events yet.",
+                          ),
+                        ),
+            ),
           ],
         ),
       ),
-    );
-  }
-
-  CalendarEvent<TimelineEvent> _onCreateEvent(DateTimeRange dateTimeRange) {
-    return CalendarEvent(
-      dateTimeRange: dateTimeRange,
-      eventData: TimelineEvent.empty(),
     );
   }
 
@@ -164,11 +162,13 @@ class HomeScreen extends GetView<HomeViewModel> {
       child: Center(
         child: configuration.tileType != TileType.ghost
             ? Column(
-              children: [
-                Row(
+                children: [
+                  Row(
                     // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      SizedBox(width: 10,),
+                      SizedBox(
+                        width: 10,
+                      ),
                       Text(
                         "${event.eventData?.itemType} : ",
                         style: const TextStyle(
@@ -189,12 +189,12 @@ class HomeScreen extends GetView<HomeViewModel> {
                       ),
                     ],
                   ),
-                CustomEventDateWidget(
-                  eventStartAt: event.start,
-                  eventEndAt: event.end,
-                ),
-              ],
-            )
+                  CustomEventDateWidget(
+                    eventStartAt: event.start,
+                    eventEndAt: event.end,
+                  ),
+                ],
+              )
             : null,
       ),
     );
@@ -233,13 +233,6 @@ class HomeScreen extends GetView<HomeViewModel> {
   Widget _calendarHeader(DateTimeRange dateTimeRange) {
     return Row(
       children: [
-        DropdownMenu(
-          onSelected: controller.updateCurrentConfiguration,
-          initialSelection: controller.currentConfiguration.value,
-          dropdownMenuEntries: controller.viewConfigurations
-              .map((e) => DropdownMenuEntry(value: e, label: e.name))
-              .toList(),
-        ),
         IconButton.filledTonal(
           onPressed: controller.calendarController.animateToPreviousPage,
           icon: const Icon(Icons.navigate_before_rounded),
