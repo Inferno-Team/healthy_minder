@@ -17,7 +17,7 @@ import 'package:healthy_minder/repositories/essential_methods.dart';
 import 'package:healthy_minder/utils/constances.dart';
 
 class DataService with EssentialMethod {
-  static final DataService _singleton = DataService._internal(debugMode: false);
+  static final DataService _singleton = DataService._internal(debugMode: true);
   late final String baseUrl;
 
   factory DataService() {

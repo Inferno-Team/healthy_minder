@@ -52,9 +52,11 @@ class HomeViewModel extends GetxController {
 
   final _xOffset = 0.0.obs;
   final _yOffset = 0.0.obs;
+  final _rotateZValue = 0.0.obs;
   final _xShadowOffset = 0.0.obs;
   final _isDrawerOpen = false.obs;
   final _direction = TextDirection.ltr.obs;
+  TextDirection get direction => _direction.value;
   final _directionString = 'ltr'.obs;
   final _currentRoute = ''.obs;
   final _currentPath = ''.obs;
@@ -98,6 +100,8 @@ class HomeViewModel extends GetxController {
 
   double get yOffset => _yOffset.value;
 
+  double get rotateZValue => _rotateZValue.value;
+
   double get xShadowOffset => _xShadowOffset.value;
 
   @override
@@ -111,6 +115,23 @@ class HomeViewModel extends GetxController {
             (value as ReturnDataType<List<TimelineEvent>?>).data!;
       }
     });
+    StorageHelper.registerLanguageCallback((lang) {
+      String language = lang.toString();
+      _direction.value = StorageHelper.getTextDirection();
+      _directionString.value = StorageHelper.getTextDirection().name;
+      _calcShadowOffset();
+      if(!isDrawerOpen)return;
+      if (language == 'en') {
+        _xOffset.value = 200;
+        _yOffset.value = 80;
+        _rotateZValue.value = 50;
+      } else {
+        _xOffset.value = -120;
+        _yOffset.value = 80;
+        _rotateZValue.value = -50;
+        // -50
+      }
+    },);
 
     dataService.getTimelineEvents(token).then((value) {
       isTimelineEventsLoading = false;
@@ -154,7 +175,7 @@ class HomeViewModel extends GetxController {
     _currentPath.value = '/home';
     _currentRoute.value = 'home';
     super.onInit();
-    await PusherSocket().init(local: false);
+    await PusherSocket().init(local: true);
     PusherSocket()
         .connectToUserChannel(token, StorageHelper.getUser().username, {
       "PremiumStatusChanged": (pusher_channels.ChannelReadEvent event) {
@@ -188,25 +209,25 @@ class HomeViewModel extends GetxController {
     String lang = StorageHelper.getSavedLanguage() ?? 'en';
     if (lang == 'en') {
       _xOffset.value = 200;
+      _yOffset.value = 80;
+      _rotateZValue.value = 50;
     } else {
-      _xOffset.value = 0;
+      _xOffset.value = -120;
+      _yOffset.value = 80;
+      _rotateZValue.value = -50;
     }
-    _yOffset.value = 80;
+
     if (isDrawerOpen) {
       _yOffset.value = 0;
       _xOffset.value = 0;
+      _rotateZValue.value = 0;
     }
 
     _isDrawerOpen.value = !_isDrawerOpen.value;
     update();
   }
 
-  void toggleLanguage() {
-    toggleMenu();
-    Get.locale = StorageHelper.swipeLanguage();
-    // _toggleDirection();
-    _calcShadowOffset();
-  }
+
 
   Future<bool> onBackPressed(bool? value) async {
     final routes =
@@ -241,6 +262,7 @@ class HomeViewModel extends GetxController {
   void changeCurrentRoute(String value) {
     _currentPath.value += "/$value";
     _currentRoute.value = value;
+
   }
 
   Route? onGenerateRoute(RouteSettings settings) {
@@ -286,7 +308,7 @@ class HomeViewModel extends GetxController {
       case HealthyRoutes.premiumScreenRoute:
         return GetPageRoute(
           settings: settings,
-          page: () => PremiumScreen(),
+          page: () => const PremiumScreen(),
           binding: PremiumBinding(),
           transition: Transition.zoom,
         );
@@ -620,7 +642,8 @@ enum DrawerItem {
   premium('premium'),
   settings('settings'),
   myProgress("myProgress"),
-  notification('notification');
+  notification('notification'),
+  other("other");
 
   final String _text;
 

@@ -24,7 +24,7 @@ class CustomDrawerTopNav extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Padding(
-      padding: const EdgeInsets.only(top: 65, left: 20),
+      padding: const EdgeInsetsDirectional.only(top: 65, start: 20),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,

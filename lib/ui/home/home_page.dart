@@ -21,18 +21,27 @@ class HomePage extends GetView<HomeViewModel> {
       onPopInvoked: controller.onBackPressed,
       child: Scaffold(
         backgroundColor: const Color.fromRGBO(251, 99, 64, 1),
-        body: Stack(
-          children: [
-            const CustomDrawer(),
-            Obx(
-              () => AnimatedContainer(
+        body: Obx(
+          () => Stack(
+            children: [
+              Directionality(
+                textDirection: controller.direction,
+                child: CustomDrawer(
+                  changeCurrent: controller.changeCurrent,
+                  current: controller.current,
+                  logout: controller.logout,
+                  premiumStatus: controller.premiumStatus.value,
+                  savedUser: controller.savedUser,
+                ),
+              ),
+              AnimatedContainer(
                 transform: Matrix4.translationValues(
                   controller.xOffset,
                   controller.yOffset,
                   0,
                 )
                   ..scale(controller.isDrawerOpen ? 0.80 : 1.00)
-                  ..rotateZ(controller.isDrawerOpen ? 50 : 0.00),
+                  ..rotateZ(controller.rotateZValue),
                 duration: const Duration(milliseconds: 200),
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -47,47 +56,54 @@ class HomePage extends GetView<HomeViewModel> {
                     )
                   ],
                 ),
-                child: SingleChildScrollView(
-                  // physics: const NeverScrollableScrollPhysics(),
-                  child: Column(
-                    children: [
-                      Container(
-                        height: size.height,
-                        decoration: BoxDecoration(
-                          color: const Color.fromRGBO(251, 99, 64, 1),
-                          borderRadius: controller.isDrawerOpen
-                              ? BorderRadius.circular(40)
-                              : BorderRadius.circular(0),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            CustomHomeTopBar(
-                              isDrawerOpen: controller.isDrawerOpen,
-                              toggleMenu: controller.toggleMenu,
-                              message: controller.message,
-                              openNotification: controller.openNotification,
-                              notificationCount:
-                                  controller.unreadNotifications.length,
-                            ),
-                            CustemContainer(
-                              isDrawerOpen: controller.isDrawerOpen,
-                              child: Navigator(
-                                key: Get.nestedKey(1),
-                                initialRoute: HealthyRoutes.homeScreenRoute,
-                                onGenerateRoute: controller.onGenerateRoute,
+                child: Directionality(
+                  textDirection: controller.direction,
+                  child: SingleChildScrollView(
+                    // physics: const NeverScrollableScrollPhysics(),
+                    child: Column(
+                      children: [
+                        Container(
+                          height: size.height,
+                          decoration: BoxDecoration(
+                            color: const Color.fromRGBO(251, 99, 64, 1),
+                            borderRadius: controller.isDrawerOpen
+                                ? BorderRadius.circular(40)
+                                : BorderRadius.circular(0),
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Obx(
+                                () => CustomHomeTopBar(
+                                  isDrawerOpen: controller.isDrawerOpen,
+                                  toggleMenu: controller.toggleMenu,
+                                  message: controller.message,
+                                  openNotification: controller.openNotification,
+                                  notificationCount:
+                                      controller.unreadNotifications.length,
+                                  direction: controller.direction,
+                                ),
                               ),
-                            ),
-                          ],
+                              CustemContainer(
+                                isDrawerOpen: controller.isDrawerOpen,
+                                direction: controller.direction,
+                                child: Navigator(
+                                  key: Get.nestedKey(1),
+                                  initialRoute: HealthyRoutes.homeScreenRoute,
+                                  onGenerateRoute: controller.onGenerateRoute,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -100,6 +116,7 @@ class CustomHomeTopBar extends StatelessWidget {
   final int notificationCount;
   final void Function()? toggleMenu;
   final void Function()? openNotification;
+  final TextDirection direction;
 
   const CustomHomeTopBar({
     super.key,
@@ -108,6 +125,7 @@ class CustomHomeTopBar extends StatelessWidget {
     this.toggleMenu,
     required this.message,
     required this.notificationCount,
+    this.direction = TextDirection.ltr,
   });
 
   @override
@@ -118,9 +136,13 @@ class CustomHomeTopBar extends StatelessWidget {
       decoration: BoxDecoration(
         color: const Color.fromRGBO(251, 99, 64, 1),
         borderRadius: isDrawerOpen
-            ? const BorderRadius.only(
-                topLeft: Radius.circular(40),
-              )
+            ? direction == TextDirection.ltr
+                ? const BorderRadius.only(
+                    topLeft: Radius.circular(40),
+                  )
+                : const BorderRadius.only(
+                    topRight: Radius.circular(40),
+                  )
             : const BorderRadius.only(
                 topLeft: Radius.circular(0),
               ),
@@ -141,7 +163,11 @@ class CustomHomeTopBar extends StatelessWidget {
                     CustomCircularButton(
                       onTap: toggleMenu,
                       child: Icon(
-                        isDrawerOpen ? Icons.arrow_forward_ios : Icons.menu,
+                        isDrawerOpen
+                            ? direction == TextDirection.ltr
+                                ? Icons.arrow_forward_ios
+                                : Icons.arrow_back_ios
+                            : Icons.menu,
                         size: 28,
                         color: const Color.fromRGBO(255, 255, 255, 1),
                       ),
@@ -152,7 +178,7 @@ class CustomHomeTopBar extends StatelessWidget {
                         width: size.width * 0.6,
                         child: Text(
                           overflow: TextOverflow.ellipsis,
-                          "Hello ${StorageHelper.getUser().username}",
+                          "${Keys.hello.name.tr} ${StorageHelper.getUser().username}",
                           style: Get.textTheme.headlineSmall,
                         ),
                       ),

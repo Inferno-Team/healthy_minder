@@ -32,7 +32,7 @@ class HomeScreen extends GetView<HomeViewModel> {
             Padding(
               padding: const EdgeInsets.only(top: 0),
               child: Align(
-                alignment: Alignment.topLeft,
+                alignment: AlignmentDirectional.topStart,
                 child: Text(
                   Keys.todayEvents.name.tr,
                   style: Get.textTheme.bodyMedium,
@@ -54,25 +54,26 @@ class HomeScreen extends GetView<HomeViewModel> {
                       ),
                       items: controller.todayEvents
                           .map((event) => EventWidget(event: event))
-                          .toList())
+                          .toList(),
+                    )
                   : controller.isTodayEventsLoading
                       ? const Center(
                           child: CircularProgressIndicator(
                             color: Color.fromRGBO(251, 99, 64, 1),
                           ),
                         )
-                      : const Center(
+                      : Center(
                           child: Text(
-                            "No Event For Today.",
+                            Keys.noEventForToday.name.tr,
                           ),
                         ),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 20, bottom: 20),
               child: Align(
-                alignment: Alignment.topLeft,
+                alignment: AlignmentDirectional.topStart,
                 child: Text(
-                  "Timeline's Events",
+                  Keys.timelineEvents.name.tr,
                   style: Get.textTheme.bodyMedium,
                 ),
               ),
@@ -107,9 +108,9 @@ class HomeScreen extends GetView<HomeViewModel> {
                             color: Color.fromRGBO(251, 99, 64, 1),
                           ),
                         )
-                      : const Center(
+                      : Center(
                           child: Text(
-                            "Timeline Don't have events yet.",
+                            Keys.noEventForToday.name.tr,
                           ),
                         ),
             ),

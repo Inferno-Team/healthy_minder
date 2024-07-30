@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
@@ -34,9 +35,10 @@ class CustomDrawerItem extends StatelessWidget {
         height: 60,
         decoration: isActive
             ? const BoxDecoration(
-                borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(12),
-                    bottomRight: Radius.circular(12)),
+                borderRadius: BorderRadiusDirectional.only(
+                  topEnd: Radius.circular(12),
+                  bottomEnd: Radius.circular(12),
+                ),
                 color: Color.fromRGBO(248, 249, 250, 1),
                 boxShadow: [
                     BoxShadow(
@@ -48,7 +50,7 @@ class CustomDrawerItem extends StatelessWidget {
                   ])
             : null,
         child: Padding(
-          padding: const EdgeInsets.only(left: 30, top: 1),
+          padding: const EdgeInsetsDirectional.only(start: 30, top: 1),
           child: Row(
             children: [
               CircleAvatar(
@@ -62,7 +64,8 @@ class CustomDrawerItem extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 30, top: 9, bottom: 9),
+                padding: const EdgeInsetsDirectional.only(
+                    start: 20, top: 9, bottom: 9),
                 child: Text(
                   text,
                   style: isActive

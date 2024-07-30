@@ -42,6 +42,9 @@ class StorageHelper {
 
   static String? getSavedLanguage() => storage.read(Constance.languageValue);
 
+  static void registerLanguageCallback(void Function(dynamic value) callback){
+     storage.listenKey(Constance.languageValue,callback);
+  }
   static Locale? getLanguage() {
     String? lang = getSavedLanguage();
     //null safety
