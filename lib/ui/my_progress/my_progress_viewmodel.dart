@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:healthy_minder/models/loading_status.dart';
@@ -43,11 +45,13 @@ class MyProgressViewModel extends GetxController {
     _selectedItem.listen((p0) {
       sliderValue.value = p0.progress.toDouble();
     });
+    final size = MediaQuery.of(Get.context!).size;
     Get.dialog(
       AlertDialog(
         backgroundColor: Colors.white,
         content: SizedBox(
           height: 220,
+          width: size.width * 0.7,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -61,6 +65,7 @@ class MyProgressViewModel extends GetxController {
                 ),
               ),
               DropdownMenu<TimelineEvent>(
+                width: size.width * 0.66,
                 dropdownMenuEntries: _events,
                 hintText: "Select Timeline Event",
                 onSelected: (selectedItem) =>

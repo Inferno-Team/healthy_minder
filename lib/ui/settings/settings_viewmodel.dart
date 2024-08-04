@@ -11,7 +11,6 @@ import 'package:healthy_minder/repositories/data_service.dart';
 import 'package:healthy_minder/utils/storage_helper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
-import 'package:flutter_image_compress/flutter_image_compress.dart';
 
 class SettingsViewModel extends GetxController {
   final DataService dataService;
@@ -67,11 +66,11 @@ class SettingsViewModel extends GetxController {
     if (image != null) {
       try {
         // Use compute to run the compression in a separate isolate
-        File file = File(image.path);
-        print(file.path);
-        final File compressedFile = await compressImage(file);
+        File compressedFile = File(image.path);
+        print(compressedFile.path);
+        // final File compressedFile = await compressImage(file);
         String avatarPath = compressedFile.path;
-        print("Original File size : ${await file.length()}");
+        // print("Original File size : ${await file.length()}");
         print("Compressed File size : ${await compressedFile.length()}");
         profile.avatar = avatarPath;
         _profile.value = Profile.fromJson(profile.toJson());
@@ -91,24 +90,24 @@ class SettingsViewModel extends GetxController {
     }
   }
 
-  Future<File> compressImage(File file) async {
-    final imageBytes = await file.readAsBytes();
-
-    final compressedBytes = await FlutterImageCompress.compressWithList(
-      imageBytes,
-      minWidth: 800,
-      minHeight: 600,
-      quality: 85,
-    );
-    String extension = file.path.split('.').last;
-    // Create a new file to save the compressed image
-    String newPath = file.path.replaceAll(
-      RegExp(r'\.\w+$'), // Regex to replace the extension
-      '_compressed.$extension',
-    );
-    File compressedFile = File(newPath);
-    // Write the compressed image data to the new file
-    await compressedFile.writeAsBytes(compressedBytes);
-    return compressedFile;
-  }
+  // Future<File> compressImage(File file) async {
+  //   final imageBytes = await file.readAsBytes();
+  //
+  //   final compressedBytes = await FlutterImageCompress.compressWithList(
+  //     imageBytes,
+  //     minWidth: 800,
+  //     minHeight: 600,
+  //     quality: 85,
+  //   );
+  //   String extension = file.path.split('.').last;
+  //   // Create a new file to save the compressed image
+  //   String newPath = file.path.replaceAll(
+  //     RegExp(r'\.\w+$'), // Regex to replace the extension
+  //     '_compressed.$extension',
+  //   );
+  //   File compressedFile = File(newPath);
+  //   // Write the compressed image data to the new file
+  //   await compressedFile.writeAsBytes(compressedBytes);
+  //   return compressedFile;
+  // }
 }
