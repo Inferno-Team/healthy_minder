@@ -195,6 +195,19 @@ class HomeViewModel extends GetxController {
           avatar: data['conversation']['avatar'],
         );
         unreadNotifications.value = [...unreadNotifications, notification];
+      },
+      "NewEventNotification":(pusher_channels.ChannelReadEvent event){
+        var data = json.decode(event.data);
+        print(data);
+        not.Notification notification = not.Notification(
+          id: data['id'],
+          body: data['message'],
+          timestamp: DateTime.parse(data['created_at'])
+              .millisecondsSinceEpoch,
+          title: data['title'],
+          // avatar: data['conversation']['avatar'],
+        );
+        unreadNotifications.value = [...unreadNotifications, notification];
       }
     });
   }
